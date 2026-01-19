@@ -6,9 +6,10 @@ macro_rules! init_locale {
         use core::sync::atomic::{AtomicUsize, Ordering};
         use core::mem::transmute;
 
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
         #[repr(usize)]
         pub enum Locale {
+            #[default]
             $($variant),+
         }
 

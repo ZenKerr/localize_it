@@ -1,4 +1,4 @@
-# localize_it – Simple and fast library for localization
+# localize_it – Simple and fast localization library
 
 A tiny, zero-allocation localization system for Rust designed with `#![no_std]` support.
 
@@ -8,29 +8,44 @@ and the active locale is stored in an atomic variable, making access extremely f
 
 ---
 
-## Features
+## Quick Example
 
-* **O(1) localization lookup**
-* **Zero allocations**
-* **`no_std` compatible**
-* **Thread-safe global locale** (`AtomicUsize`)
-* **Macro-based API**
-* **No external dependencies**
+```rust
+use localize_it::{init_locale, expression, localize};
 
----
+init_locale!(EN, RU);
 
-## Usage
+expression!(HELLO => {
+    EN: "Hello",
+    RU: "Привет"
+});
 
-Add the following to your `Cargo.toml`:
-
-```toml
-[dependencies]
-localize_it = "1.0.0"
+fn main() {
+    println!("{}", localize!(HELLO));
+}
 ```
 
 ---
 
-## Example
+## Features
+
+* O(1) localization lookup
+* Zero allocations
+* `no_std` compatible
+* Thread-safe global locale (`AtomicUsize`)
+* Macro-based API
+* No external dependencies
+
+---
+
+## Design Constraints
+
+- Locales are defined at compile time
+- Expressions must be `&'static str`
+
+---
+
+## Example With Recommended Project Structure
 
 The recommended usage pattern is to create a dedicated locale module that contains locale initialization and grouped expression modules.
 For example:
@@ -40,8 +55,8 @@ src/
 ├─ main.rs
 └─ locale/
    ├─ mod.rs     # Locale initialization
-   ├─ error.rs   # Expression package for error messages
-   └─ ui.rs      # Expression package for UI elements
+   ├─ error.rs   # Expression module for error messages
+   └─ ui.rs      # Expression module for UI elements
 ```
 
 ```rust
@@ -75,25 +90,43 @@ use crate::locale::Locale;
 use localize_it::expression;
 
 // Recommended way to create expressions using the macro
-expression!(COOKIE_BUTTON => {EN: "Click to get a cookie", RU: "Нажмите, чтобы получить печенье"});
+expression!(COOKIE_BUTTON => {
+    EN: "Click to get a cookie",
+    RU: "Нажмите, чтобы получить печенье"
+});
 ```
 
 ```rust
 // main.rs (or wherever you want to use the localized strings)
 
-use crate::locale::error;
-use crate::locale::ui;
-use crate::locale::{get_locale, set_locale};
+use crate::locale::{error, get_locale, set_locale, ui, Locale};
 use localize_it::localize;
 
 fn main() {
     let current_locale = get_locale(); // Get current locale
+    println!("{:?}", current_locale);
 
     set_locale(Locale::RU); // Set locale
-
-    localize!(error::COOKIE_BUTTON); // Get one expression
-    localize!(ui::COOKIE_BUTTON); // Get another expression
+    
+    // Get one expression
+    let button_error = localize!(error::COOKIE_BUTTON);
+    println!("{}", button_error);
+    
+    // Get another expression
+    let button_label = localize!(ui::COOKIE_BUTTON);
+    println!("{}", button_label);
 }
+```
+
+---
+
+## Usage
+
+Add the following to your `Cargo.toml`:
+
+```toml
+[dependencies]
+localize_it = "1.0.0"
 ```
 
 ---
@@ -104,7 +137,7 @@ fn main() {
 - Each localized string is compiled into a fixed-size `&'static str` array
 - The active locale is stored as an atomic integer
 - Localization resolves to a simple array index operation
-- Invalid locale values safely fall back to the first locale variant
+- Invalid locale values safely fall back to the first locale variant, preventing undefined behavior.
 
 ---
 

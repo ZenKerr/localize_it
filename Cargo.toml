@@ -12,4 +12,4 @@ repository = "https://github.com/ZenKerr/localize_it"
 homepage = "https://github.com/ZenKerr/localize_it"
 documentation = "https://docs.rs/localize_it"
 readme = "README.md"
-exclude = ["/tests", ".gitignore"]
+exclude = [".github", "/tests", ".gitignore"]

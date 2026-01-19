@@ -1,5 +1,10 @@
 # localize_it – Simple and fast localization library
 
+![Tests](https://github.com/ZenKerr/localize_it/actions/workflows/rust.yml/badge.svg)
+[![Crates.io](https://img.shields.io/crates/v/localize_it.svg)](https://crates.io/crates/localize_it)
+[![Documentation](https://docs.rs/localize_it/badge.svg)](https://docs.rs/localize_it)
+![License](https://img.shields.io/crates/l/localize_it.svg)
+
 A tiny, zero-allocation localization system for Rust designed with `#![no_std]` support.
 
 This crate provides a macro-based API for defining compile-time locales and localized string expressions
@@ -107,11 +112,11 @@ fn main() {
     println!("{:?}", current_locale);
 
     set_locale(Locale::RU); // Set locale
-    
+
     // Get one expression
     let button_error = localize!(error::COOKIE_BUTTON);
     println!("{}", button_error);
-    
+
     // Get another expression
     let button_label = localize!(ui::COOKIE_BUTTON);
     println!("{}", button_label);

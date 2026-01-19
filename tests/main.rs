@@ -2,9 +2,7 @@ mod locale;
 
 #[cfg(test)]
 mod tests {
-    use crate::locale::error;
-    use crate::locale::ui;
-    use crate::locale::{get_locale, set_locale, Locale};
+    use crate::locale::{error, get_locale, set_locale, ui, Locale};
     use localize_it::localize;
 
     #[test]

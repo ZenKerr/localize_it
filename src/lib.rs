@@ -2,7 +2,7 @@
 
 #[macro_export]
 macro_rules! init_locale {
-    ($($variant: ident),+) => {
+    ($($variant: ident),+ $(,)?) => {
         #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
         #[repr(usize)]
         pub enum Locale {
@@ -42,7 +42,7 @@ macro_rules! init_locale {
 
 #[macro_export]
 macro_rules! expression {
-    ($name: ident => {$($lang: ident: $expression: expr),+}) => {
+    ($name: ident => {$($lang: ident: $expression: expr),+ $(,)?}) => {
         pub static $name: [&str; Locale::COUNT] = {
             let mut temp_expression = [None; Locale::COUNT];
             $(

@@ -3,9 +3,6 @@
 #[macro_export]
 macro_rules! init_locale {
     ($($variant: ident),+) => {
-        use core::sync::atomic::{AtomicUsize, Ordering};
-        use core::mem::transmute;
-
         #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
         #[repr(usize)]
         pub enum Locale {
@@ -19,22 +16,27 @@ macro_rules! init_locale {
 
         pub type Expression = [&'static str; Locale::COUNT];
 
-        pub static LOCALE: AtomicUsize = AtomicUsize::new(0);
+        mod current_locale_storage {
+            use super::Locale;
+            use core::{
+                mem::transmute,
+                sync::atomic::{AtomicUsize, Ordering},
+            };
 
-        #[inline]
-        pub fn get_locale() -> Locale {
-            unsafe {
-                transmute(match LOCALE.load(Ordering::Relaxed) {
-                    locale if locale < Locale::COUNT => locale,
-                    _ => 0,
-                })
+            static CURRENT_LOCALE: AtomicUsize = AtomicUsize::new(0);
+
+            #[inline]
+            pub fn get_locale() -> Locale {
+                unsafe { transmute(CURRENT_LOCALE.load(Ordering::Relaxed)) }
+            }
+
+            #[inline]
+            pub fn set_locale(locale: Locale) {
+                CURRENT_LOCALE.store(locale as usize, Ordering::Relaxed)
             }
         }
 
-        #[inline]
-        pub fn set_locale(locale: Locale) {
-            LOCALE.store(locale as usize, Ordering::Relaxed)
-        }
+        pub use current_locale_storage::{get_locale, set_locale};
     };
 }
 

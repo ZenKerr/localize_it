@@ -22,7 +22,7 @@ init_locale!(EN, RU);
 
 expression!(HELLO => {
     EN: "Hello",
-    RU: "Привет"
+    RU: "Привет",
 });
 
 fn main() {
@@ -97,7 +97,7 @@ use localize_it::expression;
 // Recommended way to create expressions using the macro
 expression!(COOKIE_BUTTON => {
     EN: "Click to get a cookie",
-    RU: "Нажмите, чтобы получить печенье"
+    RU: "Нажмите, чтобы получить печенье",
 });
 ```
 

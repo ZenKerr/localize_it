@@ -1,5 +1,18 @@
+#![doc = include_str!("../README.md")]
 #![no_std]
 
+/// Initializes the localization system, including the `Locale` enum
+/// and the mechanism for storing the current locale.
+///
+/// This macro must be invoked **once** at the module level. It generates:
+/// * `enum Locale` — the list of supported languages;
+/// * `type Expression` — a type for localized expressions;
+/// * `get_locale()` and `set_locale()` — functions for managing the global current locale state.
+///
+/// # Examples
+/// ```rust
+/// init_locale!(EN, RU);
+/// ```
 #[macro_export]
 macro_rules! init_locale {
     ($($variant: ident),+ $(,)?) => {
@@ -40,6 +53,15 @@ macro_rules! init_locale {
     };
 }
 
+/// Initializes a localized expression.
+///
+/// # Examples
+/// ```rust
+/// expression!(HELLO => {
+///     EN: "Hello",
+///     RU: "Привет",
+/// });
+/// ```
 #[macro_export]
 macro_rules! expression {
     ($name: ident => {$($lang: ident: $expression: expr),+ $(,)?}) => {
@@ -66,6 +88,12 @@ macro_rules! expression {
     };
 }
 
+/// Returns the translation of an expression for the current locale.
+///
+/// # Examples
+/// ```rust
+/// localize!(HELLO)
+/// ```
 #[macro_export]
 macro_rules! localize {
     ($expression: path) => {

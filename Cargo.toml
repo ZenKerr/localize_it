@@ -13,3 +13,6 @@ homepage = "https://github.com/ZenKerr/localize_it"
 documentation = "https://docs.rs/localize_it"
 readme = "README.md"
 exclude = [".github", "/tests", ".gitignore"]
+
+[lib]
+doctest = false

@@ -142,7 +142,6 @@ localize_it = "1.0.0"
 - Each localized string is compiled into a fixed-size `&'static str` array
 - The active locale is stored as an atomic integer
 - Localization resolves to a simple array index operation
-- Invalid locale values safely fall back to the first locale variant, preventing undefined behavior.
 
 ---
 

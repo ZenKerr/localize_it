@@ -1,6 +1,6 @@
 pub mod error;
 pub mod ui;
 
-use localize_it::init_locale;
+use localize_it::init_locale_with_storage;
 
-init_locale!(EN, RU);
+init_locale_with_storage!(EN, RU);

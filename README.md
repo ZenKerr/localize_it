@@ -16,9 +16,9 @@ and the active locale is stored in an atomic variable, making access extremely f
 ## Quick Example
 
 ```rust
-use localize_it::{init_locale, expression, localize};
+use localize_it::{init_locale_with_storage, expression, localize};
 
-init_locale!(EN, RU);
+init_locale_with_storage!(EN, RU);
 
 expression!(HELLO => {
     EN: "Hello",
@@ -70,10 +70,10 @@ src/
 pub mod error;
 pub mod ui;
 
-use localize_it::init_locale;
+use localize_it::init_locale_with_storage;
 
 // Initialize locale with two languages
-init_locale!(EN, RU);
+init_locale_with_storage!(EN, RU);
 ```
 
 ```rust

@@ -5,6 +5,7 @@
 /// * `type Expression` — a type for localized expressions;
 ///
 /// # Examples
+/// 
 /// ```rust
 /// init_locale!(EN, RU);
 /// ```
@@ -34,6 +35,7 @@ macro_rules! init_locale {
 /// * `get_locale()` and `set_locale()` — functions for managing the global current locale state.
 ///
 /// # Examples
+/// 
 /// ```rust
 /// init_locale_with_storage!(EN, RU);
 /// ```

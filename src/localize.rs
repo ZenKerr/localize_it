@@ -3,11 +3,13 @@
 /// # Examples
 ///
 /// Specify the locale manually:
+///
 /// ```rust
 /// localize!(HELLO, Locale::EN)
 /// ```
 ///
 /// Using the global locale (works only with `init_locale_with_storage`):
+///
 /// ```rust
 /// localize!(HELLO)
 /// ```

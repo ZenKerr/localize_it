@@ -1,6 +1,7 @@
 /// Initializes a localized expression.
 ///
 /// # Examples
+/// 
 /// ```rust
 /// expression!(HELLO => {
 ///     EN: "Hello",

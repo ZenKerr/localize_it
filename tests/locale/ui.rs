@@ -1,7 +1,7 @@
-use crate::locale::Locale;
+use super::Locale;
 use localize_it::expression;
 
-expression!(COOKIE_BUTTON => {
-    EN: "Click to get a cookie",
-    RU: "Нажмите, чтобы получить печенье",
+expression!(BUTTON_TEXT => {
+    EN: "Button text",
+    RU: "Текст кнопки",
 });

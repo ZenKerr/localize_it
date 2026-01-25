@@ -1,6 +1,6 @@
 [package]
 name = "localize_it"
-version = "1.2.1"
+version = "1.2.2"
 edition = "2024"
 rust-version = "1.85.0"
 authors = ["Ivan Sarnitskii <ivan.sarnitskiy@mail.ru>"]

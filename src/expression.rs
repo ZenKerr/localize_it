@@ -1,5 +1,7 @@
 /// Initializes a localized expression.
 ///
+/// For multiple expressions, you can use [`expressions!`](crate::expressions!).
+///
 /// # Examples
 ///
 /// ```rust
@@ -37,6 +39,8 @@ macro_rules! expression {
 }
 
 /// Initializes a localized expressions.
+///
+/// For a single expression, you can use [`expression!`](crate::expression!).
 ///
 /// # Examples
 ///

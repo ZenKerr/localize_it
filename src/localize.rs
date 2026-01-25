@@ -1,4 +1,4 @@
-/// Returns the translation of an expression for the current locale.
+/// Returns the translation of an expression.
 ///
 /// # Examples
 ///

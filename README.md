@@ -18,17 +18,24 @@ You can manually control (via `init_locale`) the locale state or use the built-i
 With built-in locale storage:
 
 ```rust
-use localize_it::{init_locale_with_storage, expression, localize};
+use localize_it::{init_locale_with_storage, expressions, localize};
 
 init_locale_with_storage!(EN, RU);
 
-expression!(HELLO => {
-    EN: "Hello",
-    RU: "Привет",
-});
+expressions!(
+    HELLO => {
+        EN: "Hello",
+        RU: "Привет",
+    },
+    BYE => {
+        EN: "Bye",
+        RU: "Пока",
+    },
+);
 
 fn main() {
     println!("{}", localize!(HELLO));
+    println!("{}", localize!(BYE));
 }
 ```
 

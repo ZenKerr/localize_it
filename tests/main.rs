@@ -41,6 +41,6 @@ mod tests {
         set_locale(Locale::RU);
 
         assert_eq!(get_locale(), Locale::RU);
-        assert_eq!(localize!(error::ACTION_FAILED), error::ACTION_FAILED[1]);
+        assert_eq!(localize!(error::OPEN_FILE), error::OPEN_FILE[1]);
     }
 }

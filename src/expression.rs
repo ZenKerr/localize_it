@@ -1,13 +1,15 @@
 /// Initializes a localized expression.
 ///
 /// # Examples
-/// 
+///
 /// ```rust
 /// expression!(HELLO => {
 ///     EN: "Hello",
 ///     RU: "Привет",
 /// });
 /// ```
+/// `EN` and `RU` are codes defined during `Locale` initialization via
+/// [`init_locale!`](crate::init_locale!).
 #[macro_export]
 macro_rules! expression {
     ($name: ident => {$($lang: ident: $expression: expr),+ $(,)?}) => {

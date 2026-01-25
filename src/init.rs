@@ -5,7 +5,7 @@
 /// * `type Expression` — a type for localized expressions;
 ///
 /// # Examples
-/// 
+///
 /// ```rust
 /// init_locale!(EN, RU);
 /// ```
@@ -21,6 +21,30 @@ macro_rules! init_locale {
 
         impl Locale {
             pub const COUNT: usize = [$(stringify!($variant)),+].len();
+
+            #[inline]
+            pub unsafe fn from_usize_unchecked(value: usize) -> Self {
+                core::mem::transmute(value)
+            }
+        }
+
+        impl From<Locale> for usize {
+            #[inline]
+            fn from(locale: Locale) -> Self {
+                locale as usize
+            }
+        }
+
+        impl TryFrom<usize> for Locale {
+            type Error = &'static str;
+
+            fn try_from(value: usize) -> Result<Self, Self::Error> {
+                if value < Locale::COUNT {
+                    Ok(unsafe { Locale::from_usize_unchecked(value) })
+                } else {
+                    Err("Invalid value for Locale")
+                }
+            }
         }
 
         pub type Expression = [&'static str; Locale::COUNT];
@@ -35,7 +59,7 @@ macro_rules! init_locale {
 /// * `get_locale()` and `set_locale()` — functions for managing the global current locale state.
 ///
 /// # Examples
-/// 
+///
 /// ```rust
 /// init_locale_with_storage!(EN, RU);
 /// ```
@@ -46,21 +70,18 @@ macro_rules! init_locale_with_storage {
 
         mod storage {
             use super::Locale;
-            use core::{
-                mem::transmute,
-                sync::atomic::{AtomicUsize, Ordering},
-            };
+            use core::sync::atomic::{AtomicUsize, Ordering};
 
             static CURRENT_LOCALE: AtomicUsize = AtomicUsize::new(0);
 
             #[inline]
             pub fn get_locale() -> Locale {
-                unsafe { transmute(CURRENT_LOCALE.load(Ordering::Relaxed)) }
+                unsafe { Locale::from_usize_unchecked(CURRENT_LOCALE.load(Ordering::Relaxed)) }
             }
 
             #[inline]
             pub fn set_locale(locale: Locale) {
-                CURRENT_LOCALE.store(locale as usize, Ordering::Relaxed)
+                CURRENT_LOCALE.store(usize::from(locale), Ordering::Relaxed)
             }
         }
 

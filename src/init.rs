@@ -41,6 +41,7 @@ macro_rules! init_locale {
         impl Locale {
             pub const COUNT: usize = [$(stringify!($variant)),+].len();
 
+            #[inline]
             pub fn from_usize(value: usize) -> Option<Self> {
                 match value {
                     $(
@@ -50,6 +51,7 @@ macro_rules! init_locale {
                 }
             }
 
+            #[inline]
             pub fn from_usize_or_default(value: usize) -> Self {
                 Locale::from_usize(value).unwrap_or_default()
             }
@@ -65,6 +67,7 @@ macro_rules! init_locale {
         impl TryFrom<usize> for Locale {
             type Error = &'static str;
 
+            #[inline]
             fn try_from(value: usize) -> Result<Self, Self::Error> {
                 Locale::from_usize(value).ok_or("Invalid value for Locale")
             }

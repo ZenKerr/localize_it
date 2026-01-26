@@ -17,7 +17,11 @@ mod tests {
     fn locale_from_usize() {
         use crate::locale::Locale;
 
-        assert_eq!(unsafe { Locale::from_usize_unchecked(0) }, Locale::EN);
+        assert_eq!(Locale::from_usize(0), Some(Locale::EN));
+        assert_eq!(Locale::from_usize(7), None);
+
+        assert_eq!(Locale::from_usize_or_default(1), Locale::RU);
+        assert_eq!(Locale::from_usize_or_default(7), Locale::EN);
 
         assert_eq!(Locale::try_from(0), Ok(Locale::EN));
         assert_eq!(Locale::try_from(7).is_err(), true);

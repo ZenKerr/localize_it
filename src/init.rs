@@ -2,9 +2,20 @@
 ///
 /// This macro must be invoked **once** at the module level. It generates:
 /// * `enum Locale` — the list of supported languages, which provides:
+///   * The enum derives the following traits:
+///     * `Debug`
+///     * `Default` — the default value is the first variant passed to this macro
+///     * `Clone`
+///     * `Copy`
+///     * `PartialEq`
+///     * `Eq`
+///     * `PartialOrd`
+///     * `Ord`
+///     * `Hash`
 ///   * `const COUNT: usize` — number of languages
 ///   * Conversions between `Locale` and `usize`:
-///     * `unsafe fn from_usize_unchecked(usize) -> Locale`
+///     * `fn from_usize(usize) -> Option<Locale>`
+///     * `fn from_usize_or_default(usize) -> Locale`
 ///     * `impl From<Locale> for usize`
 ///     * `impl TryFrom<usize> for Locale`
 /// * `type Expression` — a type for localized expressions
@@ -30,9 +41,17 @@ macro_rules! init_locale {
         impl Locale {
             pub const COUNT: usize = [$(stringify!($variant)),+].len();
 
-            #[inline]
-            pub unsafe fn from_usize_unchecked(value: usize) -> Self {
-                core::mem::transmute(value)
+            pub fn from_usize(value: usize) -> Option<Self> {
+                match value {
+                    $(
+                        _ if value == usize::from(Locale::$variant) => Some(Locale::$variant),
+                    )+
+                    _ => None,
+                }
+            }
+
+            pub fn from_usize_or_default(value: usize) -> Self {
+                Locale::from_usize(value).unwrap_or_default()
             }
         }
 
@@ -47,11 +66,7 @@ macro_rules! init_locale {
             type Error = &'static str;
 
             fn try_from(value: usize) -> Result<Self, Self::Error> {
-                if value < Locale::COUNT {
-                    Ok(unsafe { Locale::from_usize_unchecked(value) })
-                } else {
-                    Err("Invalid value for Locale")
-                }
+                Locale::from_usize(value).ok_or("Invalid value for Locale")
             }
         }
 
@@ -86,7 +101,7 @@ macro_rules! init_locale_with_storage {
 
             #[inline]
             pub fn get_locale() -> Locale {
-                unsafe { Locale::from_usize_unchecked(CURRENT_LOCALE.load(Ordering::Relaxed)) }
+                Locale::from_usize_or_default(CURRENT_LOCALE.load(Ordering::Relaxed))
             }
 
             #[inline]

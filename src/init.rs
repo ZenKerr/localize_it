@@ -13,9 +13,10 @@
 ///     * `Ord`
 ///     * `Hash`
 ///   * `const COUNT: usize` — the number of supported languages
+///   * `const VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
 ///   * Conversions between `Locale` and `usize`:
-///     * `fn from_usize(usize) -> Option<Locale>`
-///     * `fn from_usize_or_default(usize) -> Locale`
+///     * `fn from_usize(usize) -> Option<Self>`
+///     * `fn from_usize_or_default(usize) -> Self`
 ///     * `impl From<Locale> for usize`
 ///     * `impl TryFrom<usize> for Locale`
 /// * `type Expression` — a type for localized expressions
@@ -40,12 +41,13 @@ macro_rules! init_locale {
 
         impl Locale {
             pub const COUNT: usize = [$(stringify!($variant)),+].len();
+            pub const VARIANTS: [Self; Self::COUNT] = [$(Self::$variant),+];
 
             #[inline]
             pub fn from_usize(value: usize) -> Option<Self> {
                 match value {
                     $(
-                        _ if value == usize::from(Locale::$variant) => Some(Locale::$variant),
+                        _ if value == usize::from(Self::$variant) => Some(Self::$variant),
                     )+
                     _ => None,
                 }
@@ -53,7 +55,7 @@ macro_rules! init_locale {
 
             #[inline]
             pub fn from_usize_or_default(value: usize) -> Self {
-                Locale::from_usize(value).unwrap_or_default()
+                Self::from_usize(value).unwrap_or_default()
             }
         }
 
@@ -69,7 +71,7 @@ macro_rules! init_locale {
 
             #[inline]
             fn try_from(value: usize) -> Result<Self, Self::Error> {
-                Locale::from_usize(value).ok_or("Invalid value for Locale")
+                Self::from_usize(value).ok_or("Invalid value for Locale")
             }
         }
 

@@ -9,7 +9,7 @@ A tiny, zero-allocation localization system for Rust designed with `#![no_std]` 
 
 This crate provides a macro-based API for defining compile-time locales and localized string expressions
 without using dynamic memory, hash maps, or runtime lookups. All localized strings are stored in fixed-size arrays.
-You can manually control (via `init_locale`) the locale state or use the built-in locale storage (via `init_locale_with_storage`).
+You can manually control (via `init_locale!`) the locale state or use the built-in locale storage (via `init_locale_with_storage!`).
 
 ---
 

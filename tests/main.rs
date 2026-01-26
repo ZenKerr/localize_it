@@ -9,7 +9,8 @@ mod tests {
     fn locale_to_usize() {
         use crate::locale::Locale;
 
-        assert_eq!(usize::from(Locale::EN), 0);
+        assert_eq!(Locale::EN.to_usize(), 0);
+
         assert_eq!(usize::from(Locale::RU), 1);
     }
 
@@ -25,6 +26,32 @@ mod tests {
 
         assert_eq!(Locale::try_from(0), Ok(Locale::EN));
         assert_eq!(Locale::try_from(7).is_err(), true);
+    }
+
+    #[test]
+    fn locale_to_str() {
+        use crate::locale::Locale;
+
+        assert_eq!(Locale::EN.to_str(), "EN");
+
+        assert_eq!(<&str>::from(Locale::RU), "RU");
+    }
+
+    #[test]
+    fn locale_from_str() {
+        use crate::locale::Locale;
+
+        assert_eq!(Locale::from_str("EN"), Some(Locale::EN));
+        assert_eq!(Locale::from_str("ES"), None);
+
+        assert_eq!(Locale::from_str_or_default("RU"), Locale::RU);
+        assert_eq!(Locale::from_str_or_default("ES"), Locale::EN);
+
+        assert_eq!("EN".parse(), Ok(Locale::EN));
+        assert_eq!("ES".parse::<Locale>().is_err(), true);
+
+        assert_eq!(Locale::try_from("EN"), Ok(Locale::EN));
+        assert_eq!(Locale::try_from("ES").is_err(), true);
     }
 
     #[test]

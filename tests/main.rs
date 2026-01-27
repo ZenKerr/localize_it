@@ -15,6 +15,13 @@ mod tests {
     }
 
     #[test]
+    fn locale_display() {
+        use crate::locale::Locale;
+
+        assert_eq!(format!("{}", Locale::EN), "EN");
+    }
+
+    #[test]
     fn locale_to_usize() {
         use crate::locale::Locale;
 

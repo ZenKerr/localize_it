@@ -15,7 +15,7 @@
 #[macro_export]
 macro_rules! expression {
     ($name: ident => {$($lang: ident: $expression: expr),+ $(,)?}) => {
-        pub static $name: [&str; Locale::COUNT] = {
+        pub static $name: <Locale as localize_it::LocaleTypes>::Expression = {
             let mut temp_expression = [None; Locale::COUNT];
             $(
                 temp_expression[Locale::$lang as usize] = Some($expression);

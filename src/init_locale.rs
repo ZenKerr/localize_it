@@ -6,6 +6,7 @@
 ///     `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`
 ///   * `const COUNT: usize` — the number of supported languages
 ///   * `const VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
+///   * Implements the [`LocaleTypes`](crate::LocaleTypes) trait
 ///   * Conversions between `Locale` and `usize`:
 ///     * `fn to_usize(self) -> usize`
 ///     * `fn from_usize(usize) -> Option<Self>`
@@ -19,7 +20,6 @@
 ///     * `impl From<Locale> for &str`
 ///     * `impl core::str::FromStr for Locale`
 ///     * `impl TryFrom<&str> for Locale`
-/// * `type Expression` — a type for localized expressions
 ///
 /// If you want to use the built-in locale storage, you can use
 /// [`init_locale_with_storage!`](crate::init_locale_with_storage!).
@@ -88,6 +88,10 @@ macro_rules! init_locale {
             }
         }
 
+        impl localize_it::LocaleTypes for Locale {
+            type Expression = [&'static str; Locale::COUNT];
+        }
+
         impl From<Locale> for usize {
             #[inline]
             fn from(locale: Locale) -> Self {
@@ -128,7 +132,5 @@ macro_rules! init_locale {
                 Self::from_str(str).ok_or("Invalid locale identifier")
             }
         }
-
-        pub type Expression = [&'static str; Locale::COUNT];
     };
 }

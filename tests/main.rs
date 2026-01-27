@@ -6,6 +6,15 @@ mod tests {
     use localize_it::localize;
 
     #[test]
+    fn locale_const() {
+        use crate::locale::Locale;
+
+        assert_eq!(Locale::COUNT, 2);
+
+        assert_eq!(Locale::VARIANTS, [Locale::EN, Locale::RU]);
+    }
+
+    #[test]
     fn locale_to_usize() {
         use crate::locale::Locale;
 

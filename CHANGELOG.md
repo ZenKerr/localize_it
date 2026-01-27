@@ -1,3 +1,15 @@
+## 1.3.0
+
+* Created trait `LocaleTypes` and move type `Expression` to its implementation for Locale
+* Added function `to_usize` and constant `VARIANTS` for `Locale`
+* Added support for conversion between `&str` and `Locale`:
+    * `fn to_str(self) -> &'static str`
+    * `fn from_str(&str) -> Option<Self>`
+    * `fn from_str_or_default(&str) -> Self`
+    * `impl From<Locale> for &str`
+    * `impl core::str::FromStr for Locale`
+    * `impl TryFrom<&str> for Locale`
+
 ## 1.2.3
 
 * Changed conversion between `usize` and `Locale`:

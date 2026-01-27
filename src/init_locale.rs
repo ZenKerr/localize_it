@@ -6,7 +6,7 @@
 ///     `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`
 ///   * `const COUNT: usize` — the number of supported languages
 ///   * `const VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
-///   * Implements the [`LocaleTypes`](crate::LocaleTypes) trait
+///   * Implements the traits: [`LocaleTypes`](crate::LocaleTypes), `core::fmt::Display`
 ///   * Conversions between `Locale` and `usize`:
 ///     * `fn to_usize(self) -> usize`
 ///     * `fn from_usize(usize) -> Option<Self>`
@@ -90,6 +90,13 @@ macro_rules! init_locale {
 
         impl localize_it::LocaleTypes for Locale {
             type Expression = [&'static str; Locale::COUNT];
+        }
+
+        impl core::fmt::Display for Locale {
+            #[inline]
+            fn fmt(&self, formatter: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+                formatter.write_str(self.to_str())
+            }
         }
 
         impl From<Locale> for usize {

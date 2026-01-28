@@ -15,6 +15,15 @@ mod tests {
     }
 
     #[test]
+    fn locale_iter() {
+        use crate::locale::Locale;
+
+        for (i, variant) in Locale::iter().enumerate() {
+            assert_eq!(variant, Locale::VARIANTS[i]);
+        }
+    }
+
+    #[test]
     fn locale_display() {
         use crate::locale::Locale;
 

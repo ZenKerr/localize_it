@@ -1,3 +1,16 @@
+## 1.3.1
+
+* Implement core::fmt::Display trait for Locale
+* Added `fn iter() -> impl Iterator<Item = Self>` for Locale
+* Added features for serialize and deserialize:
+    * `serde` — `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
+    * `miniserde` — `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
+    * `borsh` — `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for `enum Locale`
+* Made functions const:
+    * `const fn to_usize(self) -> usize`
+    * `const fn from_usize(usize) -> Option<Self>`
+    * `const fn to_str(self) -> &'static str`
+
 ## 1.3.0
 
 * Created trait `LocaleTypes` and move type `Expression` to its implementation for Locale

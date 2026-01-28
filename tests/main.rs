@@ -5,6 +5,17 @@ mod locale_with_storage;
 mod tests {
     use localize_it::localize;
 
+    #[cfg(feature = "serde")]
+    #[test]
+    fn locale_serde() {
+        use crate::locale::Locale;
+
+        let serialize_locale = serde_json::to_string(&Locale::EN).unwrap();
+
+        assert_eq!(serialize_locale, "\"EN\"");
+        assert_eq!(serde_json::from_str::<Locale>(&serialize_locale).unwrap(), Locale::EN);
+    }
+
     #[test]
     fn locale_const() {
         use crate::locale::Locale;

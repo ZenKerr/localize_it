@@ -6,6 +6,7 @@
 ///     `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`
 ///   * `const COUNT: usize` — the number of supported languages
 ///   * `const VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
+///   * `fn iter() -> impl Iterator<Item = Self>` — returns an iterator over all supported locales
 ///   * Implements the traits: [`LocaleTypes`](crate::LocaleTypes), `core::fmt::Display`
 ///   * Conversions between `Locale` and `usize`:
 ///     * `fn to_usize(self) -> usize`
@@ -42,6 +43,11 @@ macro_rules! init_locale {
         impl Locale {
             pub const COUNT: usize = [$(stringify!($variant)),+].len();
             pub const VARIANTS: [Self; Self::COUNT] = [$(Self::$variant),+];
+
+            #[inline]
+            pub fn iter() -> impl Iterator<Item = Self> {
+                Self::VARIANTS.into_iter()
+            }
 
             #[inline]
             pub fn to_usize(self) -> usize {

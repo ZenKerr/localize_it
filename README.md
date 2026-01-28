@@ -15,7 +15,8 @@ You can manually control (via `init_locale!`) the locale state or use the built-
 
 ## Cargo Features
 
-* `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`.
+* `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
+* `miniserde` — enables `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
 
 ---
 
@@ -77,7 +78,7 @@ fn main() {
 ## Design Constraints
 
 * Not possible to update or add the translations without recompiling
-* No plans to add automatic gender agreement, numeral declension, etc.
+* No plans to add automatic gender agreement, numeral declension, etc
 
 ---
 

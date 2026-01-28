@@ -9,13 +9,13 @@
 ///   * `fn iter() -> impl Iterator<Item = Self>` — returns an iterator over all supported locales
 ///   * Implements the traits: [`LocaleTypes`](crate::LocaleTypes), `core::fmt::Display`
 ///   * Conversions between `Locale` and `usize`:
-///     * `fn to_usize(self) -> usize`
-///     * `fn from_usize(usize) -> Option<Self>`
+///     * `const fn to_usize(self) -> usize`
+///     * `const fn from_usize(usize) -> Option<Self>`
 ///     * `fn from_usize_or_default(usize) -> Self`
 ///     * `impl From<Locale> for usize`
 ///     * `impl TryFrom<usize> for Locale`
 ///   * Conversions between `Locale` and `&str`:
-///     * `fn to_str(self) -> &'static str`
+///     * `const fn to_str(self) -> &'static str`
 ///     * `fn from_str(&str) -> Option<Self>`
 ///     * `fn from_str_or_default(&str) -> Self`
 ///     * `impl From<Locale> for &str`
@@ -55,15 +55,15 @@ macro_rules! init_locale {
             }
 
             #[inline]
-            pub fn to_usize(self) -> usize {
+            pub const fn to_usize(self) -> usize {
                 self as usize
             }
 
             #[inline]
-            pub fn from_usize(value: usize) -> Option<Self> {
+            pub const fn from_usize(value: usize) -> Option<Self> {
                 match value {
                     $(
-                        _ if value == usize::from(Self::$variant) => Some(Self::$variant),
+                        _ if value == Self::$variant.to_usize() => Some(Self::$variant),
                     )+
                     _ => None,
                 }
@@ -75,7 +75,7 @@ macro_rules! init_locale {
             }
 
             #[inline]
-            pub fn to_str(self) -> &'static str {
+            pub const fn to_str(self) -> &'static str {
                 match self {
                     $(
                         Self::$variant => stringify!($variant),

@@ -4,8 +4,9 @@
 /// * `enum Locale` — the list of supported languages, which provides:
 ///   * The enum derives the following traits: `Debug`, `Default` (the first variant), `Clone`,
 ///     `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`
-///   * `const COUNT: usize` — the number of supported languages
-///   * `const VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
+///   * Constants:
+///     * `COUNT: usize` — the number of supported languages
+///     * `VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
 ///   * `fn iter() -> impl Iterator<Item = Self>` — returns an iterator over all supported locales
 ///   * Implements the traits: [`LocaleTypes`](crate::LocaleTypes), `core::fmt::Display`
 ///   * Conversions between `Locale` and `usize`:

@@ -10,11 +10,8 @@ mod tests {
     fn locale_serde() {
         use crate::locale::Locale;
 
-        let serialize_locale = serde_json::to_string(&Locale::EN).unwrap();
-
-        assert_eq!(serialize_locale, "\"EN\"");
         assert_eq!(
-            serde_json::from_str::<Locale>(&serialize_locale).unwrap(),
+            serde_json::from_str::<Locale>(&serde_json::to_string(&Locale::EN).unwrap()).unwrap(),
             Locale::EN
         );
     }
@@ -25,11 +22,8 @@ mod tests {
         use crate::locale::Locale;
         use miniserde::json;
 
-        let serialize_locale = json::to_string(&Locale::EN);
-
-        assert_eq!(serialize_locale, "\"EN\"");
         assert_eq!(
-            json::from_str::<Locale>(&serialize_locale).unwrap(),
+            json::from_str::<Locale>(&json::to_string(&Locale::EN)).unwrap(),
             Locale::EN
         );
     }

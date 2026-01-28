@@ -13,6 +13,12 @@ You can manually control (via `init_locale!`) the locale state or use the built-
 
 ---
 
+## Cargo Features
+
+* `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`.
+
+---
+
 ## Quick Example
 
 With built-in locale storage:
@@ -58,12 +64,12 @@ fn main() {
 
 ---
 
-## Features
+## Advantages
 
 * O(1) localization lookup
 * Zero allocations
 * Macro-based API
-* No external dependencies
+* No external dependencies without optional features
 * `no_std` compatible
 
 ---

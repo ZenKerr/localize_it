@@ -25,6 +25,10 @@
 /// If you want to use the built-in locale storage, you can use
 /// [`init_locale_with_storage!`](crate::init_locale_with_storage!).
 ///
+/// # Features
+///
+/// * `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`.
+///
 /// # Examples
 ///
 /// ```rust
@@ -33,6 +37,7 @@
 #[macro_export]
 macro_rules! init_locale {
     ($($variant: ident),+ $(,)?) => {
+        #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
         #[repr(usize)]
         pub enum Locale {

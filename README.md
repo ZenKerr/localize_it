@@ -17,6 +17,7 @@ You can manually control (via `init_locale!`) the locale state or use the built-
 
 * `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
 * `miniserde` — enables `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
+* `borsh` — enables `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for `enum Locale`
 
 ---
 

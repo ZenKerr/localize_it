@@ -31,6 +31,8 @@
 /// * `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
 /// * `miniserde` — enables `miniserde::Serialize` and `miniserde::Deserialize` derives for
 ///   `enum Locale`
+/// * `borsh` — enables `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for
+///   `enum Locale`
 ///
 /// # Examples
 ///
@@ -42,6 +44,7 @@ macro_rules! init_locale {
     ($($variant: ident),+ $(,)?) => {
         #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         #[cfg_attr(feature = "miniserde", derive(miniserde::Serialize, miniserde::Deserialize))]
+        #[cfg_attr(feature = "borsh", derive(borsh::BorshSerialize, borsh::BorshDeserialize))]
         #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
         #[repr(usize)]
         pub enum Locale {

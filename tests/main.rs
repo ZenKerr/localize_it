@@ -28,6 +28,17 @@ mod tests {
         );
     }
 
+    #[cfg(feature = "borsh")]
+    #[test]
+    fn locale_borsh() {
+        use crate::locale::Locale;
+
+        assert_eq!(
+            borsh::from_slice::<Locale>(&borsh::to_vec(&Locale::EN).unwrap()).unwrap(),
+            Locale::EN
+        );
+    }
+
     #[test]
     fn locale_const() {
         use crate::locale::Locale;

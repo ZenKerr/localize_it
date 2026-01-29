@@ -119,20 +119,31 @@ mod tests {
     fn locale() {
         use crate::locale::{ui, Locale};
 
-        assert_eq!(localize!(ui::BUTTON_TEXT, Locale::EN), ui::BUTTON_TEXT[0]);
-        assert_eq!(localize!(ui::BUTTON_TEXT, Locale::RU), ui::BUTTON_TEXT[1]);
+        assert_eq!(localize!(ui::OPEN_BUTTON, Locale::EN), ui::OPEN_BUTTON[0]);
+        assert_eq!(
+            localize!(ui::CLOSE_BUTTON as (), Locale::RU),
+            ui::CLOSE_BUTTON[1]()
+        );
     }
 
     #[test]
     fn locale_with_storage() {
         use crate::locale_with_storage::{error, get_locale, set_locale, Locale};
 
+        let filename = "test.txt";
+
         assert_eq!(get_locale(), Locale::EN);
-        assert_eq!(localize!(error::ACTION_FAILED), error::ACTION_FAILED[0]);
+        assert_eq!(
+            localize!(error::FILE_NOT_SELECTED),
+            error::FILE_NOT_SELECTED[0]
+        );
 
         set_locale(Locale::RU);
 
         assert_eq!(get_locale(), Locale::RU);
-        assert_eq!(localize!(error::OPEN_FILE), error::OPEN_FILE[1]);
+        assert_eq!(
+            localize!(error::OPEN_FILE as (filename)),
+            error::OPEN_FILE[1](filename)
+        );
     }
 }

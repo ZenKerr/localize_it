@@ -1,4 +1,4 @@
-/// Initializes a localized expressions.
+/// Initializes localized expressions.
 ///
 /// For a single expression, you can use [`expression!`](crate::expression!).
 ///
@@ -6,9 +6,9 @@
 ///
 /// ```rust
 /// expressions!(
-///     HELLO => {
-///         EN: "Hello",
-///         RU: "Привет",
+///     HELLO: fn (&str) -> String => {
+///         EN: |name: &str| format!("Hello, {name}!"),
+///         RU: |name: &str| format!("Привет, {name}!"),
 ///     },
 ///     BYE => {
 ///         EN: "Bye",
@@ -16,13 +16,26 @@
 ///     },
 /// );
 /// ```
+///
 /// `EN` and `RU` are codes defined during `Locale` initialization via
 /// [`init_locale!`](crate::init_locale!).
 #[macro_export]
 macro_rules! expressions {
-    ($($name: ident => {$($lang: ident: $expression: expr),+ $(,)?}),+ $(,)?) => {
+    (
         $(
-            localize_it::expression!($name => {$($lang: $expression),+});
+            $name: ident $(: $content_type: ty)? => {
+                $(
+                    $lang: ident: $content: expr
+                ),+ $(,)?
+            }
+        ),+ $(,)?
+    ) => {
+        $(
+            localize_it::expression!($name $(: $content_type)? => {
+                $(
+                    $lang: $content
+                ),+
+            });
         )+
     };
 }

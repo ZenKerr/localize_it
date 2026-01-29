@@ -2,29 +2,30 @@ mod default_const;
 
 /// Initializes the localization system.
 ///
-/// This macro must be invoked **once** at the module level. It generates:
-/// * `enum Locale` — the list of supported languages, which provides:
-///   * The enum derives the following traits: `Debug`, `Default` (the first variant), `Clone`,
-///     `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`
-///   * Constants:
-///     * `COUNT: usize` — the number of supported languages
-///     * `VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
-///     * `DEFAULT: Self` — a const-compatible equivalent of `Default::default()`
-///   * `fn iter() -> impl Iterator<Item = Self>` — returns an iterator over all supported locales
-///   * Implements the traits: [`LocaleTypes`](crate::LocaleTypes), `core::fmt::Display`
-///   * Conversions between `Locale` and `usize`:
-///     * `const fn to_usize(self) -> usize`
-///     * `const fn from_usize(usize) -> Option<Self>`
-///     * `fn from_usize_or_default(usize) -> Self`
-///     * `impl From<Locale> for usize`
-///     * `impl TryFrom<usize> for Locale`
-///   * Conversions between `Locale` and `&str`:
-///     * `const fn to_str(self) -> &'static str`
-///     * `fn from_str(&str) -> Option<Self>`
-///     * `fn from_str_or_default(&str) -> Self`
-///     * `impl From<Locale> for &str`
-///     * `impl core::str::FromStr for Locale`
-///     * `impl TryFrom<&str> for Locale`
+/// This macro must be invoked **once** at the module level.
+///
+/// It generates an `enum Locale` defining the supported languages and providing:
+/// * The enum derives the following traits: `Debug`, `Default` (the first variant), `Clone`,
+///   `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`
+/// * Constants:
+///   * `COUNT: usize` — the number of supported languages
+///   * `VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
+///   * `DEFAULT: Self` — a const-compatible equivalent of `Default::default()`
+/// * `fn iter() -> impl Iterator<Item = Self>` — returns an iterator over all supported locales
+/// * Implements `core::fmt::Display`
+/// * Conversions between `Locale` and `usize`:
+///   * `const fn to_usize(self) -> usize`
+///   * `const fn from_usize(usize) -> Option<Self>`
+///   * `fn from_usize_or_default(usize) -> Self`
+///   * `impl From<Locale> for usize`
+///   * `impl TryFrom<usize> for Locale`
+/// * Conversions between `Locale` and `&str`:
+///   * `const fn to_str(self) -> &'static str`
+///   * `fn from_str(&str) -> Option<Self>`
+///   * `fn from_str_or_default(&str) -> Self`
+///   * `impl From<Locale> for &str`
+///   * `impl core::str::FromStr for Locale`
+///   * `impl TryFrom<&str> for Locale`
 ///
 /// If you want to use the built-in locale storage, you can use
 /// [`init_locale_with_storage!`](crate::init_locale_with_storage!).
@@ -108,10 +109,6 @@ macro_rules! init_locale {
             pub fn from_str_or_default(str: &str) -> Self {
                 Self::from_str(str).unwrap_or_default()
             }
-        }
-
-        impl localize_it::LocaleTypes for Locale {
-            type Expression = [&'static str; Locale::COUNT];
         }
 
         impl core::fmt::Display for Locale {

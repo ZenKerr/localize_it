@@ -1,7 +1,12 @@
 use super::Locale;
 use localize_it::expression;
 
-expression!(BUTTON_TEXT => {
-    EN: "Button text",
-    RU: "Текст кнопки",
+expression!(OPEN_BUTTON => {
+    EN: "Open",
+    RU: "Открыть",
+});
+
+expression!(CLOSE_BUTTON: fn () -> &'static str => {
+    EN: || "Close",
+    RU: || "Закрыть",
 });

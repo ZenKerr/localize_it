@@ -18,10 +18,10 @@
 #[macro_export]
 macro_rules! localize {
     ($expression: path) => {
-        $expression[get_locale() as usize]
+        $expression[get_locale().to_usize()]
     };
 
     ($expression: path, $locale: expr) => {
-        $expression[$locale as usize]
+        $expression[$locale.to_usize()]
     };
 }

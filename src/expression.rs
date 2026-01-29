@@ -18,7 +18,7 @@ macro_rules! expression {
         pub static $name: <Locale as localize_it::LocaleTypes>::Expression = {
             let mut temp_expression = [None; Locale::COUNT];
             $(
-                temp_expression[Locale::$lang as usize] = Some($expression);
+                temp_expression[Locale::$lang.to_usize()] = Some($expression);
             )+
 
             let mut expression = [""; Locale::COUNT];

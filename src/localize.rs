@@ -6,22 +6,29 @@
 /// [`init_locale_with_storage!`](crate::init_locale_with_storage!):
 ///
 /// ```rust
-/// localize!(HELLO)
+/// localize!(HELLO);
 /// ```
 ///
 /// Specify the locale manually:
 ///
 /// ```rust
-/// localize!(HELLO, Locale::EN)
+/// localize!(HELLO, Locale::EN);
 /// ```
+///
+/// If your expression is callable (e.g., a function), you can invoke it:
+/// ```rust
+/// let name = "Ivan";
+/// localize!(HELLO as (name));
+/// ```
+///
 /// Locale defined via [`init_locale!`](crate::init_locale!).
 #[macro_export]
 macro_rules! localize {
-    ($expression: path) => {
-        $expression[get_locale().to_usize()]
+    ($expression: path $(as ($($arg: expr),* $(,)?))?) => {
+        $expression[get_locale().to_usize()]$(($($arg),*))?
     };
 
-    ($expression: path, $locale: expr) => {
-        $expression[$locale.to_usize()]
+    ($expression: path $(as ($($arg: expr),* $(,)?))?, $locale: expr) => {
+        $expression[$locale.to_usize()]$(($($arg),*))?
     };
 }

@@ -1,8 +1,14 @@
+## 1.4.0
+
+* Added support for creating expressions of various types
+* Added the constant `DEFAULT` for `Locale`
+* Removed the `LocaleTypes` trait
+
 ## 1.3.1
 
-* Implement core::fmt::Display trait for Locale
-* Added `fn iter() -> impl Iterator<Item = Self>` for Locale
-* Added features for serialize and deserialize:
+* Implemented the `core::fmt::Display` trait for `Locale`
+* Added `fn iter() -> impl Iterator<Item = Self>` for `Locale`
+* Added features for serialization and deserialization:
     * `serde` — `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
     * `miniserde` — `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
     * `borsh` — `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for `enum Locale`
@@ -13,7 +19,7 @@
 
 ## 1.3.0
 
-* Created trait `LocaleTypes` and move type `Expression` to its implementation for Locale
+* Created the `LocaleTypes` trait and moved the `Expression` type to its implementation for Locale
 * Added function `to_usize` and constant `VARIANTS` for `Locale`
 * Added support for conversion between `&str` and `Locale`:
     * `fn to_str(self) -> &'static str`
@@ -51,7 +57,7 @@
 ## 1.1.0
 
 * Added `Default` trait implementation for `Locale` (the first locale variant is considered default)
-* `Expression` is now initialized as `static` (previously `const`)
+* `Expression` is now initialized as `static` (was previously `const`)
 * Added compile-time check to ensure all `Expression` variants are filled
 * Isolated the current locale: access is now restricted to `get_locale` and `set_locale`
 * Added support for trailing commas in `init_locale!` and `expression!` macros

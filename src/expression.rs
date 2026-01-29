@@ -44,9 +44,7 @@ macro_rules! expression {
         }
     ) => {
         pub static $name: [$content_type; Locale::COUNT] = {
-            let mut expression: [$content_type; Locale::COUNT] = unsafe {
-                std::mem::MaybeUninit::uninit().assume_init()
-            };
+            let mut expression = [$($content),+];
             let mut empty = [true; Locale::COUNT];
 
             $(
@@ -63,15 +61,6 @@ macro_rules! expression {
                     ));
                 }
             )+
-
-            let mut i = 0;
-            while i < Locale::COUNT {
-                if empty[i] {
-                    panic!("Initialize Error: Missing locale variant");
-                }
-
-                i += 1;
-            }
 
             expression
         };

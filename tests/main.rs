@@ -46,6 +46,8 @@ mod tests {
         assert_eq!(Locale::COUNT, 2);
 
         assert_eq!(Locale::VARIANTS, [Locale::EN, Locale::RU]);
+
+        assert_eq!(Locale::DEFAULT, Locale::default());
     }
 
     #[test]

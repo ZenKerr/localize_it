@@ -22,7 +22,7 @@ macro_rules! init_locale_with_storage {
             use super::Locale;
             use core::sync::atomic::{AtomicUsize, Ordering};
 
-            static CURRENT_LOCALE: AtomicUsize = AtomicUsize::new(0);
+            static CURRENT_LOCALE: AtomicUsize = AtomicUsize::new(Locale::DEFAULT.to_usize());
 
             #[inline]
             pub fn get_locale() -> Locale {
@@ -31,7 +31,7 @@ macro_rules! init_locale_with_storage {
 
             #[inline]
             pub fn set_locale(locale: Locale) {
-                CURRENT_LOCALE.store(usize::from(locale), Ordering::Relaxed)
+                CURRENT_LOCALE.store(locale.to_usize(), Ordering::Relaxed)
             }
         }
 

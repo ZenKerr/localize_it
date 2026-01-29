@@ -1,3 +1,5 @@
+mod default_const;
+
 /// Initializes the localization system.
 ///
 /// This macro must be invoked **once** at the module level. It generates:
@@ -7,6 +9,7 @@
 ///   * Constants:
 ///     * `COUNT: usize` — the number of supported languages
 ///     * `VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
+///     * `DEFAULT: Self` — a const-compatible equivalent of `Default::default()`
 ///   * `fn iter() -> impl Iterator<Item = Self>` — returns an iterator over all supported locales
 ///   * Implements the traits: [`LocaleTypes`](crate::LocaleTypes), `core::fmt::Display`
 ///   * Conversions between `Locale` and `usize`:
@@ -55,6 +58,7 @@ macro_rules! init_locale {
         impl Locale {
             pub const COUNT: usize = [$(stringify!($variant)),+].len();
             pub const VARIANTS: [Self; Self::COUNT] = [$(Self::$variant),+];
+            localize_it::__init_locale_default_const!($($variant),+);
 
             #[inline]
             pub fn iter() -> impl Iterator<Item = Self> {

@@ -1,3 +1,11 @@
+## 1.4.1
+
+* Added features for serialization and deserialization:
+    * `nanoserde_json` — enables `nanoserde::SerJson` and `nanoserde::DeJson` derives for `enum Locale`
+    * `nanoserde_binary` — enables `nanoserde::SerBin` and `nanoserde::DeBin` derives for `enum Locale`
+    * `nanoserde_ron` — enables `nanoserde::SerRon` and `nanoserde::DeRon` derives for `enum Locale`
+* Disabled default features for dependencies
+
 ## 1.4.0
 
 * Added support for creating expressions of various types

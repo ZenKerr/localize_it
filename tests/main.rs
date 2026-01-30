@@ -9,9 +9,19 @@ mod tests {
     #[test]
     fn locale_serde() {
         use crate::locale::Locale;
+        use serde::{Deserialize, Serialize};
+        use serde_assert::{Deserializer, Serializer};
 
         assert_eq!(
-            serde_json::from_str::<Locale>(&serde_json::to_string(&Locale::EN).unwrap()).unwrap(),
+            Locale::deserialize(
+                &mut Deserializer::builder(
+                    Locale::EN
+                        .serialize(&Serializer::builder().build())
+                        .unwrap(),
+                )
+                .build(),
+            )
+            .unwrap(),
             Locale::EN
         );
     }
@@ -20,10 +30,10 @@ mod tests {
     #[test]
     fn locale_miniserde() {
         use crate::locale::Locale;
-        use miniserde::json;
+        use miniserde::json::{from_str, to_string};
 
         assert_eq!(
-            json::from_str::<Locale>(&json::to_string(&Locale::EN)).unwrap(),
+            from_str::<Locale>(&to_string(&Locale::EN)).unwrap(),
             Locale::EN
         );
     }
@@ -32,9 +42,10 @@ mod tests {
     #[test]
     fn locale_borsh() {
         use crate::locale::Locale;
+        use borsh::{from_slice, to_vec};
 
         assert_eq!(
-            borsh::from_slice::<Locale>(&borsh::to_vec(&Locale::EN).unwrap()).unwrap(),
+            from_slice::<Locale>(&to_vec(&Locale::EN).unwrap()).unwrap(),
             Locale::EN
         );
     }

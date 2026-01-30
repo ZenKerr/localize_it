@@ -26,6 +26,42 @@ mod tests {
         );
     }
 
+    #[cfg(feature = "nanoserde_json")]
+    #[test]
+    fn locale_nanoserde_json() {
+        use crate::locale::Locale;
+        use nanoserde::{DeJson, SerJson};
+
+        assert_eq!(
+            <Locale as DeJson>::deserialize_json(&SerJson::serialize_json(&Locale::EN)).unwrap(),
+            Locale::EN
+        );
+    }
+
+    #[cfg(feature = "nanoserde_binary")]
+    #[test]
+    fn locale_nanoserde_binary() {
+        use crate::locale::Locale;
+        use nanoserde::{DeBin, SerBin};
+
+        assert_eq!(
+            <Locale as DeBin>::deserialize_bin(&SerBin::serialize_bin(&Locale::EN)).unwrap(),
+            Locale::EN
+        );
+    }
+
+    #[cfg(feature = "nanoserde_ron")]
+    #[test]
+    fn locale_nanoserde_ron() {
+        use crate::locale::Locale;
+        use nanoserde::{DeRon, SerRon};
+
+        assert_eq!(
+            <Locale as DeRon>::deserialize_ron(&SerRon::serialize_ron(&Locale::EN)).unwrap(),
+            Locale::EN
+        );
+    }
+
     #[cfg(feature = "miniserde")]
     #[test]
     fn locale_miniserde() {
@@ -128,7 +164,7 @@ mod tests {
 
     #[test]
     fn locale() {
-        use crate::locale::{ui, Locale};
+        use crate::locale::{Locale, ui};
 
         assert_eq!(localize!(ui::OPEN_BUTTON, Locale::EN), ui::OPEN_BUTTON[0]);
         assert_eq!(
@@ -139,7 +175,7 @@ mod tests {
 
     #[test]
     fn locale_with_storage() {
-        use crate::locale_with_storage::{error, get_locale, set_locale, Locale};
+        use crate::locale_with_storage::{Locale, error, get_locale, set_locale};
 
         let filename = "test.txt";
 

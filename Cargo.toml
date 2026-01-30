@@ -22,10 +22,14 @@ serde_assert = "0.8.0"
 
 [dependencies]
 serde = { version = "1.0.228", default-features = false, optional = true }
+nanoserde = { version = "0.2.1", default-features = false, optional = true }
 miniserde = { version = "0.1.45", default-features = false, optional = true }
 borsh = { version = "1.6.0", default-features = false, optional = true }
 
 [features]
 serde = ["serde/derive"]
+nanoserde_json = ["nanoserde/json"]
+nanoserde_binary = ["nanoserde/binary"]
+nanoserde_ron = ["nanoserde/ron"]
 miniserde = ["dep:miniserde"]
 borsh = ["borsh/derive"]

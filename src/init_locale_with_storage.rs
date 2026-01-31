@@ -10,13 +10,25 @@
 ///
 /// # Examples
 ///
+/// Default initialization (labels are identical to locale identifiers):
+///
 /// ```rust
 /// init_locale_with_storage!(EN, RU);
+/// ```
+///
+/// If you need human-readable labels (e.g., for a language selector UI):
+///
+/// ```rust
+/// init_locale_with_storage!(EN => "English", RU => "Русский");
 /// ```
 #[macro_export]
 macro_rules! init_locale_with_storage {
     ($($variant: ident),+ $(,)?) => {
-        localize_it::init_locale!($($variant),+);
+        localize_it::init_locale_with_storage!($($variant => stringify!($variant)),+);
+    };
+
+    ($($variant: ident => $label: expr),+ $(,)?) => {
+        localize_it::init_locale!($($variant => $label),+);
 
         mod storage {
             use super::Locale;

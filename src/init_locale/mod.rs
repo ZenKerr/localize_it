@@ -9,9 +9,13 @@ mod default_const;
 ///   `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `Hash`
 /// * Constants:
 ///   * `COUNT: usize` — the number of supported languages
-///   * `VARIANTS: [Self; Self::COUNT]` — an array containing all supported locale variants
+///   * `VARIANTS: [Self; Self::COUNT]` — an array of supported locale variant identifiers
+///   * `LABELS: [&'static str; Self::COUNT]` — an array of locale variants labels
 ///   * `DEFAULT: Self` — a const-compatible equivalent of `Default::default()`
-/// * `fn iter() -> impl Iterator<Item = Self>` — returns an iterator over all supported locales
+/// * Iterators:
+///   * `fn iter() -> impl Iterator<Item = (Self, &'static str)>` — returns an iterator over variant-label pairs
+///   * `fn iter_variants() -> impl Iterator<Item = Self>` — returns an iterator over VARIANTS
+///   * `fn iter_labels() -> impl Iterator<Item = &'static str>` — returns an iterator over LABELS
 /// * Implements `core::fmt::Display`
 /// * Conversions between `Locale` and `usize`:
 ///   * `const fn to_usize(self) -> usize`
@@ -19,7 +23,7 @@ mod default_const;
 ///   * `fn from_usize_or_default(usize) -> Self`
 ///   * `impl From<Locale> for usize`
 ///   * `impl TryFrom<usize> for Locale`
-/// * Conversions between `Locale` and `&str`:
+/// * Conversions between `Locale` and `&str` (using locale identifiers, not labels):
 ///   * `const fn to_str(self) -> &'static str`
 ///   * `fn from_str(&str) -> Option<Self>`
 ///   * `fn from_str_or_default(&str) -> Self`
@@ -46,12 +50,24 @@ mod default_const;
 ///
 /// # Examples
 ///
+/// Default initialization (labels are identical to locale identifiers):
+///
 /// ```rust
 /// init_locale!(EN, RU);
+/// ```
+///
+/// If you need human-readable labels (e.g., for a language selector UI):
+///
+/// ```rust
+/// init_locale!(EN => "English", RU => "Русский");
 /// ```
 #[macro_export]
 macro_rules! init_locale {
     ($($variant: ident),+ $(,)?) => {
+        localize_it::init_locale!($($variant => stringify!($variant)),+);
+    };
+
+    ($($variant: ident => $label: expr),+ $(,)?) => {
         #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         #[cfg_attr(feature = "nanoserde_json", derive(nanoserde::SerJson, nanoserde::DeJson))]
         #[cfg_attr(feature = "nanoserde_binary", derive(nanoserde::SerBin, nanoserde::DeBin))]
@@ -68,11 +84,22 @@ macro_rules! init_locale {
         impl Locale {
             pub const COUNT: usize = [$(stringify!($variant)),+].len();
             pub const VARIANTS: [Self; Self::COUNT] = [$(Self::$variant),+];
+            pub const LABELS: [&'static str; Self::COUNT] = [$($label),+];
             localize_it::__init_locale_default_const!($($variant),+);
 
             #[inline]
-            pub fn iter() -> impl Iterator<Item = Self> {
+            pub fn iter() -> impl Iterator<Item = (Self, &'static str)> {
+                Self::iter_variants().zip(Self::iter_labels())
+            }
+
+            #[inline]
+            pub fn iter_variants() -> impl Iterator<Item = Self> {
                 Self::VARIANTS.into_iter()
+            }
+
+            #[inline]
+            pub fn iter_labels() -> impl Iterator<Item = &'static str> {
+                Self::LABELS.into_iter()
             }
 
             #[inline]

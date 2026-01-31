@@ -1,3 +1,11 @@
+## 1.4.2
+
+* Added support for labels of `Locale` variants
+* Renamed `iter` -> `iter_variants` in `Locale`
+* Added iterators:
+    * `fn iter() -> impl Iterator<Item = (Self, &'static str)>`
+    * `fn iter_labels() -> impl Iterator<Item = &'static str>`
+
 ## 1.4.1
 
 * Added features for serialization and deserialization:

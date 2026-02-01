@@ -101,7 +101,7 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-localize_it = "1.4.2"
+localize_it = "1.4.3"
 ```
 
 ---

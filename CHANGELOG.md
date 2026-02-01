@@ -1,3 +1,9 @@
+## 1.4.3
+
+* Added support for case-insensitive conversion from `&str` for `Locale`:
+    * `fn from_str_caseless(&str) -> Option<Self>`
+    * `fn from_str_caseless_or_default(&str) -> Self`
+
 ## 1.4.2
 
 * Added support for labels of `Locale` variants
@@ -9,9 +15,9 @@
 ## 1.4.1
 
 * Added features for serialization and deserialization:
-    * `nanoserde_json` — enables `nanoserde::SerJson` and `nanoserde::DeJson` derives for `enum Locale`
-    * `nanoserde_binary` — enables `nanoserde::SerBin` and `nanoserde::DeBin` derives for `enum Locale`
-    * `nanoserde_ron` — enables `nanoserde::SerRon` and `nanoserde::DeRon` derives for `enum Locale`
+    * `nanoserde_json` — enables `nanoserde::SerJson` and `nanoserde::DeJson` derives for enum `Locale`
+    * `nanoserde_binary` — enables `nanoserde::SerBin` and `nanoserde::DeBin` derives for enum `Locale`
+    * `nanoserde_ron` — enables `nanoserde::SerRon` and `nanoserde::DeRon` derives for enum `Locale`
 * Disabled default features for dependencies
 
 ## 1.4.0
@@ -25,9 +31,9 @@
 * Implemented the `core::fmt::Display` trait for `Locale`
 * Added `fn iter() -> impl Iterator<Item = Self>` for `Locale`
 * Added features for serialization and deserialization:
-    * `serde` — `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
-    * `miniserde` — `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
-    * `borsh` — `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for `enum Locale`
+    * `serde` — `serde::Serialize` and `serde::Deserialize` derives for enum `Locale`
+    * `miniserde` — `miniserde::Serialize` and `miniserde::Deserialize` derives for enum `Locale`
+    * `borsh` — `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for enum `Locale`
 * Made functions const:
     * `const fn to_usize(self) -> usize`
     * `const fn from_usize(usize) -> Option<Self>`

@@ -42,28 +42,31 @@ expressions!(
     },
 );
 
-fn main() {
-    let mut lang = String::new();
+// Input helper for the demonstration
+fn input() -> String {
+    let mut temp = String::new();
 
+    stdout().flush().unwrap();
+    stdin().read_line(&mut temp).unwrap();
+    temp.trim().to_string()
+}
+
+fn main() {
     // You can set locale manually
     print!("{}", localize!(ENTER_LANGUAGE, Locale::EN));
 
-    stdout().flush().unwrap();
-    stdin().read_line(&mut lang).unwrap();
+    let lang = input();
 
     // Set the selected locale
-    set_locale(Locale::from_str_or_default(&lang.trim().to_uppercase()));
-
-    let mut name = String::new();
+    set_locale(Locale::from_str_caseless_or_default(&lang));
 
     // Uses the currently selected locale automatically
     print!("{}", localize!(ENTER_YOU_NAME));
 
-    stdout().flush().unwrap();
-    stdin().read_line(&mut name).unwrap();
+    let name = input();
 
     // Use callable expression
-    println!("{}", localize!(HELLO as (&name.trim())));
+    println!("{}", localize!(HELLO as (&name)));
 }
 ```
 

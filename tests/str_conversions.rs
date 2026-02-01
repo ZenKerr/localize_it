@@ -23,3 +23,12 @@ fn locale_from_str() {
     assert_eq!(Locale::try_from("EN"), Ok(Locale::EN));
     assert_eq!(Locale::try_from("ES").is_err(), true);
 }
+
+#[test]
+fn locale_from_str_caseless() {
+    assert_eq!(Locale::from_str_caseless("en"), Some(Locale::EN));
+    assert_eq!(Locale::from_str_caseless("es"), None);
+
+    assert_eq!(Locale::from_str_caseless_or_default("ru"), Locale::RU);
+    assert_eq!(Locale::from_str_caseless_or_default("es"), Locale::EN);
+}

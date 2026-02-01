@@ -1,27 +1,17 @@
-# localize_it - Simple and fast localization library
+# localize_it
 
 ![Tests](https://github.com/ZenKerr/localize_it/actions/workflows/rust.yml/badge.svg)
 [![Crates.io](https://img.shields.io/crates/v/localize_it.svg)](https://crates.io/crates/localize_it)
 [![Documentation](https://docs.rs/localize_it/badge.svg)](https://docs.rs/localize_it)
 ![License](https://img.shields.io/crates/l/localize_it.svg)
 
-A tiny, zero-allocation localization system for Rust designed with `#![no_std]` support.
+A tiny, fast, and zero-dependency localization system with `#![no_std]` support.
 
-This crate provides a macro-based API for defining compile-time locales and localized expressions
-without using dynamic memory, hash maps, or runtime lookups. All localized expressions are stored in fixed-size arrays.
-You can manually control (via `init_locale!`) the locale state or use the built-in locale storage
-(via `init_locale_with_storage!`).
-
----
-
-## Cargo Features
-
-* `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
-* `nanoserde_json` — enables `nanoserde::SerJson` and `nanoserde::DeJson` derives for `enum Locale`
-* `nanoserde_binary` — enables `nanoserde::SerBin` and `nanoserde::DeBin` derives for `enum Locale`
-* `nanoserde_ron` — enables `nanoserde::SerRon` and `nanoserde::DeRon` derives for `enum Locale`
-* `miniserde` — enables `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
-* `borsh` — enables `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for `enum Locale`
+This crate provides a macro-based API to define compile-time locales and localized expressions
+without dynamic memory, hash maps, or external dependencies. All localized expressions
+are stored as static arrays, allowing localization via simple indexing. You can manage the
+locale manually (via `init_locale!`), or use the built-in `AtomicUsize` locale storage with
+`Relaxed` ordering (via `init_locale_with_storage!`).
 
 ---
 
@@ -95,29 +85,10 @@ src/
 
 ---
 
-## Advantages
-
-* O(1) localization lookup
-* Zero allocations
-* Macro-based API
-* No external dependencies without optional features
-* `no_std` compatible
-
----
-
 ## Design Constraints
 
 * Not possible to update or add the translations without recompiling
 * No plans to add automatic gender agreement, numeral declension, etc
-
----
-
-## How It Works
-
-* Locales are defined as an `enum` with `#[repr(usize)]`
-* Expressions as an array
-* Built-in locale storage implemented as `AtomicUsize` with `Relaxed` ordering
-* Localization resolves to a simple array index operation
 
 ---
 
@@ -129,6 +100,17 @@ Add the following to your `Cargo.toml`:
 [dependencies]
 localize_it = "1.4.2"
 ```
+
+---
+
+## Cargo Features
+
+* `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
+* `nanoserde_json` — enables `nanoserde::SerJson` and `nanoserde::DeJson` derives for `enum Locale`
+* `nanoserde_binary` — enables `nanoserde::SerBin` and `nanoserde::DeBin` derives for `enum Locale`
+* `nanoserde_ron` — enables `nanoserde::SerRon` and `nanoserde::DeRon` derives for `enum Locale`
+* `miniserde` — enables `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
+* `borsh` — enables `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for `enum Locale`
 
 ---
 

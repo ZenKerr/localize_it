@@ -12,12 +12,17 @@ repository = "https://github.com/ZenKerr/localize_it"
 homepage = "https://github.com/ZenKerr/localize_it"
 documentation = "https://docs.rs/localize_it"
 readme = "README.md"
-exclude = [".github", "tests", ".gitignore"]
+exclude = [".github", "benches", "tests", ".gitignore"]
 
 [lib]
 doctest = false
 
+[[bench]]
+name = "lib"
+harness = false
+
 [dev-dependencies]
+criterion = { version = "0.8.1", default-features = false }
 serde_assert = "0.8.0"
 
 [dependencies]

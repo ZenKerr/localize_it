@@ -25,7 +25,7 @@
 #[macro_export]
 macro_rules! localize {
     ($expression: path $(as ($($arg: expr),* $(,)?))?) => {
-        $expression[get_locale().to_usize()]$(($($arg),*))?
+        $expression[get_locale_as_usize()]$(($($arg),*))?
     };
 
     ($expression: path $(as ($($arg: expr),* $(,)?))?, $locale: expr) => {

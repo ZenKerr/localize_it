@@ -23,16 +23,16 @@ mod default_const;
 ///   * `fn from_usize_or_default(usize) -> Self`
 ///   * `impl From<Locale> for usize`
 ///   * `impl TryFrom<usize> for Locale`
-/// * Conversions between `Locale` and `&str` (using locale identifiers, not labels):
+/// * Conversions between `Locale` and `&str`:
 ///   * `const fn to_str(self) -> &'static str`
 ///   * `fn from_str(&str) -> Option<Self>`
 ///   * `fn from_str_or_default(&str) -> Self`
 ///   * `impl From<Locale> for &str`
 ///   * `impl core::str::FromStr for Locale`
 ///   * `impl TryFrom<&str> for Locale`
-///   * And with ASCII case-insensitive matching (locale identifiers are usually ASCII):
-///     * `fn from_str_caseless(&str) -> Option<Self>`
-///     * `fn from_str_caseless_or_default(&str) -> Self`
+///   * And with ASCII case-insensitive matching:
+///     * `const fn from_caseless_str(&str) -> Option<Self>`
+///     * `fn from_caseless_str_or_default(&str) -> Self`
 ///
 /// If you want to use the built-in locale storage, you can use
 /// [`init_locale_with_storage!`](crate::init_locale_with_storage!).
@@ -150,7 +150,7 @@ macro_rules! init_locale {
             }
 
             #[inline]
-            pub fn from_str_caseless(str: &str) -> Option<Self> {
+            pub const fn from_caseless_str(str: &str) -> Option<Self> {
                 match str {
                     $(
                         _ if str.eq_ignore_ascii_case(stringify!($variant)) => Some(Self::$variant),
@@ -160,8 +160,8 @@ macro_rules! init_locale {
             }
 
             #[inline]
-            pub fn from_str_caseless_or_default(str: &str) -> Self {
-                Self::from_str_caseless(str).unwrap_or_default()
+            pub fn from_caseless_str_or_default(str: &str) -> Self {
+                Self::from_caseless_str(str).unwrap_or_default()
             }
         }
 

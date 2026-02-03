@@ -32,7 +32,7 @@ expressions!(
         EN: "Enter EN or RU: ",
         RU: "Введите EN или RU: ",
     },
-    ENTER_YOU_NAME => {
+    ENTER_YOUR_NAME => {
         EN: "Please, enter your name: ",
         RU: "Пожалуйста, введите ваше имя: ",
     },
@@ -58,10 +58,10 @@ fn main() {
     let lang = input();
 
     // Set the selected locale
-    set_locale(Locale::from_str_caseless_or_default(&lang));
+    set_locale_from_caseless_str(&lang);
 
     // Uses the currently selected locale automatically
-    print!("{}", localize!(ENTER_YOU_NAME));
+    print!("{}", localize!(ENTER_YOUR_NAME));
 
     let name = input();
 

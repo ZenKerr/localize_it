@@ -3,7 +3,7 @@ use localize_it::{expressions, init_locale_with_storage};
 init_locale_with_storage!(EN, RU);
 
 expressions!(
-    ENTER_YOU_NAME => {
+    ENTER_YOUR_NAME => {
         EN: "Please, enter your name: ",
         RU: "Пожалуйста, введите ваше имя: ",
     },

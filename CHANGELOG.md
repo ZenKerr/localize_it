@@ -1,3 +1,18 @@
+## 1.4.4
+
+* Added getters and setters for the current locale state in storage:
+    * As `usize`:
+        * `fn get_locale_as_usize() -> usize`
+        * `fn set_locale_from_usize(usize)`
+    * As `&str`:
+        * `fn get_locale_as_str() -> &'static str`
+        * `fn set_locale_from_str(&str)`
+        * `fn set_locale_from_caseless_str(&str)`
+* Renamed:
+    * `from_str_caseless` -> `from_caseless_str`
+    * `from_str_caseless_or_default` -> `from_caseless_str_or_default`
+* Made functions `from_caseless_str` const
+
 ## 1.4.3
 
 * Added support for case-insensitive conversion from `&str` for `Locale`:

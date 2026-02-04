@@ -8,15 +8,15 @@ use common::{
 
 #[test]
 fn getters_and_setters() {
-    set_locale(Locale::RU);
-    assert_eq!(get_locale(), Locale::RU);
+    set_locale(Locale::Ru);
+    assert_eq!(get_locale(), Locale::Ru);
 
     set_locale_from_usize(0);
     assert_eq!(get_locale_as_usize(), 0);
 
-    set_locale_from_str("EN");
-    assert_eq!(get_locale_as_str(), "EN");
+    set_locale_from_str("En");
+    assert_eq!(get_locale_as_str(), "En");
 
     set_locale_from_caseless_str("ru");
-    assert_eq!(get_locale_as_str(), "RU");
+    assert_eq!(get_locale_as_str(), "Ru");
 }

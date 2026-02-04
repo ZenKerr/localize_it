@@ -12,7 +12,7 @@
 /// Specify the locale manually:
 ///
 /// ```rust
-/// localize!(HELLO, Locale::EN);
+/// localize!(HELLO, Locale::En);
 /// ```
 ///
 /// If your expression is callable (e.g., a function), you can invoke it:

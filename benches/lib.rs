@@ -7,7 +7,7 @@ use localize_it::localize;
 
 const STR: &'static str = ENTER_YOUR_NAME[0];
 const NAME: &'static str = black_box("Ivan");
-const LOCALE: Locale = black_box(Locale::EN);
+const LOCALE: Locale = black_box(Locale::En);
 
 fn default(criterion: &mut Criterion) {
     let mut group = criterion.benchmark_group("bench");

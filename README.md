@@ -24,21 +24,21 @@ use localize_it::{expressions, init_locale_with_storage, localize};
 use std::io::{stdin, stdout, Write};
 
 // Define available locales
-init_locale_with_storage!(EN, RU);
+init_locale_with_storage!(En, Ru);
 
 // Expressions can be any type allowed in compile-time context
 expressions!(
     ENTER_LANGUAGE => {
-        EN: "Enter EN or RU: ",
-        RU: "Введите EN или RU: ",
+        En: "Enter En or Ru: ",
+        Ru: "Введите En или Ru: ",
     },
     ENTER_YOUR_NAME => {
-        EN: "Please, enter your name: ",
-        RU: "Пожалуйста, введите ваше имя: ",
+        En: "Please, enter your name: ",
+        Ru: "Пожалуйста, введите ваше имя: ",
     },
-    HELLO: fn (&str) -> String => {
-        EN: |name: &str| format!("Hello, {name}!"),
-        RU: |name: &str| format!("Привет, {name}!"),
+    HELLO: fn(&str) -> String => {
+        En: |name: &str| format!("Hello, {name}!"),
+        Ru: |name: &str| format!("Привет, {name}!"),
     },
 );
 
@@ -53,7 +53,7 @@ fn input() -> String {
 
 fn main() {
     // You can set locale manually
-    print!("{}", localize!(ENTER_LANGUAGE, Locale::EN));
+    print!("{}", localize!(ENTER_LANGUAGE, Locale::En));
 
     let lang = input();
 

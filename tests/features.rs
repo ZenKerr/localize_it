@@ -11,14 +11,14 @@ fn serde() {
     assert_eq!(
         Locale::deserialize(
             &mut Deserializer::builder(
-                Locale::EN
+                Locale::En
                     .serialize(&Serializer::builder().build())
                     .unwrap(),
             )
             .build(),
         )
         .unwrap(),
-        Locale::EN
+        Locale::En
     );
 }
 
@@ -28,8 +28,8 @@ fn nanoserde_json() {
     use nanoserde::{DeJson, SerJson};
 
     assert_eq!(
-        <Locale as DeJson>::deserialize_json(&SerJson::serialize_json(&Locale::EN)).unwrap(),
-        Locale::EN
+        <Locale as DeJson>::deserialize_json(&SerJson::serialize_json(&Locale::En)).unwrap(),
+        Locale::En
     );
 }
 
@@ -39,8 +39,8 @@ fn nanoserde_binary() {
     use nanoserde::{DeBin, SerBin};
 
     assert_eq!(
-        <Locale as DeBin>::deserialize_bin(&SerBin::serialize_bin(&Locale::EN)).unwrap(),
-        Locale::EN
+        <Locale as DeBin>::deserialize_bin(&SerBin::serialize_bin(&Locale::En)).unwrap(),
+        Locale::En
     );
 }
 
@@ -50,8 +50,8 @@ fn nanoserde_ron() {
     use nanoserde::{DeRon, SerRon};
 
     assert_eq!(
-        <Locale as DeRon>::deserialize_ron(&SerRon::serialize_ron(&Locale::EN)).unwrap(),
-        Locale::EN
+        <Locale as DeRon>::deserialize_ron(&SerRon::serialize_ron(&Locale::En)).unwrap(),
+        Locale::En
     );
 }
 
@@ -61,8 +61,8 @@ fn miniserde() {
     use miniserde::json::{from_str, to_string};
 
     assert_eq!(
-        from_str::<Locale>(&to_string(&Locale::EN)).unwrap(),
-        Locale::EN
+        from_str::<Locale>(&to_string(&Locale::En)).unwrap(),
+        Locale::En
     );
 }
 
@@ -72,7 +72,7 @@ fn borsh() {
     use borsh::{from_slice, to_vec};
 
     assert_eq!(
-        from_slice::<Locale>(&to_vec(&Locale::EN).unwrap()).unwrap(),
-        Locale::EN
+        from_slice::<Locale>(&to_vec(&Locale::En).unwrap()).unwrap(),
+        Locale::En
     );
 }

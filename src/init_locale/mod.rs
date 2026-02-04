@@ -56,13 +56,13 @@ mod default_const;
 /// Default initialization (labels are identical to locale identifiers):
 ///
 /// ```rust
-/// init_locale!(EN, RU);
+/// init_locale!(En, Ru);
 /// ```
 ///
 /// If you need human-readable labels (e.g., for a language selector UI):
 ///
 /// ```rust
-/// init_locale!(EN => "English", RU => "Русский");
+/// init_locale!(En => "English", Ru => "Русский");
 /// ```
 #[macro_export]
 macro_rules! init_locale {

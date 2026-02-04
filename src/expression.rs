@@ -8,21 +8,21 @@
 ///
 /// ```rust
 /// expression!(HELLO => {
-///     EN: "Hello",
-///     RU: "Привет",
+///     En: "Hello",
+///     Ru: "Привет",
 /// });
 /// ```
 ///
 /// You can also specify an explicit type (it must be allowed in a compile-time context):
 ///
 /// ```rust
-/// expression!(HELLO: fn (&str) -> String => {
-///     EN: |name: &str| format!("Hello, {name}!"),
-///     RU: |name: &str| format!("Привет, {name}!"),
+/// expression!(HELLO: fn(&str) -> String => {
+///     En: |name: &str| format!("Hello, {name}!"),
+///     Ru: |name: &str| format!("Привет, {name}!"),
 /// });
 /// ```
 ///
-/// `EN` and `RU` are codes defined during `Locale` initialization via
+/// `En` and `Ru` are codes defined during `Locale` initialization via
 /// [`init_locale!`](crate::init_locale!).
 #[macro_export]
 macro_rules! expression {

@@ -6,18 +6,18 @@
 ///
 /// ```rust
 /// expressions!(
-///     HELLO: fn (&str) -> String => {
-///         EN: |name: &str| format!("Hello, {name}!"),
-///         RU: |name: &str| format!("Привет, {name}!"),
+///     HELLO: fn(&str) -> String => {
+///         En: |name: &str| format!("Hello, {name}!"),
+///         Ru: |name: &str| format!("Привет, {name}!"),
 ///     },
 ///     BYE => {
-///         EN: "Bye",
-///         RU: "Пока",
+///         En: "Bye",
+///         Ru: "Пока",
 ///     },
 /// );
 /// ```
 ///
-/// `EN` and `RU` are codes defined during `Locale` initialization via
+/// `En` and `Ru` are codes defined during `Locale` initialization via
 /// [`init_locale!`](crate::init_locale!).
 #[macro_export]
 macro_rules! expressions {

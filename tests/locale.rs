@@ -5,14 +5,14 @@ use common::Locale;
 #[test]
 fn constants() {
     assert_eq!(Locale::COUNT, 2);
-    assert_eq!(Locale::VARIANTS, [Locale::EN, Locale::RU]);
-    assert_eq!(Locale::LABELS, ["EN", "RU"]);
+    assert_eq!(Locale::VARIANTS, [Locale::En, Locale::Ru]);
+    assert_eq!(Locale::LABELS, ["En", "Ru"]);
     assert_eq!(Locale::DEFAULT, Locale::default());
 }
 
 #[test]
 fn display() {
-    assert_eq!(format!("{}", Locale::EN), "EN");
+    assert_eq!(format!("{}", Locale::En), "En");
 }
 
 #[test]
@@ -32,50 +32,50 @@ fn iterators() {
 
 #[test]
 fn to_usize() {
-    assert_eq!(Locale::EN.to_usize(), 0);
+    assert_eq!(Locale::En.to_usize(), 0);
 
-    assert_eq!(usize::from(Locale::RU), 1);
+    assert_eq!(usize::from(Locale::Ru), 1);
 }
 
 #[test]
 fn from_usize() {
-    assert_eq!(Locale::from_usize(0), Some(Locale::EN));
+    assert_eq!(Locale::from_usize(0), Some(Locale::En));
     assert_eq!(Locale::from_usize(7), None);
 
-    assert_eq!(Locale::from_usize_or_default(1), Locale::RU);
-    assert_eq!(Locale::from_usize_or_default(7), Locale::EN);
+    assert_eq!(Locale::from_usize_or_default(1), Locale::Ru);
+    assert_eq!(Locale::from_usize_or_default(7), Locale::En);
 
-    assert_eq!(Locale::try_from(0), Ok(Locale::EN));
+    assert_eq!(Locale::try_from(0), Ok(Locale::En));
     assert_eq!(Locale::try_from(7).is_err(), true);
 }
 
 #[test]
 fn to_str() {
-    assert_eq!(Locale::EN.to_str(), "EN");
+    assert_eq!(Locale::En.to_str(), "En");
 
-    assert_eq!(<&str>::from(Locale::RU), "RU");
+    assert_eq!(<&str>::from(Locale::Ru), "Ru");
 }
 
 #[test]
 fn from_str() {
-    assert_eq!(Locale::from_str("EN"), Some(Locale::EN));
-    assert_eq!(Locale::from_str("ES"), None);
+    assert_eq!(Locale::from_str("En"), Some(Locale::En));
+    assert_eq!(Locale::from_str("Es"), None);
 
-    assert_eq!(Locale::from_str_or_default("RU"), Locale::RU);
-    assert_eq!(Locale::from_str_or_default("ES"), Locale::EN);
+    assert_eq!(Locale::from_str_or_default("Ru"), Locale::Ru);
+    assert_eq!(Locale::from_str_or_default("Es"), Locale::En);
 
-    assert_eq!("EN".parse(), Ok(Locale::EN));
-    assert_eq!("ES".parse::<Locale>().is_err(), true);
+    assert_eq!("En".parse(), Ok(Locale::En));
+    assert_eq!("Es".parse::<Locale>().is_err(), true);
 
-    assert_eq!(Locale::try_from("EN"), Ok(Locale::EN));
-    assert_eq!(Locale::try_from("ES").is_err(), true);
+    assert_eq!(Locale::try_from("En"), Ok(Locale::En));
+    assert_eq!(Locale::try_from("Es").is_err(), true);
 }
 
 #[test]
 fn from_caseless_str() {
-    assert_eq!(Locale::from_caseless_str("en"), Some(Locale::EN));
+    assert_eq!(Locale::from_caseless_str("en"), Some(Locale::En));
     assert_eq!(Locale::from_caseless_str("es"), None);
 
-    assert_eq!(Locale::from_caseless_str_or_default("ru"), Locale::RU);
-    assert_eq!(Locale::from_caseless_str_or_default("es"), Locale::EN);
+    assert_eq!(Locale::from_caseless_str_or_default("ru"), Locale::Ru);
+    assert_eq!(Locale::from_caseless_str_or_default("es"), Locale::En);
 }

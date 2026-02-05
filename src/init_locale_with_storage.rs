@@ -25,6 +25,11 @@
 /// init_locale_with_storage!(En, Ru);
 /// ```
 ///
+/// If you need extra derives (e.g., for `serde` support)
+/// ```rust
+/// init_locale_with_storage!(En, Ru; [serde::Serialize, serde::Deserialize]);
+/// ```
+///
 /// If you need human-readable labels (e.g., for a language selector UI):
 ///
 /// ```rust
@@ -32,12 +37,12 @@
 /// ```
 #[macro_export]
 macro_rules! init_locale_with_storage {
-    ($($variant: ident),+ $(,)?) => {
-        localize_it::init_locale_with_storage!($($variant => stringify!($variant)),+);
+    ($($variant: ident),+ $(,)? $(; [$($derive: path),+])?) => {
+        localize_it::init_locale_with_storage!($($variant => stringify!($variant)),+ $(; [$($derive),+])?);
     };
 
-    ($($variant: ident => $label: expr),+ $(,)?) => {
-        localize_it::init_locale!($($variant => $label),+);
+    ($($variant: ident => $label: expr),+ $(,)? $(; [$($derive: path),+])?) => {
+        localize_it::init_locale!($($variant => $label),+ $(; [$($derive),+])?);
 
         mod storage {
             use super::Locale;

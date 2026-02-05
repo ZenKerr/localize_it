@@ -106,17 +106,6 @@ localize_it = "1.4.4"
 
 ---
 
-## Cargo Features
-
-* `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
-* `nanoserde_json` — enables `nanoserde::SerJson` and `nanoserde::DeJson` derives for `enum Locale`
-* `nanoserde_binary` — enables `nanoserde::SerBin` and `nanoserde::DeBin` derives for `enum Locale`
-* `nanoserde_ron` — enables `nanoserde::SerRon` and `nanoserde::DeRon` derives for `enum Locale`
-* `miniserde` — enables `miniserde::Serialize` and `miniserde::Deserialize` derives for `enum Locale`
-* `borsh` — enables `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for `enum Locale`
-
----
-
 ## License
 
 This project is licensed under either of

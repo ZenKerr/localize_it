@@ -37,26 +37,17 @@ mod default_const;
 /// If you want to use the built-in locale storage, you can use
 /// [`init_locale_with_storage!`](crate::init_locale_with_storage!).
 ///
-/// # Features
-///
-/// * `serde` — enables `serde::Serialize` and `serde::Deserialize` derives for `enum Locale`
-/// * `nanoserde_json` — enables `nanoserde::SerJson` and `nanoserde::DeJson` derives for
-///   `enum Locale`
-/// * `nanoserde_binary` — enables `nanoserde::SerBin` and `nanoserde::DeBin` derives for
-///   `enum Locale`
-/// * `nanoserde_ron` — enables `nanoserde::SerRon` and `nanoserde::DeRon` derives for
-///   `enum Locale`
-/// * `miniserde` — enables `miniserde::Serialize` and `miniserde::Deserialize` derives for
-///   `enum Locale`
-/// * `borsh` — enables `borsh::BorshSerialize` and `borsh::BorshDeserialize` derives for
-///   `enum Locale`
-///
 /// # Examples
 ///
 /// Default initialization (labels are identical to locale identifiers):
 ///
 /// ```rust
 /// init_locale!(En, Ru);
+/// ```
+///
+/// If you need extra derives (e.g., for `serde` support)
+/// ```rust
+/// init_locale!(En, Ru; [serde::Serialize, serde::Deserialize]);
 /// ```
 ///
 /// If you need human-readable labels (e.g., for a language selector UI):
@@ -66,18 +57,12 @@ mod default_const;
 /// ```
 #[macro_export]
 macro_rules! init_locale {
-    ($($variant: ident),+ $(,)?) => {
-        localize_it::init_locale!($($variant => stringify!($variant)),+);
+    ($($variant: ident),+ $(,)? $(; [$($derive: path),+])?) => {
+        localize_it::init_locale!($($variant => stringify!($variant)),+ $(; [$($derive),+])?);
     };
 
-    ($($variant: ident => $label: expr),+ $(,)?) => {
-        #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-        #[cfg_attr(feature = "nanoserde_json", derive(nanoserde::SerJson, nanoserde::DeJson))]
-        #[cfg_attr(feature = "nanoserde_binary", derive(nanoserde::SerBin, nanoserde::DeBin))]
-        #[cfg_attr(feature = "nanoserde_ron", derive(nanoserde::SerRon, nanoserde::DeRon))]
-        #[cfg_attr(feature = "miniserde", derive(miniserde::Serialize, miniserde::Deserialize))]
-        #[cfg_attr(feature = "borsh", derive(borsh::BorshSerialize, borsh::BorshDeserialize))]
-        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    ($($variant: ident => $label: expr),+ $(,)? $(; [$($derive: path),+])?) => {
+        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash $(,$($derive),+)?)]
         #[repr(usize)]
         pub enum Locale {
             #[default]

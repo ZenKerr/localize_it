@@ -1,3 +1,8 @@
+## 1.5.0
+
+* Removed all features
+* Added support any custom derives for locale initialization
+
 ## 1.4.4
 
 * Added getters and setters for the current locale state in storage:

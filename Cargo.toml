@@ -2,7 +2,7 @@
 name = "localize_it"
 version = "1.5.0"
 edition = "2024"
-rust-version = "1.85.0"
+rust-version = "1.88.0"
 authors = ["Ivan Sarnitskii <ivan.sarnitskiy@mail.ru>"]
 license = "MIT OR Apache-2.0"
 keywords = ["localization", "l10n", "internationalization", "i18n", "translation"]
@@ -12,9 +12,10 @@ repository = "https://github.com/ZenKerr/localize_it"
 homepage = "https://github.com/ZenKerr/localize_it"
 documentation = "https://docs.rs/localize_it"
 readme = "README.md"
-exclude = [".github", "benches", "tests", ".gitignore"]
+exclude = [".github", ".gitignore"]
 
 [lib]
+proc-macro = true
 doctest = false
 
 [[bench]]
@@ -23,3 +24,8 @@ harness = false
 
 [dev-dependencies]
 criterion = { version = "0.8.2", default-features = false }
+
+[dependencies]
+syn = { version = "2.0.117", features = ["full"] }
+quote = { version = "1.0.45" }
+proc-macro2 = { version = "1.0.106", features = ["span-locations"] }

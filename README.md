@@ -5,13 +5,12 @@
 [![Documentation](https://docs.rs/localize_it/badge.svg)](https://docs.rs/localize_it)
 ![License](https://img.shields.io/crates/l/localize_it.svg)
 
-A tiny, fast, and zero-dependency localization system with `#![no_std]` support.
+A tiny, fast localization library with zero runtime dependencies and `#![no_std]` support.
 
-This crate provides a macro-based API to define compile-time locales and localized expressions
-without dynamic memory, hash maps, or external dependencies. All localized expressions
-are stored as static arrays, allowing localization via simple indexing. You can manage the
-locale manually (via `init_locale!`), or use the built-in `AtomicUsize` locale storage with
-`Relaxed` ordering (via `init_locale_with_storage!`).
+This crate provides a macro-based API for defining compile-time locales and localized
+expressions without dynamic memory allocation or hash maps. All localized expressions
+are stored as static arrays, enabling localization via simple indexing. The locale can
+be managed manually or via the built-in `AtomicUsize` storage with `Relaxed` ordering.
 
 ---
 
@@ -20,13 +19,13 @@ locale manually (via `init_locale!`), or use the built-in `AtomicUsize` locale s
 A program that asks the user to choose a language, enter their name, and then greets them in the selected language:
 
 ```rust
-use localize_it::{expressions, init_locale_with_storage, localize};
+use localize_it::init_locale;
 use std::io::{stdin, stdout, Write};
 
-// Define available locales
-init_locale_with_storage!(En, Ru);
+// Define available locales and enable built-in storage
+init_locale!(En, Ru, storage = true);
 
-// Expressions can be any type allowed in compile-time context
+// Define localized expressions (can be any compile-time type)
 expressions!(
     ENTER_LANGUAGE => {
         En: "Enter En or Ru: ",
@@ -42,31 +41,31 @@ expressions!(
     },
 );
 
-// Input helper for the demonstration
+// Simple input helper for demonstration purposes
 fn input() -> String {
-    let mut temp = String::new();
+  let mut temp = String::new();
 
-    stdout().flush().unwrap();
-    stdin().read_line(&mut temp).unwrap();
-    temp.trim().to_string()
+  stdout().flush().unwrap();
+  stdin().read_line(&mut temp).unwrap();
+  temp.trim().to_string()
 }
 
 fn main() {
-    // You can set locale manually
-    print!("{}", localize!(ENTER_LANGUAGE, Locale::En));
+  // Use a specific locale manually
+  print!("{}", localize!(ENTER_LANGUAGE, Locale::En));
 
-    let lang = input();
+  let lang = input();
 
-    // Set the selected locale
-    set_locale_from_caseless_str(&lang);
+  // Set the locale in storage
+  storage::set_from_caseless_str(&lang);
 
-    // Uses the currently selected locale automatically
-    print!("{}", localize!(ENTER_YOUR_NAME));
+  // Use the locale from storage
+  print!("{}", localize!(ENTER_YOUR_NAME));
 
-    let name = input();
+  let name = input();
 
-    // Use callable expression
-    println!("{}", localize!(HELLO as (&name)));
+  // Use a callable expression
+  println!("{}", localize!(HELLO as (&name)));
 }
 ```
 

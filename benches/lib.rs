@@ -1,43 +1,24 @@
-mod common;
-
-use common::{get_locale_as_usize, Locale, ENTER_YOUR_NAME, HELLO};
 use core::hint::black_box;
 use criterion::{criterion_group, criterion_main, Criterion};
-use localize_it::localize;
+use localize_it::init_locale;
 
-const STR: &'static str = ENTER_YOUR_NAME[0];
-const NAME: &'static str = black_box("Ivan");
-const LOCALE: Locale = black_box(Locale::En);
+init_locale!(En, Ru, storage = true);
 
-fn default(criterion: &mut Criterion) {
+expression!(TEST => {En: "Test", Ru: "Тест"});
+
+fn bench(criterion: &mut Criterion) {
     let mut group = criterion.benchmark_group("bench");
 
-    group.bench_function("str", |bencher| bencher.iter(|| STR));
+    group.bench_function("locale_from_storage", |bencher| {
+        bencher.iter(|| black_box(localize!(TEST)))
+    });
 
-    group.bench_function("format", |bencher| {
-        bencher.iter(|| format!("Hello, {NAME}!"))
+    group.bench_function("manual_locale", |bencher| {
+        bencher.iter(|| black_box(localize!(TEST, Locale::En)))
     });
 
     group.finish();
 }
 
-fn localize_it(criterion: &mut Criterion) {
-    let mut group = criterion.benchmark_group("bench");
-
-    group.bench_function("expression", |bencher| {
-        bencher.iter(|| localize!(ENTER_YOUR_NAME))
-    });
-
-    group.bench_function("expression_manual_locale", |bencher| {
-        bencher.iter(|| localize!(ENTER_YOUR_NAME, LOCALE))
-    });
-
-    group.bench_function("callable_expression", |bencher| {
-        bencher.iter(|| localize!(HELLO as (NAME)))
-    });
-
-    group.finish();
-}
-
-criterion_group!(benches, default, localize_it);
+criterion_group!(benches, bench);
 criterion_main!(benches);

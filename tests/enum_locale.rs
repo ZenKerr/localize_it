@@ -1,6 +1,6 @@
-mod common;
+mod locale;
 
-use common::Locale;
+use crate::locale::Locale;
 
 #[test]
 fn constants() {

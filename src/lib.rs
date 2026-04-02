@@ -16,14 +16,14 @@ use proc_macro::TokenStream;
 /// * **Unnamed arguments** — locale variants. At least one must be provided.
 ///   Optionally, a custom label can be specified using `=>`. If no label is
 ///   provided, it defaults to the variant name.
-/// * **storage** — whether to generate storage for the current locale. Default to `false`.
-/// * **path** — path to the module where the macro is invoked. Used for resolving
+/// * `storage` — whether to generate storage for the current locale. Default to `false`.
+/// * `path` — path to the module where the macro is invoked. Used for resolving
 ///   paths in the generated code. It is recommended to always specify this,
 ///   otherwise required imports for generated items may need to be added manually.
-/// * **derive** — a list of additional derives applied to the generated `enum Locale`.
+/// * `derive` — a list of additional derives applied to the generated `enum Locale`.
 ///   Defaults to empty.
 ///
-/// # Examples with all features
+/// # Example with all features
 ///
 /// ```rust
 /// init_locale!(
@@ -113,19 +113,28 @@ use proc_macro::TokenStream;
 ///     pub fn get_as_usize() -> usize { /* ... */ }
 ///
 ///     // Sets the current locale from `usize`
+///     pub fn set_from_usize(value: usize) -> Result<(), &'static str> { /* ... */ }
+///
+///     // Sets the current locale from `usize`
 ///     // If the value is invalid, the locale falls back to the default.
-///     pub fn set_from_usize(value: usize) { /* ... */ }
+///     pub fn set_from_usize_or_default(value: usize) { /* ... */ }
 ///
 ///     // Returns the current locale as `&str`.
 ///     pub fn get_as_str() -> &'static str { /* ... */ }
 ///
 ///     // Sets the current locale from `&str`.
+///     pub fn set_from_str(str: &str) -> Result<(), &'static str> { /* ... */ }
+///
+///     // Sets the current locale from `&str`.
 ///     // If the value is invalid, the locale falls back to the default.
-///     pub fn set_from_str(str: &str) { /* ... */ }
+///     pub fn set_from_str_or_default(str: &str) { /* ... */ }
+///
+///     // Sets the current locale from `&str`, ignoring ASCII case.
+///     pub fn set_from_caseless_str(str: &str) -> Result<(), &'static str> { /* ... */ }
 ///
 ///     // Sets the current locale from `&str`, ignoring ASCII case.
 ///     // If the value is invalid, the locale falls back to the default.
-///     pub fn set_from_caseless_str(str: &str) { /* ... */ }
+///     pub fn set_from_caseless_str_or_default(str: &str) { /* ... */ }
 /// }
 /// ```
 ///

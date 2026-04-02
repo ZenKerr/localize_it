@@ -29,7 +29,14 @@ pub fn mod_storage(arguments: &Arguments, names: &Names) -> TokenStream {
                 }
 
                 #[inline]
-                pub fn set_from_usize(value: usize) {
+                pub fn set_from_usize(value: usize) -> Result<(), &'static str> {
+                    #locale_ident::from_usize(value)
+                        .map(set)
+                        .ok_or("Invalid locale identifier")
+                }
+
+                #[inline]
+                pub fn set_from_usize_or_default(value: usize) {
                     set(#locale_ident::from_usize_or_default(value))
                 }
 
@@ -39,12 +46,26 @@ pub fn mod_storage(arguments: &Arguments, names: &Names) -> TokenStream {
                 }
 
                 #[inline]
-                pub fn set_from_str(str: &str) {
+                pub fn set_from_str(str: &str) -> Result<(), &'static str> {
+                    #locale_ident::from_str(str)
+                        .map(set)
+                        .ok_or("Invalid locale identifier")
+                }
+
+                #[inline]
+                pub fn set_from_str_or_default(str: &str) {
                     set(#locale_ident::from_str_or_default(str))
                 }
 
                 #[inline]
-                pub fn set_from_caseless_str(str: &str) {
+                pub fn set_from_caseless_str(str: &str) -> Result<(), &'static str> {
+                    #locale_ident::from_caseless_str(str)
+                        .map(set)
+                        .ok_or("Invalid locale identifier")
+                }
+
+                #[inline]
+                pub fn set_from_caseless_str_or_default(str: &str) {
                     set(#locale_ident::from_caseless_str_or_default(str))
                 }
             }

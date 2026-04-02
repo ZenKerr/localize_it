@@ -30,13 +30,13 @@ fn input() -> String {
 }
 
 fn main() {
-    // Use a specific locale manually
+    // Explicitly use a specific locale
     print!("{}", localize!(ENTER_LANGUAGE, Locale::En));
 
     let lang = input();
 
-    // Set the locale in storage
-    storage::set_from_caseless_str(&lang);
+    // Set the locale in storage, falls back to default (En)
+    storage::set_from_caseless_str_or_default(&lang);
 
     // Use the locale from storage
     print!("{}", localize!(ENTER_YOUR_NAME));

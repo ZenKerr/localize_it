@@ -12,7 +12,7 @@ pub fn backend(input: TokenStream) -> Result<TokenStream, Error> {
     let arguments = &Arguments::new(input)?;
     let names = &Names::new(arguments);
 
-    let locale = enum_locale(arguments, names)?;
+    let locale = enum_locale(arguments, names);
     let storage = mod_storage(arguments, names);
     let expression = macro_expression(names);
     let expressions = macro_expressions(names);

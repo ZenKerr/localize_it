@@ -20,6 +20,7 @@ use proc_macro::TokenStream;
 /// * `path` — path to the module where the macro is invoked. Used for resolving
 ///   paths in the generated code. It is recommended to always specify this,
 ///   otherwise required imports for generated items may need to be added manually.
+/// * `default` — the default locale. Defaults to the first locale variant.
 /// * `derive` — a list of additional derives applied to the generated `enum Locale`.
 ///   Defaults to empty.
 ///
@@ -31,6 +32,7 @@ use proc_macro::TokenStream;
 ///     Ru => "Russian",
 ///     storage = true,
 ///     path = crate::locale,
+///     default = En,
 ///     derive = [Deserialize, Serialize],
 /// );
 /// ```
@@ -48,7 +50,7 @@ use proc_macro::TokenStream;
 ///     pub const COUNT: usize = /* number of locale variants */;
 ///     pub const VARIANTS: [Self; Self::COUNT] = /* array of locale variants */;
 ///     pub const LABELS: [&'static str; Self::COUNT] = /* array of locale variants labels */;
-///     pub const DEFAULT: Self = /* first locale variant */;
+///     pub const DEFAULT: Self = /* compile-time equivalent of the `Default` trait */;
 ///
 ///     // Iterates over pairs of (variant, label)
 ///     pub fn iter() -> impl Iterator<Item=(Self, &'static str)> { /* ... */ }

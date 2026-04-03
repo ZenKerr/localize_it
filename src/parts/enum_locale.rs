@@ -1,10 +1,11 @@
 use crate::{arguments::Arguments, names::Names};
-use proc_macro2::{Ident, Span, TokenStream};
+use proc_macro2::{Ident, TokenStream};
 use quote::quote;
-use syn::{Error, LitStr};
+use syn::LitStr;
 
-pub fn enum_locale(arguments: &Arguments, names: &Names) -> Result<TokenStream, Error> {
+pub fn enum_locale(arguments: &Arguments, names: &Names) -> TokenStream {
     let locale_ident = names.get_name("Locale");
+    let default = &arguments.default;
     let derive = &arguments.derive;
     let variants_number = arguments.variants.len();
     let (variant_names, variant_labels) = arguments
@@ -12,12 +13,8 @@ pub fn enum_locale(arguments: &Arguments, names: &Names) -> Result<TokenStream, 
         .iter()
         .map(|variant| (&variant.name, &variant.label))
         .unzip::<&Ident, &LitStr, Vec<&Ident>, Vec<&LitStr>>();
-    let default_variant = *variant_names.first().ok_or(Error::new(
-        Span::call_site(),
-        "Expected at least one locale variant",
-    ))?;
 
-    Ok(quote! {
+    quote! {
         #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, #(#derive),*)]
         #[repr(usize)]
         pub enum #locale_ident {
@@ -28,7 +25,7 @@ pub fn enum_locale(arguments: &Arguments, names: &Names) -> Result<TokenStream, 
             pub const COUNT: usize = #variants_number;
             pub const VARIANTS: [Self; Self::COUNT] = [#(Self::#variant_names),*];
             pub const LABELS: [&'static str; Self::COUNT] = [#(#variant_labels),*];
-            pub const DEFAULT: Self = Self::#default_variant;
+            pub const DEFAULT: Self = Self::#default;
 
             #[inline]
             pub fn iter() -> impl Iterator<Item = (Self, &'static str)> {
@@ -159,5 +156,5 @@ pub fn enum_locale(arguments: &Arguments, names: &Names) -> Result<TokenStream, 
                 Self::from_str(str).ok_or("Invalid locale identifier")
             }
         }
-    })
+    }
 }

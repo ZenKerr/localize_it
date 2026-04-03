@@ -52,3 +52,9 @@ fn set_caseless_str() {
     storage::set_from_caseless_str_or_default("Es");
     assert_eq!(storage::get_as_str(), "En");
 }
+
+#[test]
+fn reset() {
+    storage::reset();
+    assert_eq!(storage::get(), Locale::En);
+}

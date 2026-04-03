@@ -94,15 +94,11 @@ use proc_macro::TokenStream;
 /// ```
 ///
 /// `mod storage` — generated only if `storage = true`.
+/// Stores the default locale upon initialization.
+/// The current locale is stored as an `AtomicUsize` using `Relaxed` ordering.
 ///
 /// ```rust
 /// pub mod storage {
-///     use super::Locale;
-///     use core::sync::atomic::{AtomicUsize, Ordering};
-///
-///     // The current locale. Access is only available through the functions below
-///     static CURRENT_LOCALE: AtomicUsize = AtomicUsize::new(Locale::DEFAULT.to_usize());
-///
 ///     // Returns the current locale
 ///     pub fn get() -> Locale { /* ... */ }
 ///
@@ -135,6 +131,9 @@ use proc_macro::TokenStream;
 ///     // Sets the current locale from `&str`, ignoring ASCII case.
 ///     // If the value is invalid, the locale falls back to the default.
 ///     pub fn set_from_caseless_str_or_default(str: &str) { /* ... */ }
+///
+///     // Resets the current locale to the default
+///     pub fn reset() { /* ... */ }
 /// }
 /// ```
 ///

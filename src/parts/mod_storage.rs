@@ -20,7 +20,7 @@ pub fn mod_storage(arguments: &Arguments, names: &Names) -> TokenStream {
 
                 #[inline]
                 pub fn set(locale: #locale_ident) {
-                    CURRENT_LOCALE.store(locale.to_usize(), Ordering::Relaxed)
+                    CURRENT_LOCALE.store(locale.to_usize(), Ordering::Relaxed);
                 }
 
                 #[inline]
@@ -37,7 +37,7 @@ pub fn mod_storage(arguments: &Arguments, names: &Names) -> TokenStream {
 
                 #[inline]
                 pub fn set_from_usize_or_default(value: usize) {
-                    set(#locale_ident::from_usize_or_default(value))
+                    set(#locale_ident::from_usize_or_default(value));
                 }
 
                 #[inline]
@@ -54,7 +54,7 @@ pub fn mod_storage(arguments: &Arguments, names: &Names) -> TokenStream {
 
                 #[inline]
                 pub fn set_from_str_or_default(str: &str) {
-                    set(#locale_ident::from_str_or_default(str))
+                    set(#locale_ident::from_str_or_default(str));
                 }
 
                 #[inline]
@@ -66,7 +66,12 @@ pub fn mod_storage(arguments: &Arguments, names: &Names) -> TokenStream {
 
                 #[inline]
                 pub fn set_from_caseless_str_or_default(str: &str) {
-                    set(#locale_ident::from_caseless_str_or_default(str))
+                    set(#locale_ident::from_caseless_str_or_default(str));
+                }
+
+                #[inline]
+                pub fn reset() {
+                    set(#locale_ident::DEFAULT);
                 }
             }
         }

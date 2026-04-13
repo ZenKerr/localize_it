@@ -1,10 +1,10 @@
-use crate::{arguments::Arguments, names::Names};
+use crate::{backends::init_locale::arguments::Arguments, utils::NamesProvider};
 use proc_macro2::{Ident, TokenStream};
 use quote::quote;
 use syn::LitStr;
 
-pub fn enum_locale(arguments: &Arguments, names: &Names) -> TokenStream {
-    let locale_ident = names.get_name("Locale");
+pub fn enum_locale(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
+    let locale_ident = names_provider.get_name("Locale");
     let default = &arguments.default;
     let derive = &arguments.derive;
     let variants_number = arguments.variants.len();

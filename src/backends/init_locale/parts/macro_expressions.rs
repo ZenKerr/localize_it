@@ -1,10 +1,10 @@
-use crate::names::Names;
+use crate::utils::NamesProvider;
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn macro_expressions(names: &Names) -> TokenStream {
-    let expressions_ident = names.get_hashed_name("expressions");
-    let expression_path = names.get_path("expression");
+pub fn macro_expressions(names_provider: &NamesProvider) -> TokenStream {
+    let expressions_ident = names_provider.get_hashed_name("expressions");
+    let expression_path = names_provider.get_path("expression");
 
     quote! {
         #[macro_export]
@@ -13,7 +13,7 @@ pub fn macro_expressions(names: &Names) -> TokenStream {
                 $(
                     $name: ident $(: $content_type: ty)? => {
                         $(
-                            $lang: ident: $content: expr
+                            $locale: ident: $content: expr
                         ),+ $(,)?
                     }
                 ),+ $(,)?
@@ -21,7 +21,7 @@ pub fn macro_expressions(names: &Names) -> TokenStream {
                 $(
                     #expression_path!($name $(: $content_type)? => {
                         $(
-                            $lang: $content
+                            $locale: $content
                         ),+
                     });
                 )+

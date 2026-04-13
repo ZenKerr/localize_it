@@ -1,0 +1,7 @@
+[package]
+name = "expressions_from_files"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+localize_it = { path = "../..", features = ["from_files"] }

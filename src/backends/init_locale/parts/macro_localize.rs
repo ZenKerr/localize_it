@@ -1,12 +1,12 @@
-use crate::{arguments::Arguments, names::Names};
+use crate::{backends::init_locale::arguments::Arguments, utils::NamesProvider};
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn macro_localize(arguments: &Arguments, names: &Names) -> TokenStream {
-    let localize_ident = names.get_hashed_name("localize");
+pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
+    let localize_ident = names_provider.get_hashed_name("localize");
 
     let auto_locale = if arguments.storage {
-        let storage_path = names.get_path("storage");
+        let storage_path = names_provider.get_path("storage");
 
         quote! {
             ($expression: path $(as ($($arg: expr),* $(,)?))?) => {

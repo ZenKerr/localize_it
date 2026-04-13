@@ -1,12 +1,9 @@
 #![doc = include_str!("../README.md")]
 
-mod arguments;
-mod backend;
-mod input;
-mod names;
-mod parts;
+mod backends;
+mod utils;
 
-use backend::backend;
+use crate::backends::{expressions_from_files_backend, init_locale_backend};
 use proc_macro::TokenStream;
 
 /// Initializes the localization system.
@@ -96,7 +93,9 @@ use proc_macro::TokenStream;
 /// ```
 ///
 /// `mod storage` — generated only if `storage = true`.
+///
 /// Stores the default locale upon initialization.
+///
 /// The current locale is stored as an `AtomicUsize` using `Relaxed` ordering.
 ///
 /// ```rust
@@ -194,7 +193,45 @@ use proc_macro::TokenStream;
 /// let name = "Ivan";
 /// localize!(HELLO_WITH_NAME as (name));
 /// ```
+///
+/// ### Available with the `from_files` feature
+///
+/// `expressions_from_files!` — a macro for defining expressions split across multiple files.
+///
+/// If an expression's type differs from `&str`, it must be specified explicitly.
+///
+/// ```rust
+/// // locale/mod.rs
+/// expressions_from_files!(
+///     {
+///         En => crate::locale::en,
+///         Ru => crate::locale::ru,
+///     } => [
+///         HELLO,
+///         IS_ENGLISH: bool,
+///     ]
+/// );
+/// ```
+///
+/// ```rust
+/// // locale/en.rs
+/// pub static HELLO: &'static str = "Hello";
+/// pub static IS_ENGLISH: bool = true;
+/// ```
+///
+/// ```rust
+/// // locale/ru.rs
+/// pub static HELLO: &'static str = "Привет";
+/// pub static IS_ENGLISH: bool = false;
+/// ```
 #[proc_macro]
 pub fn init_locale(input: TokenStream) -> TokenStream {
-    backend(input).unwrap_or_else(|error| error.to_compile_error().into())
+    init_locale_backend(input).unwrap_or_else(|error| error.to_compile_error().into())
+}
+
+#[cfg(feature = "from_files")]
+#[doc(hidden)]
+#[proc_macro]
+pub fn __expressions_from_files(input: TokenStream) -> TokenStream {
+    expressions_from_files_backend(input).unwrap_or_else(|error| error.to_compile_error().into())
 }

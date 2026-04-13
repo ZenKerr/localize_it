@@ -1,9 +1,9 @@
-use crate::{arguments::Arguments, names::Names};
+use crate::{backends::init_locale::arguments::Arguments, utils::NamesProvider};
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn mod_storage(arguments: &Arguments, names: &Names) -> TokenStream {
-    let locale_ident = names.get_name("Locale");
+pub fn mod_storage(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
+    let locale_ident = names_provider.get_name("Locale");
 
     if arguments.storage {
         quote! {

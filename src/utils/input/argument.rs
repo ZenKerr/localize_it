@@ -4,12 +4,12 @@ use syn::{
     Token,
 };
 
-pub enum Item {
-    Variant { name: Ident, label: LitStr },
-    Optional { name: String, value: Expr },
+pub enum Argument {
+    Mapped { name: Ident, label: LitStr },
+    Named { name: String, value: Expr },
 }
 
-impl Parse for Item {
+impl Parse for Argument {
     fn parse(input: ParseStream) -> Result<Self, Error> {
         let name = input.parse::<Ident>()?;
 
@@ -19,7 +19,7 @@ impl Parse for Item {
             let name = name.to_string();
             let value = input.parse()?;
 
-            Ok(Self::Optional { name, value })
+            Ok(Self::Named { name, value })
         } else {
             let label = if input.peek(Token![=>]) {
                 input.parse::<Token![=>]>()?;
@@ -29,7 +29,7 @@ impl Parse for Item {
                 LitStr::new(&name.to_string(), name.span())
             };
 
-            Ok(Self::Variant { name, label })
+            Ok(Self::Mapped { name, label })
         }
     }
 }

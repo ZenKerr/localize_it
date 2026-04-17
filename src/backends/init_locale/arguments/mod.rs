@@ -26,7 +26,7 @@ impl Arguments {
         for argument in input.into_iter() {
             match argument {
                 Argument::Mapped { name, label } => variants.add(name, label),
-                Argument::Named { name, value } => match name.as_str() {
+                Argument::Named { name, value } => match name.to_string().as_str() {
                     "storage" => storage = Input::parse_bool("storage", &value)?,
                     "path" => path = Some(Input::parse_path("path", &value)?),
                     "default" => default = Some(Input::parse_ident("default", &value)?),

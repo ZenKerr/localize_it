@@ -28,7 +28,7 @@ impl Arguments {
                         "Expected only named arguments",
                     ));
                 }
-                Argument::Named { name, value } => match name.as_str() {
+                Argument::Named { name, value } => match name.to_string().as_str() {
                     "locales" => {
                         for locale in Input::parse_array("locales", &value, Input::parse_tuple)? {
                             let name = Input::parse_ident(

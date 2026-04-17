@@ -5,7 +5,7 @@ use crate::utils::input::types::ParseFunction;
 use argument::Argument;
 use proc_macro2::Ident;
 use quote::ToTokens;
-use std::vec::IntoIter;
+use std::{collections::HashSet, vec::IntoIter};
 use syn::{
     parse::{Parse, ParseStream}, parse2, spanned::Spanned, Error, Expr, ExprArray, ExprLit, ExprPath, ExprTuple, Lit,
     Path,
@@ -115,21 +115,26 @@ impl Parse for Input {
     fn parse(input: ParseStream) -> Result<Self, Error> {
         let mut arguments = Vec::new();
 
-        let mut named_started = false;
+        let mut exists_names = HashSet::new();
         while !input.is_empty() {
             let argument = input.parse()?;
 
-            match argument {
-                Argument::Mapped { .. } => {
-                    if named_started {
+            match &argument {
+                Argument::Mapped { name, .. } => {
+                    if exists_names.len() > 0 {
                         return Err(Error::new(
-                            input.span(),
+                            name.span(),
                             "Expected variants list to precede optional arguments",
                         ));
                     }
                 }
-                Argument::Named { .. } => {
-                    named_started = true;
+                Argument::Named { name, .. } => {
+                    if !exists_names.insert(name.clone()) {
+                        return Err(Error::new(
+                            name.span(),
+                            format!("Duplicate argument `{name}`"),
+                        ));
+                    }
                 }
             }
 

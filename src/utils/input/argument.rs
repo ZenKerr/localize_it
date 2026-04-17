@@ -6,7 +6,7 @@ use syn::{
 
 pub enum Argument {
     Mapped { name: Ident, label: LitStr },
-    Named { name: String, value: Expr },
+    Named { name: Ident, value: Expr },
 }
 
 impl Parse for Argument {
@@ -16,7 +16,6 @@ impl Parse for Argument {
         if input.peek(Token![=]) && !input.peek(Token![=>]) {
             input.parse::<Token![=]>()?;
 
-            let name = name.to_string();
             let value = input.parse()?;
 
             Ok(Self::Named { name, value })

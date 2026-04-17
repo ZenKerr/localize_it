@@ -1,14 +1,14 @@
-mod variant;
+mod variants;
 
 use crate::{
-    backends::init_locale::arguments::variant::Variant,
+    backends::init_locale::arguments::variants::Variants,
     utils::{Argument, Input},
 };
 use proc_macro2::{Ident, Span};
 use syn::{spanned::Spanned, Error, Path};
 
 pub struct Arguments {
-    pub variants: Vec<Variant>,
+    pub variants: Variants,
     pub storage: bool,
     pub path: Option<Path>,
     pub default: Ident,
@@ -17,7 +17,7 @@ pub struct Arguments {
 
 impl Arguments {
     pub fn new(input: Input) -> Result<Self, Error> {
-        let mut variants = Vec::new();
+        let mut variants = Variants::new();
         let mut storage = false;
         let mut path = None;
         let mut default = None;
@@ -25,7 +25,7 @@ impl Arguments {
 
         for argument in input.into_iter() {
             match argument {
-                Argument::Mapped { name, label } => variants.push(Variant { name, label }),
+                Argument::Mapped { name, label } => variants.add(name, label),
                 Argument::Named { name, value } => match name.as_str() {
                     "storage" => storage = Input::parse_bool("storage", &value)?,
                     "path" => path = Some(Input::parse_path("path", &value)?),

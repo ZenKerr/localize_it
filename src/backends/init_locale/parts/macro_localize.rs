@@ -5,7 +5,7 @@ use quote::quote;
 pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
     let localize_ident = names_provider.get_hashed_name("localize");
 
-    let auto_locale = if arguments.storage {
+    let locale_from_storage = if arguments.storage {
         let storage_path = names_provider.get_path("storage");
 
         quote! {
@@ -20,7 +20,7 @@ pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> 
     quote! {
         #[macro_export]
         macro_rules! #localize_ident {
-            #auto_locale
+            #locale_from_storage
 
             ($expression: path $(as ($($arg: expr),* $(,)?))?, $locale: expr) => {
                 $expression[$locale.to_usize()]$(($($arg),*))?

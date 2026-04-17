@@ -1,22 +1,22 @@
 pub mod expression;
-mod locale;
+mod locales;
 
 use crate::{
-    backends::expressions_from_files::arguments::{expression::Expression, locale::Locale},
+    backends::expressions_from_files::arguments::{expression::Expression, locales::Locales},
     utils::{Argument, Input},
 };
 use proc_macro2::Span;
 use syn::{parse_str, spanned::Spanned, Error, Path};
 
 pub struct Arguments {
-    pub locales: Vec<Locale>,
+    pub locales: Locales,
     pub expressions: Vec<Expression>,
     pub path: Option<Path>,
 }
 
 impl Arguments {
     pub fn new(input: Input) -> Result<Self, Error> {
-        let mut locales = Vec::new();
+        let mut locales = Locales::new();
         let mut expressions = Vec::new();
         let mut path = None;
 
@@ -44,7 +44,7 @@ impl Arguments {
                                     .ok_or(Error::new(value.span(), "Expected locale path"))?,
                             )?;
 
-                            locales.push(Locale { name, path });
+                            locales.add(name, path);
                         }
                     }
                     "expressions" => {

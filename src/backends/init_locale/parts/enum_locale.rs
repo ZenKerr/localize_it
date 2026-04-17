@@ -1,18 +1,13 @@
 use crate::{backends::init_locale::arguments::Arguments, utils::NamesProvider};
-use proc_macro2::{Ident, TokenStream};
+use proc_macro2::TokenStream;
 use quote::quote;
-use syn::LitStr;
 
 pub fn enum_locale(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
     let locale_ident = names_provider.get_name("Locale");
     let default = &arguments.default;
     let derive = &arguments.derive;
+    let (variant_names, variant_labels) = arguments.variants.unzip();
     let variants_number = arguments.variants.len();
-    let (variant_names, variant_labels) = arguments
-        .variants
-        .iter()
-        .map(|variant| (&variant.name, &variant.label))
-        .unzip::<&Ident, &LitStr, Vec<&Ident>, Vec<&LitStr>>();
 
     quote! {
         #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, #(#derive),*)]

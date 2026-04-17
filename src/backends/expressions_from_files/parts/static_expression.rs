@@ -2,9 +2,8 @@ use crate::{
     backends::expressions_from_files::arguments::{expression::Expression, Arguments},
     utils::NamesProvider,
 };
-use proc_macro2::{Ident, TokenStream};
+use proc_macro2::TokenStream;
 use quote::quote;
-use syn::Path;
 
 pub fn static_expression(
     expression: &Expression,
@@ -12,22 +11,12 @@ pub fn static_expression(
     names_provider: &NamesProvider,
 ) -> TokenStream {
     let locale_path = names_provider.get_path("Locale");
-    let name = &expression.name;
-    let r#type = &expression.r#type;
-    let (locales, paths) = &arguments
-        .locales
-        .iter()
-        .map(|locale| (&locale.name, &locale.path))
-        .unzip::<&Ident, &Path, Vec<&Ident>, Vec<&Path>>();
-    let locale_indexes = locales
-        .iter()
-        .enumerate()
-        .map(|(i, _)| i)
-        .collect::<Vec<usize>>();
+    let (name, r#type) = expression.decompose();
+    let (locale_indexes, (locales, locale_paths)) = arguments.locales.enumerate_unzip();
 
     quote! {
         pub static #name: [#r#type; #locale_path::COUNT] = {
-            let mut values = [#((#locale_path::#locales.to_usize(), #paths::#name)),*];
+            let mut values = [#((#locale_path::#locales.to_usize(), #locale_paths::#name)),*];
 
             let mut i = 0;
             while i < #locale_path::COUNT {

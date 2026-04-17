@@ -10,7 +10,7 @@ pub fn macro_expressions_from_files(
     Ok(if cfg!(feature = "from_files") {
         let expressions_from_files_ident = names_provider.get_hashed_name("expressions_from_files");
         let localize_it_crate = names_provider.get_crate_name("localize_it")?;
-        let path = &arguments
+        let path = arguments
             .path
             .clone()
             .map_or(TokenStream::new(), |path| quote! {path = #path});

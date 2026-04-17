@@ -1,5 +1,5 @@
 [package]
-name = "expressions_from_files"
+name = "from_files_structure_showcase"
 version = "0.0.0"
 edition = "2024"
 

@@ -1,6 +1,6 @@
 mod locale;
 
-use locale::{localize, IS_ENGLISH, Locale, HELLO};
+use locale::{localize, Locale, BYE, HELLO, IS_ENGLISH};
 use std::fmt::Display;
 
 // Simple printing helper for demonstration purposes
@@ -17,6 +17,7 @@ fn main() {
 
     // Print localized values
     print_columns(localize!(HELLO, Locale::En), localize!(HELLO, Locale::Ru));
+    print_columns(localize!(BYE, Locale::En), localize!(BYE, Locale::Ru));
     print_columns(
         localize!(IS_ENGLISH, Locale::En),
         localize!(IS_ENGLISH, Locale::Ru),

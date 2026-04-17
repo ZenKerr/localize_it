@@ -1,3 +1,9 @@
+## 2.3.0
+
+* Added `from_files` feature
+* Added `expressions_from_files!` (requires `from_files` feature)
+* Added duplicate argument check
+
 ## 2.2.0
 
 * Added `default` argument to `init_locale!`

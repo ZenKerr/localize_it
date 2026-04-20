@@ -3,8 +3,11 @@
 mod backends;
 mod utils;
 
-use crate::backends::{expressions_from_files_backend, init_locale_backend};
+use crate::backends::init_locale_backend;
 use proc_macro::TokenStream;
+
+#[cfg(feature = "from_files")]
+use crate::backends::expressions_from_files_backend;
 
 /// Initializes the localization system.
 ///

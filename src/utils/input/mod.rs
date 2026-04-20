@@ -4,14 +4,17 @@ mod types;
 use crate::utils::input::types::ParseFunction;
 use argument::Argument;
 use proc_macro2::Ident;
-use quote::ToTokens;
 use std::{collections::HashSet, vec::IntoIter};
 use syn::{
-    parse::{Parse, ParseStream}, parse2, spanned::Spanned, Error, Expr, ExprArray, ExprLit, ExprPath, ExprTuple, Lit,
+    parse::{Parse, ParseStream}, spanned::Spanned, Error, Expr, ExprArray, ExprLit, ExprPath, Lit,
     Path,
     Token,
-    Type,
 };
+
+#[cfg(feature = "from_files")]
+use quote::ToTokens;
+#[cfg(feature = "from_files")]
+use syn::{parse2, ExprTuple, Type};
 
 pub struct Input {
     arguments: Vec<Argument>,
@@ -50,6 +53,7 @@ impl Input {
         }
     }
 
+    #[cfg(feature = "from_files")]
     pub fn parse_type(name: &str, value: &Expr) -> Result<Type, Error> {
         let r#type = parse2(value.to_token_stream());
 
@@ -67,6 +71,7 @@ impl Input {
         }
     }
 
+    #[cfg(feature = "from_files")]
     pub fn parse_tuple(name: &str, value: &Expr) -> Result<Vec<Expr>, Error> {
         match value {
             Expr::Tuple(ExprTuple {
@@ -98,6 +103,7 @@ impl Input {
         }
     }
 
+    #[cfg(feature = "from_files")]
     pub fn parse_optional<T>(
         name: &str,
         value: Option<&Expr>,

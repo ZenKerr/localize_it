@@ -18,11 +18,11 @@ use crate::backends::expressions_from_files_backend;
 ///   provided, it defaults to the variant name.
 /// * `storage` — whether to generate storage for the current locale. Default to `false`.
 /// * `path` — path to the module where the macro is invoked. Used for resolving
-///   paths in the generated code. It is recommended to always specify this,
+///   paths in generated code. It is recommended to always specify this,
 ///   otherwise required imports for generated items may need to be added manually.
 /// * `default` — the default locale. Defaults to the first locale variant.
 /// * `derive` — a list of additional derives applied to the generated `enum Locale`.
-///   Defaults to empty.
+///   Defaults to an empty list.
 ///
 /// # Example with all features
 ///
@@ -37,9 +37,11 @@ use crate::backends::expressions_from_files_backend;
 /// );
 /// ```
 ///
-/// # Generated code
+/// # Generated
 ///
-/// `enum Locale` — core of all system.
+/// ### *enum Locale*
+///
+/// Core of the system.
 ///
 /// ```rust
 /// #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, /* derives from `derive` */)]
@@ -95,7 +97,9 @@ use crate::backends::expressions_from_files_backend;
 /// impl TryFrom<&str> for Locale { /* ... */ }
 /// ```
 ///
-/// `mod storage` — generated only if `storage = true`.
+/// ### *mod storage*
+///
+/// Generated only if `storage = true`.
 ///
 /// Stores the default locale upon initialization.
 ///
@@ -141,7 +145,11 @@ use crate::backends::expressions_from_files_backend;
 /// }
 /// ```
 ///
-/// `expression!` — a macro for defining localized expressions.
+/// ### *expression!*
+///
+/// *`e!` with the `short_names` feature*
+///
+/// A macro for defining localized expressions.
 ///
 /// ```rust
 /// expression!(HELLO => {
@@ -160,7 +168,11 @@ use crate::backends::expressions_from_files_backend;
 /// });
 /// ```
 ///
-/// `expressions!` — similar to `expression!`, but allows defining multiple expressions at once.
+/// ### *expressions!*
+///
+/// *`es!` with the `short_names` feature*
+///
+/// Similar to `expression!`, but allows defining multiple expressions at once.
 ///
 /// ```rust
 /// expressions!(
@@ -175,7 +187,11 @@ use crate::backends::expressions_from_files_backend;
 /// );
 /// ```
 ///
-/// `localize!` — a macro for retrieving a localized value.
+/// ### *localize!*
+///
+/// *`l!` with the `short_names` feature*
+///
+/// A macro for retrieving a localized value.
 ///
 /// If `storage = true` is enabled, the macro can be used without explicitly
 /// specifying a locale — the current locale will be used automatically.
@@ -197,9 +213,13 @@ use crate::backends::expressions_from_files_backend;
 /// localize!(HELLO_WITH_NAME as (name));
 /// ```
 ///
-/// ### Available with the `from_files` feature
+/// # Generated with the `from_files` feature
 ///
-/// `expressions_from_files!` — a macro for defining expressions split across multiple files.
+/// ### *expressions_from_files!*
+///
+/// *`es_f!` with the `short_names` feature*
+///
+/// A macro for defining expressions distributed across multiple files.
 ///
 /// If an expression's type differs from `&str`, it must be specified explicitly.
 ///

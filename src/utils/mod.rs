@@ -1,5 +1,5 @@
 mod input;
-mod names_provider;
+pub mod names;
 
 pub use input::{argument::Argument, Input};
-pub use names_provider::NamesProvider;
+pub use names::provider::NamesProvider;

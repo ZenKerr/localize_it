@@ -1,9 +1,12 @@
-use crate::{backends::init_locale::arguments::Arguments, utils::NamesProvider};
+use crate::{
+    backends::init_locale::arguments::Arguments,
+    utils::{names::ENUM_LOCALE, NamesProvider},
+};
 use proc_macro2::TokenStream;
 use quote::quote;
 
 pub fn enum_locale(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
-    let locale_ident = names_provider.get_name("Locale");
+    let locale_ident = names_provider.get_name(ENUM_LOCALE);
     let default = &arguments.default;
     let derive = &arguments.derive;
     let (variant_names, variant_labels) = arguments.variants.unzip();

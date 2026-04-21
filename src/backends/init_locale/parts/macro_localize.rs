@@ -1,12 +1,19 @@
-use crate::{backends::init_locale::arguments::Arguments, utils::NamesProvider};
+use crate::{
+    backends::init_locale::arguments::Arguments,
+    utils::{
+        names::{MACRO_LOCALIZE, MOD_STORAGE},
+        NamesProvider,
+    },
+};
 use proc_macro2::TokenStream;
 use quote::quote;
 
 pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
-    let localize_ident = names_provider.get_hashed_name("localize");
+    let localize_ident = names_provider.get_name(MACRO_LOCALIZE);
+    let localize_hashed_ident = names_provider.get_hashed_name(MACRO_LOCALIZE);
 
     let locale_from_storage = if arguments.storage {
-        let storage_path = names_provider.get_path("storage");
+        let storage_path = names_provider.get_path(MOD_STORAGE);
 
         quote! {
             ($expression: path $(as ($($arg: expr),* $(,)?))?) => {
@@ -19,7 +26,7 @@ pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> 
 
     quote! {
         #[macro_export]
-        macro_rules! #localize_ident {
+        macro_rules! #localize_hashed_ident {
             #locale_from_storage
 
             ($expression: path $(as ($($arg: expr),* $(,)?))?, $locale: expr) => {
@@ -27,6 +34,6 @@ pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> 
             };
         }
 
-        pub use #localize_ident as localize;
+        pub use #localize_hashed_ident as #localize_ident;
     }
 }

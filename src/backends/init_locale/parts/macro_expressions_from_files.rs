@@ -1,4 +1,7 @@
-use crate::{backends::init_locale::arguments::Arguments, utils::NamesProvider};
+use crate::{
+    backends::init_locale::arguments::Arguments,
+    utils::{names::MACRO_EXPRESSIONS_FROM_FILES, NamesProvider},
+};
 use proc_macro2::TokenStream;
 use quote::quote;
 use syn::Error;
@@ -8,7 +11,9 @@ pub fn macro_expressions_from_files(
     names_provider: &NamesProvider,
 ) -> Result<TokenStream, Error> {
     Ok(if cfg!(feature = "from_files") {
-        let expressions_from_files_ident = names_provider.get_hashed_name("expressions_from_files");
+        let expressions_from_files_ident = names_provider.get_name(MACRO_EXPRESSIONS_FROM_FILES);
+        let expressions_from_files_hashed_ident =
+            names_provider.get_hashed_name(MACRO_EXPRESSIONS_FROM_FILES);
         let localize_it_crate = names_provider.get_crate_name("localize_it")?;
         let path = arguments
             .path
@@ -17,7 +22,7 @@ pub fn macro_expressions_from_files(
 
         quote! {
             #[macro_export]
-            macro_rules! #expressions_from_files_ident {
+            macro_rules! #expressions_from_files_hashed_ident {
                 (
                     {
                         $($locale: ident => $path: path),+ $(,)?
@@ -33,7 +38,7 @@ pub fn macro_expressions_from_files(
                 };
             }
 
-            pub use #expressions_from_files_ident as expressions_from_files;
+            pub use #expressions_from_files_hashed_ident as #expressions_from_files_ident;
         }
     } else {
         TokenStream::new()

@@ -1,14 +1,18 @@
-use crate::utils::NamesProvider;
+use crate::utils::{
+    names::{MACRO_EXPRESSION, MACRO_EXPRESSIONS},
+    NamesProvider,
+};
 use proc_macro2::TokenStream;
 use quote::quote;
 
 pub fn macro_expressions(names_provider: &NamesProvider) -> TokenStream {
-    let expressions_ident = names_provider.get_hashed_name("expressions");
-    let expression_path = names_provider.get_path("expression");
+    let expressions_ident = names_provider.get_name(MACRO_EXPRESSIONS);
+    let expressions_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSIONS);
+    let expression_path = names_provider.get_path(MACRO_EXPRESSION);
 
     quote! {
         #[macro_export]
-        macro_rules! #expressions_ident {
+        macro_rules! #expressions_hashed_ident {
             (
                 $(
                     $name: ident $(: $content_type: ty)? => {
@@ -28,6 +32,6 @@ pub fn macro_expressions(names_provider: &NamesProvider) -> TokenStream {
             };
         }
 
-        pub use #expressions_ident as expressions;
+        pub use #expressions_hashed_ident as #expressions_ident;
     }
 }

@@ -1,15 +1,19 @@
-use crate::utils::NamesProvider;
+use crate::utils::{
+    names::{ENUM_LOCALE, MACRO_EXPRESSION},
+    NamesProvider,
+};
 use proc_macro2::TokenStream;
 use quote::quote;
 
 pub fn macro_expression(names_provider: &NamesProvider) -> TokenStream {
-    let expression_ident = names_provider.get_hashed_name("expression");
-    let expression_path = names_provider.get_path("expression");
-    let locale_path = names_provider.get_path("Locale");
+    let expression_ident = names_provider.get_name(MACRO_EXPRESSION);
+    let expression_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSION);
+    let expression_path = names_provider.get_path(MACRO_EXPRESSION);
+    let locale_path = names_provider.get_path(ENUM_LOCALE);
 
     quote! {
         #[macro_export]
-        macro_rules! #expression_ident {
+        macro_rules! #expression_hashed_ident {
             (
                 $name: ident => {
                     $(
@@ -50,6 +54,6 @@ pub fn macro_expression(names_provider: &NamesProvider) -> TokenStream {
             };
         }
 
-        pub use #expression_ident as expression;
+        pub use #expression_hashed_ident as #expression_ident;
     }
 }

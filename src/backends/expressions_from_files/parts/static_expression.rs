@@ -1,6 +1,6 @@
 use crate::{
     backends::expressions_from_files::arguments::{expression::Expression, Arguments},
-    utils::NamesProvider,
+    utils::{names::ENUM_LOCALE, NamesProvider},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
@@ -10,7 +10,7 @@ pub fn static_expression(
     arguments: &Arguments,
     names_provider: &NamesProvider,
 ) -> TokenStream {
-    let locale_path = names_provider.get_path("Locale");
+    let locale_path = names_provider.get_path(ENUM_LOCALE);
     let (name, r#type) = expression.decompose();
     let (locale_indexes, (locales, locale_paths)) = arguments.locales.enumerate_unzip();
 

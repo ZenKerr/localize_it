@@ -1,3 +1,11 @@
+## 2.4.0
+
+* Added `short_names` feature, which introduces shorter aliases:
+    * `expression!` → `e!`
+    * `expressions!` → `es!`
+    * `expressions_from_files!` → `es_f!`
+    * `localize!` → `l!`
+
 ## 2.3.0
 
 * Added `from_files` feature

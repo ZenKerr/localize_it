@@ -2,8 +2,8 @@ use crate::{
     backends::init_locale::{
         arguments::Arguments,
         parts::{
-            enum_locale, macro_expression, macro_expressions, macro_expressions_from_files,
-            macro_localize, mod_storage,
+            enum_locale, macro_expression, macro_expression_part, macro_expressions,
+            macro_expressions_from_files, macro_expressions_part, macro_localize, mod_storage,
         },
     },
     utils::NamesProvider,
@@ -22,6 +22,8 @@ pub fn backend(input: TokenStream) -> Result<TokenStream, Error> {
     let expression = macro_expression(names_provider);
     let expressions = macro_expressions(names_provider);
     let localize = macro_localize(arguments, names_provider);
+    let expression_part = macro_expression_part(names_provider);
+    let expressions_part = macro_expressions_part(names_provider);
     let expressions_from_files = macro_expressions_from_files(arguments, names_provider)?;
 
     Ok(quote! {
@@ -30,6 +32,8 @@ pub fn backend(input: TokenStream) -> Result<TokenStream, Error> {
         #expression
         #expressions
         #localize
+        #expression_part
+        #expressions_part
         #expressions_from_files
     }
     .into())

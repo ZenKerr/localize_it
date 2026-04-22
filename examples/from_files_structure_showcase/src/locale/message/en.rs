@@ -1,2 +1,6 @@
-pub static HELLO: &'static str = "Hello";
-pub static BYE: &'static str = "Bye";
+use crate::locale::expressions_part;
+
+expressions_part!(
+    HELLO => "Hello",
+    BYE => "Bye",
+);

@@ -159,6 +159,7 @@ use crate::backends::expressions_from_files_backend;
 /// ```
 ///
 /// The expression can be any compile-time type, including functions.
+///
 /// For any type other than `&str`, the type must be specified explicitly.
 ///
 /// ```rust
@@ -214,6 +215,40 @@ use crate::backends::expressions_from_files_backend;
 /// ```
 ///
 /// # Generated with the `from_files` feature
+///
+/// ### *expression_part!*
+///
+/// *`e_p!` with the `short_names` feature*
+///
+/// A macro for creating a part of an expression in a single language.
+///
+/// To use it in localization, you need to combine expression parts into a full expression using
+/// `expressions_from_files!`.
+///
+/// ```rust
+/// expression_part!(HELLO => "Hello");
+/// ```
+///
+/// The expression part type can be any compile-time type.
+///
+/// For any type other than `&str`, the type must be specified explicitly.
+///
+/// ```rust
+/// expression_part!(HELLO_WITH_NAME: fn(&str) -> String => |name: &str| format!("Hello, {name}!"));
+/// ```
+///
+/// ### *expressions_part!*
+///
+/// *`es_p!` with the `short_names` feature*
+///
+/// Similar to `expression_part!`, but allows defining multiple expression parts at once.
+///
+/// ```rust
+/// expressions_part!(
+///     HELLO => "Hello",
+///     HELLO_WITH_NAME: fn(&str) -> String => |name: &str| format!("Hello, {name}!"),
+/// );
+/// ```
 ///
 /// ### *expressions_from_files!*
 ///

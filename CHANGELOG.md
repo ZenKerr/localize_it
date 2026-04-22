@@ -1,3 +1,8 @@
+## 2.5.0
+
+* Added `expression_part!` (`e_p!` with `short_names` features)
+* Added `expressions_part` (`es_p!` with `short_names` features)
+
 ## 2.4.0
 
 * Added `short_names` feature, which introduces shorter aliases:

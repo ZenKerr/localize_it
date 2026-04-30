@@ -16,8 +16,8 @@ pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> 
         let storage_path = names_provider.get_path(MOD_STORAGE);
 
         quote! {
-            ($expression: path $(as ($($arg: expr),* $(,)?))?) => {
-                $expression[#storage_path::get_as_usize()]$(($($arg),*))?
+            ($expression: path $(as ($($argument: expr),* $(,)?))?) => {
+                $expression[#storage_path::get_as_usize()]$(($($argument),*))?
             };
         }
     } else {
@@ -29,8 +29,8 @@ pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> 
         macro_rules! #localize_hashed_ident {
             #locale_from_storage
 
-            ($expression: path $(as ($($arg: expr),* $(,)?))?, $locale: expr) => {
-                $expression[$locale.to_usize()]$(($($arg),*))?
+            ($expression: path $(as ($($argument: expr),* $(,)?))?, $locale: expr) => {
+                $expression[$locale.to_usize()]$(($($argument),*))?
             };
         }
 

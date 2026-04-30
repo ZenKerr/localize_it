@@ -11,12 +11,12 @@ pub fn macro_expression_part(names_provider: &NamesProvider) -> TokenStream {
         quote! {
             #[macro_export]
             macro_rules! #expression_part_hashed_ident {
-                ($name: ident => $content: expr) => {
-                    #expression_part_path!($name: &'static str => $content);
+                ($name: ident => $value: expr) => {
+                    #expression_part_path!($name: &'static str => $value);
                 };
 
-                ($name: ident: $content_type: ty => $content: expr) => {
-                    pub static $name: $content_type = $content;
+                ($name: ident: $r#type: ty => $value: expr) => {
+                    pub static $name: $r#type = $value;
                 };
             }
 

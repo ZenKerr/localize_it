@@ -10,16 +10,15 @@ use crate::{
 };
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse, Error};
+use syn::{parse, Result};
 
-pub fn backend(input: TokenStream) -> Result<TokenStream, Error> {
-    let input = parse(input)?;
-    let arguments = &Arguments::new(input)?;
+pub fn backend(input: TokenStream) -> Result<TokenStream> {
+    let arguments = &parse::<Arguments>(input)?;
     let names_provider = &NamesProvider::new(arguments.path.clone());
 
     let locale = enum_locale(arguments, names_provider);
     let storage = mod_storage(arguments, names_provider);
-    let expression = macro_expression(names_provider);
+    let expression = macro_expression(arguments, names_provider)?;
     let expressions = macro_expressions(names_provider);
     let localize = macro_localize(arguments, names_provider);
     let expression_part = macro_expression_part(names_provider);

@@ -15,17 +15,17 @@ pub fn macro_expressions(names_provider: &NamesProvider) -> TokenStream {
         macro_rules! #expressions_hashed_ident {
             (
                 $(
-                    $name: ident $(: $content_type: ty)? => {
+                    $name: ident $(: $r#type: ty)? => {
                         $(
-                            $locale: ident: $content: expr
+                            $locale: ident: $value: expr
                         ),+ $(,)?
                     }
                 ),+ $(,)?
             ) => {
                 $(
-                    #expression_path!($name $(: $content_type)? => {
+                    #expression_path!($name $(: $r#type)? => {
                         $(
-                            $locale: $content
+                            $locale: $value
                         ),+
                     });
                 )+

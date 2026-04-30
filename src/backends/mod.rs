@@ -1,8 +1,10 @@
+mod expression;
 mod init_locale;
 
 #[cfg(feature = "from_files")]
 mod expressions_from_files;
 
+pub use expression::expression_backend;
 pub use init_locale::init_locale_backend;
 
 #[cfg(feature = "from_files")]

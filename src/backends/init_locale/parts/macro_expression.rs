@@ -1,59 +1,52 @@
-use crate::utils::{
-    names::{ENUM_LOCALE, MACRO_EXPRESSION},
-    NamesProvider,
+use crate::{
+    backends::init_locale::arguments::Arguments,
+    utils::{names::MACRO_EXPRESSION, path_argument, NamesProvider},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
+use syn::Result;
 
-pub fn macro_expression(names_provider: &NamesProvider) -> TokenStream {
+pub fn macro_expression(
+    arguments: &Arguments,
+    names_provider: &NamesProvider,
+) -> Result<TokenStream> {
     let expression_ident = names_provider.get_name(MACRO_EXPRESSION);
     let expression_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSION);
     let expression_path = names_provider.get_path(MACRO_EXPRESSION);
-    let locale_path = names_provider.get_path(ENUM_LOCALE);
+    let localize_it_crate = names_provider.get_crate_name("localize_it")?;
 
-    quote! {
+    let path_argument = path_argument(arguments.path.clone());
+
+    Ok(quote! {
         #[macro_export]
         macro_rules! #expression_hashed_ident {
             (
                 $name: ident => {
                     $(
-                        $locale: ident: $content: expr
+                        $locale: ident: $value: expr
                     ),+ $(,)?
                 }
             ) => {
-                #expression_path!($name: &'static str => {$($locale: $content),+});
+                #expression_path!($name: &'static str => {$($locale: $value),+});
             };
 
             (
-                $name: ident: $content_type: ty => {
+                $name: ident: $r#type: ty => {
                     $(
-                        $locale: ident: $content: expr
+                        $locale: ident: $value: expr
                     ),+ $(,)?
                 }
             ) => {
-                pub static $name: [$content_type; #locale_path::COUNT] = {
-                    let mut expression = [$($content),+];
-                    let mut empty = [true; #locale_path::COUNT];
-
-                    $(
-                        let i = #locale_path::$locale.to_usize();
-
-                        if core::mem::replace(&mut empty[i], false) {
-                            expression[i] = $content;
-                        } else {
-                            panic!(concat!(
-                                "Locale variant ",
-                                stringify!($locale),
-                                " is duplicated"
-                            ));
-                        }
-                    )+
-
-                    expression
-                };
+                #localize_it_crate::__expression!(
+                    name = $name,
+                    r#type = $r#type,
+                    locales = [$($locale),+],
+                    values = [$($value),+],
+                    #path_argument
+                );
             };
         }
 
         pub use #expression_hashed_ident as #expression_ident;
-    }
+    })
 }

@@ -1,7 +1,7 @@
 use proc_macro2::{Ident, LineColumn, Span};
 use proc_macro_crate::{crate_name, FoundCrate};
 use std::hash::{DefaultHasher, Hash, Hasher};
-use syn::{Error, Path, PathSegment};
+use syn::{Error, Path, PathSegment, Result};
 
 pub struct NamesProvider {
     hash: u64,
@@ -44,7 +44,7 @@ impl NamesProvider {
             .unwrap_or(Path::from(name))
     }
 
-    pub fn get_crate_name(&self, name: &str) -> Result<Ident, Error> {
+    pub fn get_crate_name(&self, name: &str) -> Result<Ident> {
         let span = Span::call_site();
 
         let found_crate =

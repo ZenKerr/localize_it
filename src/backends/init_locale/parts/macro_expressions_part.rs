@@ -16,11 +16,11 @@ pub fn macro_expressions_part(names_provider: &NamesProvider) -> TokenStream {
             macro_rules! #expressions_part_hashed_ident {
                 (
                     $(
-                        $name: ident $(: $content_type: ty)? => $content: expr
+                        $name: ident $(: $r#type: ty)? => $value: expr
                     ),+ $(,)?
                 ) => {
                     $(
-                        #expression_part_path!($name $(: $content_type)? => $content);
+                        #expression_part_path!($name $(: $r#type)? => $value);
                     )+
                 }
             }

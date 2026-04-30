@@ -16,7 +16,10 @@ pub fn mod_storage(arguments: &Arguments, names_provider: &NamesProvider) -> Tok
         quote! {
             pub mod #storage_ident {
                 use super::#locale_ident;
-                use core::sync::atomic::{AtomicUsize, Ordering};
+                use core::{
+                    result::Result,
+                    sync::atomic::{AtomicUsize, Ordering},
+                };
 
                 static CURRENT_LOCALE: AtomicUsize = AtomicUsize::new(#locale_ident::DEFAULT.to_usize());
 

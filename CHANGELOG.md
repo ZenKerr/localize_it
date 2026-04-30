@@ -1,3 +1,7 @@
+## 2.5.1
+
+* Major internal refactor with no impact on public API
+
 ## 2.5.0
 
 * Added `expression_part!` (`e_p!` with `short_names` features)

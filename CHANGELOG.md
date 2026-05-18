@@ -1,3 +1,7 @@
+## 2.5.2
+
+* Refactor errors
+
 ## 2.5.1
 
 * Major internal refactor with no impact on public API

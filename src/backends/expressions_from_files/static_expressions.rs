@@ -1,15 +1,14 @@
 use crate::{
     backends::expressions_from_files::arguments::Arguments,
-    utils::{path_argument, NamesProvider},
+    utils::{aliases::SynResult, path_argument, NamesProvider},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
-use syn::Result;
 
 pub fn static_expressions(
     arguments: &Arguments,
     names_provider: &NamesProvider,
-) -> Result<TokenStream> {
+) -> SynResult<TokenStream> {
     let localize_it_crate = names_provider.get_crate_name("localize_it")?;
     let locales = &arguments.locales;
     let locales_path = &arguments.locales_path;

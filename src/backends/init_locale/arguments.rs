@@ -1,7 +1,11 @@
-use crate::utils::{errors::unknown_argument_error, typed_parse::TypedParse};
-use proc_macro2::{Ident, Span};
+use crate::utils::{
+    aliases::SynResult,
+    errors::{LocaleVariantPositionError, NoLocaleVariantError, UnknownArgumentError},
+    typed_parse::TypedParse,
+};
+use proc_macro2::Ident;
 use syn::{
-    parse::{Parse, ParseStream}, Error, LitStr, Path, Result,
+    parse::{Parse, ParseStream}, LitStr, Path,
     Token,
 };
 
@@ -15,7 +19,7 @@ pub struct Arguments {
 }
 
 impl Parse for Arguments {
-    fn parse(input: ParseStream) -> Result<Self> {
+    fn parse(input: ParseStream) -> SynResult<Self> {
         let mut variants = Vec::new();
         let mut variants_label = Vec::new();
         let mut storage = false;
@@ -33,15 +37,12 @@ impl Parse for Arguments {
                     "path" => path = Some(input.parse_path("path")?),
                     "default" => default = Some(input.parse_ident("default")?),
                     "derive" => derive = input.parse_array("derive", Path::parse)?,
-                    _ => return Err(unknown_argument_error(argument)),
+                    _ => return Err(UnknownArgumentError::new(argument)),
                 }
 
                 variants_is_end = true;
             } else if variants_is_end {
-                return Err(Error::new(
-                    argument.span(),
-                    "Expected variants list to precede optional arguments",
-                ));
+                return Err(LocaleVariantPositionError::new(argument));
             } else {
                 let label = if input.peek(Token![=>]) {
                     input.parse::<Token![=>]>()?;
@@ -58,15 +59,8 @@ impl Parse for Arguments {
             Ok(())
         })?;
 
-        let default = default.unwrap_or(
-            variants
-                .first()
-                .ok_or(Error::new(
-                    Span::call_site(),
-                    "Expected at least one locale variant",
-                ))?
-                .clone(),
-        );
+        let default =
+            default.unwrap_or(variants.first().ok_or(NoLocaleVariantError::new())?.clone());
 
         Ok(Self {
             variants,

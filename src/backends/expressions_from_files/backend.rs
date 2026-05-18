@@ -2,13 +2,13 @@ use crate::{
     backends::expressions_from_files::{
         arguments::Arguments, static_expressions::static_expressions,
     },
-    utils::NamesProvider,
+    utils::{aliases::SynResult, NamesProvider},
 };
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse, Result};
+use syn::parse;
 
-pub fn backend(input: TokenStream) -> Result<TokenStream> {
+pub fn backend(input: TokenStream) -> SynResult<TokenStream> {
     let arguments = &parse::<Arguments>(input)?;
     let names_provider = &NamesProvider::new(arguments.path.clone());
 

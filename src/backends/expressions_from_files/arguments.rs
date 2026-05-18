@@ -1,10 +1,11 @@
 use crate::utils::{
-    errors::{required_argument_error, unknown_argument_error},
+    aliases::SynResult,
+    errors::{RequiredArgumentError, UnknownArgumentError},
     typed_parse::TypedParse,
 };
 use proc_macro2::Ident;
 use syn::{
-    parse::{Parse, ParseStream}, Path, Result, Token,
+    parse::{Parse, ParseStream}, Path, Token,
     Type,
 };
 
@@ -17,7 +18,7 @@ pub struct Arguments {
 }
 
 impl Parse for Arguments {
-    fn parse(input: ParseStream) -> Result<Self> {
+    fn parse(input: ParseStream) -> SynResult<Self> {
         let mut locales = None;
         let mut locales_path = None;
         let mut expressions = None;
@@ -39,18 +40,18 @@ impl Parse for Arguments {
                     expressions_type = Some(input.parse_array("expressions_type", Type::parse)?)
                 }
                 "path" => path = Some(input.parse_path("path")?),
-                _ => return Err(unknown_argument_error(argument)),
+                _ => return Err(UnknownArgumentError::new(argument)),
             };
 
             Ok(())
         })?;
 
         Ok(Self {
-            locales: locales.ok_or(required_argument_error("locales"))?,
-            locales_path: locales_path.ok_or(required_argument_error("locales_path"))?,
-            expressions: expressions.ok_or(required_argument_error("expressions"))?,
+            locales: locales.ok_or(RequiredArgumentError::new("locales"))?,
+            locales_path: locales_path.ok_or(RequiredArgumentError::new("locales_path"))?,
+            expressions: expressions.ok_or(RequiredArgumentError::new("expressions"))?,
             expressions_type: expressions_type
-                .ok_or(required_argument_error("expressions_type"))?,
+                .ok_or(RequiredArgumentError::new("expressions_type"))?,
             path,
         })
     }

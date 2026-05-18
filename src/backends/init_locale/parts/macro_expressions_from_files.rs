@@ -1,15 +1,16 @@
 use crate::{
     backends::init_locale::arguments::Arguments,
-    utils::{names::MACRO_EXPRESSIONS_FROM_FILES, path_argument, NamesProvider},
+    utils::{
+        aliases::SynResult, names::MACRO_EXPRESSIONS_FROM_FILES, path_argument, NamesProvider,
+    },
 };
 use proc_macro2::TokenStream;
 use quote::quote;
-use syn::Result;
 
 pub fn macro_expressions_from_files(
     arguments: &Arguments,
     names_provider: &NamesProvider,
-) -> Result<TokenStream> {
+) -> SynResult<TokenStream> {
     Ok(if cfg!(feature = "from_files") {
         let expressions_from_files_ident = names_provider.get_name(MACRO_EXPRESSIONS_FROM_FILES);
         let expressions_from_files_hashed_ident =

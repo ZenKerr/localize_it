@@ -6,13 +6,13 @@ use crate::{
             macro_expressions_from_files, macro_expressions_part, macro_localize, mod_storage,
         },
     },
-    utils::NamesProvider,
+    utils::{aliases::SynResult, NamesProvider},
 };
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse, Result};
+use syn::parse;
 
-pub fn backend(input: TokenStream) -> Result<TokenStream> {
+pub fn backend(input: TokenStream) -> SynResult<TokenStream> {
     let arguments = &parse::<Arguments>(input)?;
     let names_provider = &NamesProvider::new(arguments.path.clone());
 

@@ -1,3 +1,4 @@
+pub mod aliases;
 mod argument_processor;
 pub mod errors;
 pub mod names;

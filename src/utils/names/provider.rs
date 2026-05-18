@@ -1,7 +1,8 @@
+use crate::utils::{aliases::SynResult, errors::CrateNotFoundError};
 use proc_macro2::{Ident, LineColumn, Span};
 use proc_macro_crate::{crate_name, FoundCrate};
 use std::hash::{DefaultHasher, Hash, Hasher};
-use syn::{Error, Path, PathSegment, Result};
+use syn::{Path, PathSegment};
 
 pub struct NamesProvider {
     hash: u64,
@@ -44,11 +45,9 @@ impl NamesProvider {
             .unwrap_or(Path::from(name))
     }
 
-    pub fn get_crate_name(&self, name: &str) -> Result<Ident> {
+    pub fn get_crate_name(&self, name: &str) -> SynResult<Ident> {
         let span = Span::call_site();
-
-        let found_crate =
-            crate_name(name).map_err(|_| Error::new(span, format!("Crate `{name}` not found")))?;
+        let found_crate = crate_name(name).map_err(CrateNotFoundError::map(name))?;
 
         Ok(match found_crate {
             FoundCrate::Itself => Ident::new("crate", span),

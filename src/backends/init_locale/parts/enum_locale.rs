@@ -15,6 +15,7 @@ pub fn enum_locale(arguments: &Arguments, names_provider: &NamesProvider) -> Tok
 
     quote! {
         mod __locale {
+            use super::*;
             use core::{
                 clone::Clone,
                 cmp::{Eq, Ord, PartialEq, PartialOrd},

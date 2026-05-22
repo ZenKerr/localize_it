@@ -1,3 +1,7 @@
+## 2.5.3
+
+* Added parent re-export to `Locale` mod
+
 ## 2.5.2
 
 * Refactor errors

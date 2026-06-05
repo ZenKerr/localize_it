@@ -1,3 +1,9 @@
+## 2.6.0
+
+* Change `localize!` syntax:
+    * Before: `localize!(EXPRESSION as (arg1, arg2))`, where EXPRESSION is a `path`
+    * After: `localize!(EXPRESSION => [arg1, arg2])`, where EXPRESSION is any `expr`
+
 ## 2.5.3
 
 * Added parent re-export to `Locale` mod

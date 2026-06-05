@@ -9,11 +9,11 @@ use proc_macro2::TokenStream;
 use quote::quote;
 
 pub fn macro_localize(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
-    let localize_ident = names_provider.get_name(MACRO_LOCALIZE);
+    let localize_ident = NamesProvider::get_name(MACRO_LOCALIZE);
     let localize_hashed_ident = names_provider.get_hashed_name(MACRO_LOCALIZE);
 
     let locale_from_storage = if arguments.storage {
-        let storage_path = names_provider.get_path(MOD_STORAGE);
+        let storage_path = names_provider.get_component_path(MOD_STORAGE);
 
         quote! {
             ($expression: path $(as ($($argument: expr),* $(,)?))?) => {

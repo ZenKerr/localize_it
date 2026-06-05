@@ -12,10 +12,11 @@ pub fn macro_expressions_from_files(
     names_provider: &NamesProvider,
 ) -> SynResult<TokenStream> {
     Ok(if cfg!(feature = "from_files") {
-        let expressions_from_files_ident = names_provider.get_name(MACRO_EXPRESSIONS_FROM_FILES);
+        let expressions_from_files_ident = NamesProvider::get_name(MACRO_EXPRESSIONS_FROM_FILES);
         let expressions_from_files_hashed_ident =
             names_provider.get_hashed_name(MACRO_EXPRESSIONS_FROM_FILES);
-        let expressions_from_files_path = names_provider.get_path(MACRO_EXPRESSIONS_FROM_FILES);
+        let expressions_from_files_path =
+            names_provider.get_component_path(MACRO_EXPRESSIONS_FROM_FILES);
         let localize_it_crate = names_provider.get_crate_name("localize_it")?;
 
         let path_argument = path_argument(arguments.path.clone());

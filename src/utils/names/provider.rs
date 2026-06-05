@@ -24,16 +24,20 @@ impl NamesProvider {
         Self { hash, path }
     }
 
-    pub fn get_name(&self, name: &str) -> Ident {
+    pub fn get_name(name: &str) -> Ident {
         Ident::new(name, Span::call_site())
+    }
+
+    pub fn get_path(path: &str) -> SynResult<Path> {
+        syn::parse_str(path)
     }
 
     pub fn get_hashed_name(&self, name: &str) -> Ident {
         Ident::new(&format!("__{}_{}", name, self.hash), Span::call_site())
     }
 
-    pub fn get_path(&self, name: &str) -> Path {
-        let name = self.get_name(name);
+    pub fn get_component_path(&self, name: &str) -> Path {
+        let name = Self::get_name(name);
 
         self.path
             .clone()
@@ -46,12 +50,12 @@ impl NamesProvider {
     }
 
     pub fn get_crate_name(&self, name: &str) -> SynResult<Ident> {
-        let span = Span::call_site();
         let found_crate = crate_name(name).map_err(CrateNotFoundError::map(name))?;
+        let crate_name = match found_crate {
+            FoundCrate::Itself => "crate".to_string(),
+            FoundCrate::Name(name) => name,
+        };
 
-        Ok(match found_crate {
-            FoundCrate::Itself => Ident::new("crate", span),
-            FoundCrate::Name(name) => Ident::new(&name, span),
-        })
+        Ok(Ident::new(&crate_name, Span::call_site()))
     }
 }

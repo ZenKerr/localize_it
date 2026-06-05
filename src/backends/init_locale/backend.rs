@@ -16,8 +16,8 @@ pub fn backend(input: TokenStream) -> SynResult<TokenStream> {
     let arguments = &parse::<Arguments>(input)?;
     let names_provider = &NamesProvider::new(arguments.path.clone());
 
-    let locale = enum_locale(arguments, names_provider);
-    let storage = mod_storage(arguments, names_provider);
+    let locale = enum_locale(arguments)?;
+    let storage = mod_storage(arguments);
     let expression = macro_expression(arguments, names_provider)?;
     let expressions = macro_expressions(names_provider);
     let localize = macro_localize(arguments, names_provider);

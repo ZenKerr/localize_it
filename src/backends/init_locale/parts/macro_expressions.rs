@@ -6,9 +6,9 @@ use proc_macro2::TokenStream;
 use quote::quote;
 
 pub fn macro_expressions(names_provider: &NamesProvider) -> TokenStream {
-    let expressions_ident = names_provider.get_name(MACRO_EXPRESSIONS);
+    let expressions_ident = NamesProvider::get_name(MACRO_EXPRESSIONS);
     let expressions_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSIONS);
-    let expression_path = names_provider.get_path(MACRO_EXPRESSION);
+    let expression_path = names_provider.get_component_path(MACRO_EXPRESSION);
 
     quote! {
         #[macro_export]

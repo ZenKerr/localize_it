@@ -8,9 +8,9 @@ use crate::{
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn mod_storage(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
-    let storage_ident = names_provider.get_name(MOD_STORAGE);
-    let locale_ident = names_provider.get_name(ENUM_LOCALE);
+pub fn mod_storage(arguments: &Arguments) -> TokenStream {
+    let storage_ident = NamesProvider::get_name(MOD_STORAGE);
+    let locale_ident = NamesProvider::get_name(ENUM_LOCALE);
 
     if arguments.storage {
         quote! {

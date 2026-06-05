@@ -4,9 +4,9 @@ use quote::quote;
 
 pub fn macro_expression_part(names_provider: &NamesProvider) -> TokenStream {
     if cfg!(feature = "from_files") {
-        let expression_part_ident = names_provider.get_name(MACRO_EXPRESSION_PART);
+        let expression_part_ident = NamesProvider::get_name(MACRO_EXPRESSION_PART);
         let expression_part_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSION_PART);
-        let expression_part_path = names_provider.get_path(MACRO_EXPRESSION_PART);
+        let expression_part_path = names_provider.get_component_path(MACRO_EXPRESSION_PART);
 
         quote! {
             #[macro_export]

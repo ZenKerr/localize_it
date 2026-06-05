@@ -65,7 +65,7 @@ fn main() {
   let name = input();
 
   // Use a callable expression
-  println!("{}", localize!(HELLO as (&name)));
+  println!("{}", localize!(HELLO => [&name]));
 }
 ```
 

@@ -214,7 +214,7 @@ use crate::backends::expressions_from_files_backend;
 ///
 /// ```rust
 /// let name = "Ivan";
-/// localize!(HELLO_WITH_NAME as (name));
+/// localize!(HELLO_WITH_NAME => [name]);
 /// ```
 ///
 /// # Generated with the `from_files` feature

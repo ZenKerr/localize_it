@@ -11,7 +11,7 @@ fn localize() {
 
     assert_eq!(localize!(TEST), TEST[0]);
     assert_eq!(
-        localize!(TEST_CALLABLE as (argument)),
+        localize!(TEST_CALLABLE => [argument]),
         TEST_CALLABLE[0](argument)
     );
 }

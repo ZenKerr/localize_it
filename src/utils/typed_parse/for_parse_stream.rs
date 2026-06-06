@@ -2,7 +2,7 @@ use crate::utils::{
     aliases::SynResult, errors::TypeError, typed_parse::TypedParse, ArgumentProcessor,
 };
 use proc_macro2::Ident;
-use syn::{bracketed, parse::ParseStream, LitBool, Path, Token, Type};
+use syn::{bracketed, parse::ParseStream, LitBool, LitStr, Path, Token, Type};
 
 impl TypedParse for ParseStream<'_> {
     fn parse_bool(self, name: &str) -> SynResult<bool> {
@@ -10,6 +10,13 @@ impl TypedParse for ParseStream<'_> {
             .parse::<LitBool>()
             .map_err(TypeError::map(name, "bool"))?
             .value)
+    }
+
+    fn parse_string(self, name: &str) -> SynResult<String> {
+        Ok(self
+            .parse::<LitStr>()
+            .map_err(TypeError::map(name, "String"))?
+            .value())
     }
 
     fn parse_ident(self, name: &str) -> SynResult<Ident> {

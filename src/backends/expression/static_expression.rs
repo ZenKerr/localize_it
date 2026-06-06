@@ -1,16 +1,13 @@
-use crate::{
-    backends::expression::arguments::Arguments,
-    utils::{names::ENUM_LOCALE, NamesProvider},
-};
+use crate::{backends::expression::arguments::Arguments, utils::NamesProvider};
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn static_expression(argument: &Arguments, names_provider: &NamesProvider) -> TokenStream {
-    let locale_path = names_provider.get_component_path(ENUM_LOCALE);
-    let name = &argument.name;
-    let r#type = &argument.r#type;
-    let locales = &argument.locales;
-    let values = &argument.values;
+pub fn static_expression(arguments: &Arguments, names_provider: &NamesProvider) -> TokenStream {
+    let locale_path = names_provider.get_component_path(&arguments.locale_name);
+    let name = &arguments.name;
+    let r#type = &arguments.r#type;
+    let locales = &arguments.locales;
+    let values = &arguments.values;
 
     quote! {
         pub static #name: [#r#type; #locale_path::COUNT] = {

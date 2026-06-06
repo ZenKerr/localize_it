@@ -1,12 +1,12 @@
 use crate::{
     backends::init_locale::arguments::Arguments,
-    utils::{aliases::SynResult, names::ENUM_LOCALE, NamesProvider},
+    utils::{aliases::SynResult, NamesProvider},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
 
 pub fn methods(arguments: &Arguments) -> SynResult<TokenStream> {
-    let locale_ident = NamesProvider::get_name(ENUM_LOCALE);
+    let locale_ident = NamesProvider::get_name(&arguments.locale_name);
     let default = &arguments.default;
     let variants = &arguments.variants;
     let variants_label = &arguments.variants_label;

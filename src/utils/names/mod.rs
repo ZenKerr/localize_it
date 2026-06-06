@@ -3,7 +3,7 @@ mod utils;
 
 use crate::utils::names::utils::short_or_default;
 
-pub const ENUM_LOCALE: &str = "Locale";
+pub const DEFAULT_ENUM_LOCALE: &str = "Locale";
 pub const MOD_STORAGE: &str = "storage";
 pub const MACRO_EXPRESSION: &str = short_or_default("e", "expression");
 pub const MACRO_EXPRESSIONS: &str = short_or_default("es", "expressions");

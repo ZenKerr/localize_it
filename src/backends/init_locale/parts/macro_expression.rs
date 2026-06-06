@@ -13,6 +13,7 @@ pub fn macro_expression(
     let expression_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSION);
     let expression_path = names_provider.get_component_path(MACRO_EXPRESSION);
     let localize_it_crate = names_provider.get_crate_name("localize_it")?;
+    let locale_name = &arguments.locale_name;
 
     let path_argument = path_argument(arguments.path.clone());
 
@@ -42,6 +43,7 @@ pub fn macro_expression(
                     locales = [$($locale),+],
                     values = [$($value),+],
                     #path_argument
+                    locale_name = #locale_name,
                 );
             };
         }

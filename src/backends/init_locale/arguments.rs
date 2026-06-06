@@ -1,6 +1,7 @@
 use crate::utils::{
     aliases::SynResult,
     errors::{LocaleVariantPositionError, NoLocaleVariantError, UnknownArgumentError},
+    names::DEFAULT_ENUM_LOCALE,
     typed_parse::TypedParse,
 };
 use proc_macro2::Ident;
@@ -15,6 +16,7 @@ pub struct Arguments {
     pub storage: bool,
     pub path: Option<Path>,
     pub default: Ident,
+    pub locale_name: String,
     pub derive: Vec<Path>,
 }
 
@@ -25,6 +27,7 @@ impl Parse for Arguments {
         let mut storage = false;
         let mut path = None;
         let mut default = None;
+        let mut locale_name = None;
         let mut derive = Vec::new();
 
         let mut variants_is_end = false;
@@ -36,6 +39,7 @@ impl Parse for Arguments {
                     "storage" => storage = input.parse_bool("storage")?,
                     "path" => path = Some(input.parse_path("path")?),
                     "default" => default = Some(input.parse_ident("default")?),
+                    "locale_name" => locale_name = Some(input.parse_ident("locale_name")?),
                     "derive" => derive = input.parse_array("derive", Path::parse)?,
                     _ => return Err(UnknownArgumentError::new(argument)),
                 }
@@ -61,6 +65,9 @@ impl Parse for Arguments {
 
         let default =
             default.unwrap_or(variants.first().ok_or(NoLocaleVariantError::new())?.clone());
+        let locale_name = locale_name.map_or(DEFAULT_ENUM_LOCALE.to_string(), |locale_name| {
+            locale_name.to_string()
+        });
 
         Ok(Self {
             variants,
@@ -68,6 +75,7 @@ impl Parse for Arguments {
             storage,
             path,
             default,
+            locale_name,
             derive,
         })
     }

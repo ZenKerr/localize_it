@@ -7,6 +7,8 @@ use syn::{parse::ParseStream, Path, Type};
 pub trait TypedParse {
     fn parse_bool(self, name: &str) -> SynResult<bool>;
 
+    fn parse_string(self, name: &str) -> SynResult<String>;
+
     fn parse_ident(self, name: &str) -> SynResult<Ident>;
 
     fn parse_type(self, name: &str) -> SynResult<Type>;

@@ -26,6 +26,7 @@ use crate::backends::expressions_from_files_backend;
 /// * `default` — the default locale. Defaults to the first locale variant.
 /// * `derive` — a list of additional derives applied to the generated `enum Locale`.
 ///   Defaults to an empty list.
+/// * `locale_name` — specifies a custom name for the `enum Locale`.
 ///
 /// # Example with all features
 ///
@@ -37,12 +38,15 @@ use crate::backends::expressions_from_files_backend;
 ///     path = crate::locale,
 ///     default = En,
 ///     derive = [Deserialize, Serialize],
+///     locale_name = Language,
 /// );
 /// ```
 ///
 /// # Generated
 ///
 /// ### *enum Locale*
+///
+/// *When `locale_name` is used, the enum name is replaced with the specified value*
 ///
 /// Core of the system.
 ///

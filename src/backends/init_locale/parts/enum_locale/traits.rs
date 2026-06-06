@@ -1,9 +1,12 @@
-use crate::utils::{aliases::SynResult, names::ENUM_LOCALE, NamesProvider};
+use crate::{
+    backends::init_locale::arguments::Arguments,
+    utils::{aliases::SynResult, NamesProvider},
+};
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn traits() -> SynResult<TokenStream> {
-    let locale_ident = NamesProvider::get_name(ENUM_LOCALE);
+pub fn traits(arguments: &Arguments) -> SynResult<TokenStream> {
+    let locale_ident = NamesProvider::get_name(&arguments.locale_name);
 
     let from_path = NamesProvider::get_path("core::convert::From")?;
     let try_from_path = NamesProvider::get_path("core::convert::TryFrom")?;

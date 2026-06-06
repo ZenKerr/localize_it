@@ -12,6 +12,7 @@ pub fn static_expressions(
     let localize_it_crate = names_provider.get_crate_name("localize_it")?;
     let locales = &arguments.locales;
     let locales_path = &arguments.locales_path;
+    let locale_name = &arguments.locale_name;
 
     let path_argument = path_argument(arguments.path.clone());
 
@@ -27,6 +28,7 @@ pub fn static_expressions(
                     locales = [#(#locales),*],
                     values = [#(#locales_path::#name),*],
                     #path_argument
+                    locale_name = #locale_name,
                 );
             }
         });

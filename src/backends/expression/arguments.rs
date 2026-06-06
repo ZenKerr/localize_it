@@ -15,6 +15,7 @@ pub struct Arguments {
     pub locales: Vec<Ident>,
     pub values: Vec<Expr>,
     pub path: Option<Path>,
+    pub locale_name: String,
 }
 
 impl Parse for Arguments {
@@ -24,6 +25,7 @@ impl Parse for Arguments {
         let mut locales = None;
         let mut values = None;
         let mut path = None;
+        let mut locale_name = None;
 
         input.parse_arguments(|argument, processor| {
             input.parse::<Token![=]>()?;
@@ -34,6 +36,7 @@ impl Parse for Arguments {
                 "locales" => locales = Some(input.parse_array("locales", Ident::parse)?),
                 "values" => values = Some(input.parse_array("values", Expr::parse)?),
                 "path" => path = Some(input.parse_path("path")?),
+                "locale_name" => locale_name = Some(input.parse_string("locale_name")?),
                 _ => return Err(UnknownArgumentError::new(argument)),
             };
 
@@ -46,6 +49,7 @@ impl Parse for Arguments {
             locales: locales.ok_or(RequiredArgumentError::new("locales"))?,
             values: values.ok_or(RequiredArgumentError::new("values"))?,
             path,
+            locale_name: locale_name.ok_or(RequiredArgumentError::new("locale_name"))?,
         })
     }
 }

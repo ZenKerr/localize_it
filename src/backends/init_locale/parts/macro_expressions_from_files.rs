@@ -18,6 +18,7 @@ pub fn macro_expressions_from_files(
         let expressions_from_files_path =
             names_provider.get_component_path(MACRO_EXPRESSIONS_FROM_FILES);
         let localize_it_crate = names_provider.get_crate_name("localize_it")?;
+        let locale_name = &arguments.locale_name;
 
         let path_argument = path_argument(arguments.path.clone());
 
@@ -45,6 +46,7 @@ pub fn macro_expressions_from_files(
                         expressions = [$($value),+],
                         expressions_type = [$(#expressions_from_files_path!(@type_or_default $($r#type)?)),+],
                         #path_argument
+                        locale_name = #locale_name,
                     );
                 };
             }

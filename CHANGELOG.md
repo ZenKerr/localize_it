@@ -1,3 +1,8 @@
+## 2.7.0
+
+* Added support for renaming the `enum Locale`
+* Added support for trailing commas in all macros
+
 ## 2.6.0
 
 * Change `localize!` syntax:

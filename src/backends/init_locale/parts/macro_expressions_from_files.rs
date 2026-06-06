@@ -37,7 +37,7 @@ pub fn macro_expressions_from_files(
                         $($locale: ident => $path: path),+ $(,)?
                     } => [
                         $($value: ident $(: $r#type: ty)?),+ $(,)?
-                    ]
+                    ] $(,)?
                 ) => {
                     #localize_it_crate::__expressions_from_files!(
                         locales = [$($locale),+],

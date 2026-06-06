@@ -155,10 +155,7 @@ use crate::backends::expressions_from_files_backend;
 /// A macro for defining localized expressions.
 ///
 /// ```rust
-/// expression!(HELLO => {
-///     En: "Hello",
-///     Ru: "Привет",
-/// });
+/// expression!(HELLO => {En: "Hello", Ru: "Привет"});
 /// ```
 ///
 /// The expression can be any compile-time type, including functions.
@@ -166,10 +163,12 @@ use crate::backends::expressions_from_files_backend;
 /// For any type other than `&str`, the type must be specified explicitly.
 ///
 /// ```rust
-/// expression!(HELLO: fn(&str) -> String => {
-///     En: |name: &str| format!("Hello, {name}!"),
-///     Ru: |name: &str| format!("Привет, {name}!"),
-/// });
+/// expression!(
+///     HELLO: fn(&str) -> String => {
+///         En: |name: &str| format!("Hello, {name}!"),
+///         Ru: |name: &str| format!("Привет, {name}!"),
+///     },
+/// );
 /// ```
 ///
 /// ### *expressions!*

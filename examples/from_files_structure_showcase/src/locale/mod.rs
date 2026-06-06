@@ -14,7 +14,7 @@ expressions_from_files!(
     } => [
         HELLO,
         BYE,
-    ]
+    ],
 );
 
 // Creating expressions from other files
@@ -24,5 +24,5 @@ expressions_from_files!(
         Ru => crate::locale::flag::ru,
     } => [
         IS_ENGLISH: bool,
-    ]
+    ],
 );

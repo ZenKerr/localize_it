@@ -24,7 +24,7 @@ pub fn macro_expression(
                     $(
                         $locale: ident: $value: expr
                     ),+ $(,)?
-                }
+                } $(,)?
             ) => {
                 #expression_path!($name: &'static str => {$($locale: $value),+});
             };
@@ -34,7 +34,7 @@ pub fn macro_expression(
                     $(
                         $locale: ident: $value: expr
                     ),+ $(,)?
-                }
+                } $(,)?
             ) => {
                 #localize_it_crate::__expression!(
                     name = $name,

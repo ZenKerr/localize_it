@@ -1,3 +1,7 @@
+## 2.7.1
+
+* Added error reporting for missing comma between arguments
+
 ## 2.7.0
 
 * Added support for renaming the `enum Locale`

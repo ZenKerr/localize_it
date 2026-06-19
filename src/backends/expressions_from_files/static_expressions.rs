@@ -1,6 +1,6 @@
 use crate::{
     backends::expressions_from_files::arguments::Arguments,
-    utils::{aliases::SynResult, path_argument, NamesProvider},
+    utils::{NamesProvider, aliases::SynResult, path_argument},
 };
 use proc_macro2::TokenStream;
 use quote::quote;

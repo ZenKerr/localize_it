@@ -1,8 +1,11 @@
 use crate::utils::{
-    aliases::SynResult, errors::TypeError, typed_parse::TypedParse, ArgumentProcessor,
+    ArgumentProcessor,
+    aliases::SynResult,
+    errors::{NoCommaBetweenArgumentError, TypeError},
+    typed_parse::TypedParse,
 };
 use proc_macro2::Ident;
-use syn::{bracketed, parse::ParseStream, LitBool, LitStr, Path, Token, Type};
+use syn::{LitBool, LitStr, Path, Token, Type, bracketed, parse::ParseStream};
 
 impl TypedParse for ParseStream<'_> {
     fn parse_bool(self, name: &str) -> SynResult<bool> {
@@ -59,6 +62,8 @@ impl TypedParse for ParseStream<'_> {
 
             if self.peek(Token![,]) {
                 self.parse::<Token![,]>()?;
+            } else if !self.is_empty() {
+                Err(NoCommaBetweenArgumentError::new(self))?
             }
         }
 

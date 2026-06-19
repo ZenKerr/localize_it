@@ -5,8 +5,8 @@ use crate::utils::{
 };
 use proc_macro2::Ident;
 use syn::{
-    parse::{Parse, ParseStream}, Path, Token,
-    Type,
+    Path, Token, Type,
+    parse::{Parse, ParseStream},
 };
 
 pub struct Arguments {
@@ -43,7 +43,7 @@ impl Parse for Arguments {
                 }
                 "path" => path = Some(input.parse_path("path")?),
                 "locale_name" => locale_name = Some(input.parse_string("locale_name")?),
-                _ => return Err(UnknownArgumentError::new(argument)),
+                _ => Err(UnknownArgumentError::new(argument))?,
             };
 
             Ok(())

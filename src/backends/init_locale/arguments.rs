@@ -6,8 +6,8 @@ use crate::utils::{
 };
 use proc_macro2::Ident;
 use syn::{
-    parse::{Parse, ParseStream}, LitStr, Path,
-    Token,
+    LitStr, Path, Token,
+    parse::{Parse, ParseStream},
 };
 
 pub struct Arguments {
@@ -41,12 +41,12 @@ impl Parse for Arguments {
                     "default" => default = Some(input.parse_ident("default")?),
                     "locale_name" => locale_name = Some(input.parse_ident("locale_name")?),
                     "derive" => derive = input.parse_array("derive", Path::parse)?,
-                    _ => return Err(UnknownArgumentError::new(argument)),
+                    _ => Err(UnknownArgumentError::new(argument))?,
                 }
 
                 variants_is_end = true;
             } else if variants_is_end {
-                return Err(LocaleVariantPositionError::new(argument));
+                Err(LocaleVariantPositionError::new(argument))?;
             } else {
                 let label = if input.peek(Token![=>]) {
                     input.parse::<Token![=>]>()?;

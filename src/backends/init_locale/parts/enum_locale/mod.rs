@@ -5,9 +5,9 @@ mod traits;
 use crate::{
     backends::init_locale::{
         arguments::Arguments,
-        parts::enum_locale::{methods::methods, r#enum::r#enum, traits::traits},
+        parts::enum_locale::{r#enum::r#enum, methods::methods, traits::traits},
     },
-    utils::{aliases::SynResult, NamesProvider},
+    utils::{NamesProvider, aliases::SynResult},
 };
 use proc_macro2::TokenStream;
 use quote::quote;

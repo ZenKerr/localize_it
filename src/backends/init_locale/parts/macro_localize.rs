@@ -1,8 +1,8 @@
 use crate::{
     backends::init_locale::arguments::Arguments,
     utils::{
-        names::{MACRO_LOCALIZE, MOD_STORAGE},
         NamesProvider,
+        names::{MACRO_LOCALIZE, MOD_STORAGE},
     },
 };
 use proc_macro2::TokenStream;

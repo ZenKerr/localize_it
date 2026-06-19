@@ -1,6 +1,6 @@
 use crate::utils::{aliases::SynResult, errors::CrateNotFoundError};
+use proc_macro_crate::{FoundCrate, crate_name};
 use proc_macro2::{Ident, LineColumn, Span};
-use proc_macro_crate::{crate_name, FoundCrate};
 use std::hash::{DefaultHasher, Hash, Hasher};
 use syn::{Path, PathSegment};
 

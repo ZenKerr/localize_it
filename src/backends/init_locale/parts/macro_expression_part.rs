@@ -1,4 +1,4 @@
-use crate::utils::{names::MACRO_EXPRESSION_PART, NamesProvider};
+use crate::utils::{NamesProvider, names::MACRO_EXPRESSION_PART};
 use proc_macro2::TokenStream;
 use quote::quote;
 

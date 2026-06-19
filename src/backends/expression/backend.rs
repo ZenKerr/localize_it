@@ -1,6 +1,6 @@
 use crate::{
     backends::expression::{arguments::Arguments, static_expression::static_expression},
-    utils::{aliases::SynResult, NamesProvider},
+    utils::{NamesProvider, aliases::SynResult},
 };
 use proc_macro::TokenStream;
 use syn::parse;

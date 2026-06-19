@@ -2,7 +2,7 @@ use crate::{
     backends::expressions_from_files::{
         arguments::Arguments, static_expressions::static_expressions,
     },
-    utils::{aliases::SynResult, NamesProvider},
+    utils::{NamesProvider, aliases::SynResult},
 };
 use proc_macro::TokenStream;
 use quote::quote;

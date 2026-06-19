@@ -1,8 +1,8 @@
 mod for_parse_stream;
 
-use crate::utils::{aliases::SynResult, ArgumentProcessor};
+use crate::utils::{ArgumentProcessor, aliases::SynResult};
 use proc_macro2::Ident;
-use syn::{parse::ParseStream, Path, Type};
+use syn::{Path, Type, parse::ParseStream};
 
 pub trait TypedParse {
     fn parse_bool(self, name: &str) -> SynResult<bool>;

@@ -1,7 +1,7 @@
 use crate::{
     backends::init_locale::arguments::Arguments,
     utils::{
-        aliases::SynResult, names::MACRO_EXPRESSIONS_FROM_FILES, path_argument, NamesProvider,
+        NamesProvider, aliases::SynResult, names::MACRO_EXPRESSIONS_FROM_FILES, path_argument,
     },
 };
 use proc_macro2::TokenStream;

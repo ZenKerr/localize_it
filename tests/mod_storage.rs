@@ -1,6 +1,6 @@
 mod locale;
 
-use crate::locale::{storage, Locale};
+use crate::locale::{Locale, storage};
 
 #[test]
 fn set_and_get() {

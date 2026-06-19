@@ -6,7 +6,7 @@ use crate::{
             macro_expressions_from_files, macro_expressions_part, macro_localize, mod_storage,
         },
     },
-    utils::{aliases::SynResult, NamesProvider},
+    utils::{NamesProvider, aliases::SynResult},
 };
 use proc_macro::TokenStream;
 use quote::quote;

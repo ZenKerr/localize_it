@@ -7,12 +7,12 @@ use crate::{
         arguments::Arguments,
         parts::enum_locale::{r#enum::r#enum, methods::methods, traits::traits},
     },
-    utils::{NamesProvider, aliases::SynResult},
+    utils::{NamesProvider, aliases::LocalizeItResult},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn enum_locale(arguments: &Arguments) -> SynResult<TokenStream> {
+pub fn enum_locale(arguments: &Arguments) -> LocalizeItResult<TokenStream> {
     let locale_ident = NamesProvider::get_name(&arguments.locale_name);
 
     let r#enum = r#enum(arguments);

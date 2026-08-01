@@ -1,57 +1,59 @@
 use crate::utils::{
     ArgumentProcessor,
-    aliases::SynResult,
-    errors::{NoCommaBetweenArgumentError, TypeError},
+    aliases::{LocalizeItError, LocalizeItResult},
+    bracketed,
     typed_parse::TypedParse,
 };
 use proc_macro2::Ident;
-use syn::{LitBool, LitStr, Path, Token, Type, bracketed, parse::ParseStream};
+use syn::{
+    LitBool, LitStr, Path, Token, Type,
+    parse::{Parse, ParseStream},
+};
 
 impl TypedParse for ParseStream<'_> {
-    fn parse_bool(self, name: &str) -> SynResult<bool> {
+    fn parse_bool(self, name: &str) -> LocalizeItResult<bool> {
         Ok(self
             .parse::<LitBool>()
-            .map_err(TypeError::map(name, "bool"))?
+            .map_err(LocalizeItError::on_type_error(name, "bool"))?
             .value)
     }
 
-    fn parse_string(self, name: &str) -> SynResult<String> {
+    fn parse_string(self, name: &str) -> LocalizeItResult<String> {
         Ok(self
             .parse::<LitStr>()
-            .map_err(TypeError::map(name, "String"))?
+            .map_err(LocalizeItError::on_type_error(name, "String"))?
             .value())
     }
 
-    fn parse_ident(self, name: &str) -> SynResult<Ident> {
-        self.parse().map_err(TypeError::map(name, "Ident"))
+    fn parse_ident(self, name: &str) -> LocalizeItResult<Ident> {
+        self.parse()
+            .map_err(LocalizeItError::on_type_error(name, "Ident"))
     }
 
-    fn parse_type(self, name: &str) -> SynResult<Type> {
-        self.parse().map_err(TypeError::map(name, "Type"))
+    fn parse_type(self, name: &str) -> LocalizeItResult<Type> {
+        self.parse()
+            .map_err(LocalizeItError::on_type_error(name, "Type"))
     }
 
-    fn parse_path(self, name: &str) -> SynResult<Path> {
-        self.parse().map_err(TypeError::map(name, "Path"))
+    fn parse_path(self, name: &str) -> LocalizeItResult<Path> {
+        self.parse()
+            .map_err(LocalizeItError::on_type_error(name, "Path"))
     }
 
-    fn parse_array<T>(
-        self,
-        name: &str,
-        parse_function: fn(ParseStream) -> SynResult<T>,
-    ) -> SynResult<Vec<T>> {
-        let content;
-        bracketed!(content in self);
-
-        Ok(content
-            .parse_terminated(parse_function, Token![,])
-            .map_err(TypeError::map(name, "Array"))?
+    fn parse_array<T>(self, name: &str) -> LocalizeItResult<Vec<T>>
+    where
+        T: Parse,
+    {
+        Ok(bracketed(self)?
+            .parse_terminated(T::parse, Token![,])
+            .map_err(LocalizeItError::on_type_error(name, "Array"))?
             .into_iter()
             .collect())
     }
 
-    fn parse_arguments<T>(self, mut parse_function: T) -> SynResult<()>
+    fn parse_arguments<T>(self, mut parse_function: T) -> LocalizeItResult<()>
     where
-        T: FnMut(Ident, &mut ArgumentProcessor) -> SynResult<()>,
+        T: FnMut(Ident, &mut ArgumentProcessor) -> LocalizeItResult<()>,
     {
         let mut argument_processor = ArgumentProcessor::new();
 
@@ -63,7 +65,7 @@ impl TypedParse for ParseStream<'_> {
             if self.peek(Token![,]) {
                 self.parse::<Token![,]>()?;
             } else if !self.is_empty() {
-                Err(NoCommaBetweenArgumentError::new(self))?
+                Err(LocalizeItError::NoCommaBetweenArgument(self.span()))?;
             }
         }
 

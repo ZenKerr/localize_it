@@ -1,27 +1,25 @@
 mod for_parse_stream;
 
-use crate::utils::{ArgumentProcessor, aliases::SynResult};
+use crate::utils::{ArgumentProcessor, aliases::LocalizeItResult};
 use proc_macro2::Ident;
-use syn::{Path, Type, parse::ParseStream};
+use syn::{Path, Type, parse::Parse};
 
 pub trait TypedParse {
-    fn parse_bool(self, name: &str) -> SynResult<bool>;
+    fn parse_bool(self, name: &str) -> LocalizeItResult<bool>;
 
-    fn parse_string(self, name: &str) -> SynResult<String>;
+    fn parse_string(self, name: &str) -> LocalizeItResult<String>;
 
-    fn parse_ident(self, name: &str) -> SynResult<Ident>;
+    fn parse_ident(self, name: &str) -> LocalizeItResult<Ident>;
 
-    fn parse_type(self, name: &str) -> SynResult<Type>;
+    fn parse_type(self, name: &str) -> LocalizeItResult<Type>;
 
-    fn parse_path(self, name: &str) -> SynResult<Path>;
+    fn parse_path(self, name: &str) -> LocalizeItResult<Path>;
 
-    fn parse_array<T>(
-        self,
-        name: &str,
-        parse_function: fn(ParseStream) -> SynResult<T>,
-    ) -> SynResult<Vec<T>>;
-
-    fn parse_arguments<T>(self, parse_function: T) -> SynResult<()>
+    fn parse_array<T>(self, name: &str) -> LocalizeItResult<Vec<T>>
     where
-        T: FnMut(Ident, &mut ArgumentProcessor) -> SynResult<()>;
+        T: Parse;
+
+    fn parse_arguments<T>(self, parse_function: T) -> LocalizeItResult<()>
+    where
+        T: FnMut(Ident, &mut ArgumentProcessor) -> LocalizeItResult<()>;
 }

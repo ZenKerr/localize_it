@@ -1,11 +1,11 @@
 use crate::{
     backends::init_locale::arguments::Arguments,
-    utils::{NamesProvider, aliases::SynResult},
+    utils::{NamesProvider, aliases::LocalizeItResult},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn traits(arguments: &Arguments) -> SynResult<TokenStream> {
+pub fn traits(arguments: &Arguments) -> LocalizeItResult<TokenStream> {
     let locale_ident = NamesProvider::get_name(&arguments.locale_name);
 
     let from_path = NamesProvider::get_path("core::convert::From")?;

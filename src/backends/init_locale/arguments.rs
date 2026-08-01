@@ -1,6 +1,5 @@
 use crate::utils::{
-    aliases::SynResult,
-    errors::{LocaleVariantPositionError, NoLocaleVariantError, UnknownArgumentError},
+    aliases::{LocalizeItError, SynResult},
     names::DEFAULT_ENUM_LOCALE,
     typed_parse::TypedParse,
 };
@@ -40,13 +39,13 @@ impl Parse for Arguments {
                     "path" => path = Some(input.parse_path("path")?),
                     "default" => default = Some(input.parse_ident("default")?),
                     "locale_name" => locale_name = Some(input.parse_ident("locale_name")?),
-                    "derive" => derive = input.parse_array("derive", Path::parse)?,
-                    _ => Err(UnknownArgumentError::new(argument))?,
+                    "derive" => derive = input.parse_array("derive")?,
+                    _ => Err(LocalizeItError::UnknownArgument(argument))?,
                 }
 
                 variants_is_end = true;
             } else if variants_is_end {
-                Err(LocaleVariantPositionError::new(argument))?;
+                Err(LocalizeItError::LocaleVariantPosition(argument))?;
             } else {
                 let label = if input.peek(Token![=>]) {
                     input.parse::<Token![=>]>()?;
@@ -63,8 +62,12 @@ impl Parse for Arguments {
             Ok(())
         })?;
 
-        let default =
-            default.unwrap_or(variants.first().ok_or(NoLocaleVariantError::new())?.clone());
+        let default = default.unwrap_or(
+            variants
+                .first()
+                .ok_or(LocalizeItError::NoLocaleVariant)?
+                .clone(),
+        );
         let locale_name = locale_name.map_or(DEFAULT_ENUM_LOCALE.to_string(), |locale_name| {
             locale_name.to_string()
         });

@@ -1,6 +1,6 @@
 use crate::{
     backends::init_locale::arguments::Arguments,
-    utils::{NamesProvider, aliases::SynResult, names::MACRO_EXPRESSION, path_argument},
+    utils::{NamesProvider, aliases::LocalizeItResult, names::MACRO_EXPRESSION, path_argument},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
@@ -8,11 +8,11 @@ use quote::quote;
 pub fn macro_expression(
     arguments: &Arguments,
     names_provider: &NamesProvider,
-) -> SynResult<TokenStream> {
+) -> LocalizeItResult<TokenStream> {
     let expression_ident = NamesProvider::get_name(MACRO_EXPRESSION);
     let expression_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSION);
     let expression_path = names_provider.get_component_path(MACRO_EXPRESSION);
-    let localize_it_crate = names_provider.get_crate_name("localize_it")?;
+    let localize_it_crate = NamesProvider::get_crate_name("localize_it")?;
     let locale_name = &arguments.locale_name;
 
     let path_argument = path_argument(arguments.path.clone());

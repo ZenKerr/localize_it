@@ -1,7 +1,8 @@
 use crate::{
     backends::init_locale::arguments::Arguments,
     utils::{
-        NamesProvider, aliases::SynResult, names::MACRO_EXPRESSIONS_FROM_FILES, path_argument,
+        NamesProvider, aliases::LocalizeItResult, names::MACRO_EXPRESSIONS_FROM_FILES,
+        path_argument,
     },
 };
 use proc_macro2::TokenStream;
@@ -10,14 +11,14 @@ use quote::quote;
 pub fn macro_expressions_from_files(
     arguments: &Arguments,
     names_provider: &NamesProvider,
-) -> SynResult<TokenStream> {
+) -> LocalizeItResult<TokenStream> {
     Ok(if cfg!(feature = "from_files") {
         let expressions_from_files_ident = NamesProvider::get_name(MACRO_EXPRESSIONS_FROM_FILES);
         let expressions_from_files_hashed_ident =
             names_provider.get_hashed_name(MACRO_EXPRESSIONS_FROM_FILES);
         let expressions_from_files_path =
             names_provider.get_component_path(MACRO_EXPRESSIONS_FROM_FILES);
-        let localize_it_crate = names_provider.get_crate_name("localize_it")?;
+        let localize_it_crate = NamesProvider::get_crate_name("localize_it")?;
         let locale_name = &arguments.locale_name;
 
         let path_argument = path_argument(arguments.path.clone());

@@ -1,4 +1,4 @@
-use crate::utils::{aliases::SynResult, errors::CrateNotFoundError};
+use crate::utils::aliases::{LocalizeItError, LocalizeItResult};
 use proc_macro_crate::{FoundCrate, crate_name};
 use proc_macro2::{Ident, LineColumn, Span};
 use std::hash::{DefaultHasher, Hash, Hasher};
@@ -28,8 +28,8 @@ impl NamesProvider {
         Ident::new(name, Span::call_site())
     }
 
-    pub fn get_path(path: &str) -> SynResult<Path> {
-        syn::parse_str(path)
+    pub fn get_path(path: &str) -> LocalizeItResult<Path> {
+        syn::parse_str(path).map_err(Into::into)
     }
 
     pub fn get_hashed_name(&self, name: &str) -> Ident {
@@ -49,8 +49,8 @@ impl NamesProvider {
             .unwrap_or(Path::from(name))
     }
 
-    pub fn get_crate_name(&self, name: &str) -> SynResult<Ident> {
-        let found_crate = crate_name(name).map_err(CrateNotFoundError::map(name))?;
+    pub fn get_crate_name(name: &str) -> LocalizeItResult<Ident> {
+        let found_crate = crate_name(name).map_err(LocalizeItError::on_crate_not_found(name))?;
         let crate_name = match found_crate {
             FoundCrate::Itself => "crate".to_string(),
             FoundCrate::Name(name) => name,

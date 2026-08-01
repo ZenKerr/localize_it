@@ -3,10 +3,7 @@
 mod backends;
 mod utils;
 
-use crate::{
-    backends::{expression_backend, init_locale_backend},
-    utils::run_backend,
-};
+use crate::backends::{expression_backend, init_locale_backend};
 use proc_macro::TokenStream;
 
 #[cfg(feature = "from_files")]
@@ -290,18 +287,18 @@ use crate::backends::expressions_from_files_backend;
 /// ```
 #[proc_macro]
 pub fn init_locale(input: TokenStream) -> TokenStream {
-    run_backend(init_locale_backend, input)
+    init_locale_backend(input).unwrap_or_else(Into::into)
 }
 
 #[doc(hidden)]
 #[proc_macro]
 pub fn __expression(input: TokenStream) -> TokenStream {
-    run_backend(expression_backend, input)
+    expression_backend(input).unwrap_or_else(Into::into)
 }
 
 #[cfg(feature = "from_files")]
 #[doc(hidden)]
 #[proc_macro]
 pub fn __expressions_from_files(input: TokenStream) -> TokenStream {
-    run_backend(expressions_from_files_backend, input)
+    expressions_from_files_backend(input).unwrap_or_else(Into::into)
 }

@@ -1,11 +1,11 @@
 use crate::{
     backends::expression::{arguments::Arguments, static_expression::static_expression},
-    utils::{NamesProvider, aliases::SynResult},
+    utils::{NamesProvider, aliases::LocalizeItResult},
 };
 use proc_macro::TokenStream;
 use syn::parse;
 
-pub fn backend(input: TokenStream) -> SynResult<TokenStream> {
+pub fn backend(input: TokenStream) -> LocalizeItResult<TokenStream> {
     let arguments = &parse::<Arguments>(input)?;
     let names_provider = &NamesProvider::new(arguments.path.clone());
 

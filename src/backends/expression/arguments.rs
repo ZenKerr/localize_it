@@ -1,6 +1,5 @@
 use crate::utils::{
-    aliases::SynResult,
-    errors::{RequiredArgumentError, UnknownArgumentError},
+    aliases::{LocalizeItError, SynResult},
     typed_parse::TypedParse,
 };
 use proc_macro2::Ident;
@@ -33,23 +32,23 @@ impl Parse for Arguments {
             match processor.process(&argument)?.as_str() {
                 "name" => name = Some(input.parse_ident("name")?),
                 "r#type" => r#type = Some(input.parse_type("r#type")?),
-                "locales" => locales = Some(input.parse_array("locales", Ident::parse)?),
-                "values" => values = Some(input.parse_array("values", Expr::parse)?),
+                "locales" => locales = Some(input.parse_array("locales")?),
+                "values" => values = Some(input.parse_array("values")?),
                 "path" => path = Some(input.parse_path("path")?),
                 "locale_name" => locale_name = Some(input.parse_string("locale_name")?),
-                _ => Err(UnknownArgumentError::new(argument))?,
-            };
+                _ => Err(LocalizeItError::UnknownArgument(argument))?,
+            }
 
             Ok(())
         })?;
 
         Ok(Self {
-            name: name.ok_or(RequiredArgumentError::new("name"))?,
-            r#type: r#type.ok_or(RequiredArgumentError::new("r#type"))?,
-            locales: locales.ok_or(RequiredArgumentError::new("locales"))?,
-            values: values.ok_or(RequiredArgumentError::new("values"))?,
+            name: name.ok_or(LocalizeItError::RequiredArgument("name"))?,
+            r#type: r#type.ok_or(LocalizeItError::RequiredArgument("r#type"))?,
+            locales: locales.ok_or(LocalizeItError::RequiredArgument("locales"))?,
+            values: values.ok_or(LocalizeItError::RequiredArgument("values"))?,
             path,
-            locale_name: locale_name.ok_or(RequiredArgumentError::new("locale_name"))?,
+            locale_name: locale_name.ok_or(LocalizeItError::RequiredArgument("locale_name"))?,
         })
     }
 }

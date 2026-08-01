@@ -1,4 +1,4 @@
-use crate::utils::{aliases::SynResult, errors::DuplicateArgumentError};
+use crate::utils::aliases::{LocalizeItError, LocalizeItResult};
 use proc_macro2::Ident;
 use std::collections::HashSet;
 
@@ -13,13 +13,13 @@ impl ArgumentProcessor {
         }
     }
 
-    pub fn process(&mut self, name: &Ident) -> SynResult<String> {
+    pub fn process(&mut self, name: &Ident) -> LocalizeItResult<String> {
         let name_string = name.to_string();
 
         if self.exist_arguments.insert(name_string.clone()) {
             Ok(name_string)
         } else {
-            Err(DuplicateArgumentError::new(name))
+            Err(LocalizeItError::DuplicateArgument(name.clone()))
         }
     }
 }

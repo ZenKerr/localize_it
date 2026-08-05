@@ -1,9 +1,9 @@
 # localize_it
 
-![Tests](https://github.com/ZenKerr/localize_it/actions/workflows/rust.yml/badge.svg)
-[![Crates.io](https://img.shields.io/crates/v/localize_it.svg)](https://crates.io/crates/localize_it)
-[![Documentation](https://docs.rs/localize_it/badge.svg)](https://docs.rs/localize_it)
-![License](https://img.shields.io/crates/l/localize_it.svg)
+[![Crates.io](https://img.shields.io/crates/v/localize_it.svg?logo=rust)](https://crates.io/crates/localize_it)
+[![Documentation](https://img.shields.io/docsrs/localize_it?logo=rust)](https://docs.rs/localize_it)
+[![Tests](https://img.shields.io/github/actions/workflow/status/ZenKerr/localize_it/rust.yml?label=tests&logo=github)](https://github.com/ZenKerr/localize_it/actions)
+![License](https://img.shields.io/crates/l/localize_it.svg?logo=readme&logoColor=white)
 
 A tiny, fast localization library with zero runtime dependencies and `#![no_std]` support.
 

@@ -1,6 +1,6 @@
-use crate::locale::expressions_part;
+use crate::locale::expression_parts;
 
-expressions_part!(
+expression_parts!(
     HELLO => "Hello",
     BYE => "Bye",
 );

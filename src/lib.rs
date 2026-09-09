@@ -240,14 +240,14 @@ use crate::backends::expressions_from_files_backend;
 /// expression_part!(HELLO_WITH_NAME: fn(&str) -> String => |name: &str| format!("Hello, {name}!"));
 /// ```
 ///
-/// ### *expressions_part!*
+/// ### *expression_parts!*
 ///
-/// *`es_p!` with the `short_names` feature*
+/// *`e_ps!` with the `short_names` feature*
 ///
 /// Similar to `expression_part!`, but allows defining multiple expression parts at once.
 ///
 /// ```rust
-/// expressions_part!(
+/// expression_parts!(
 ///     HELLO => "Hello",
 ///     HELLO_WITH_NAME: fn(&str) -> String => |name: &str| format!("Hello, {name}!"),
 /// );

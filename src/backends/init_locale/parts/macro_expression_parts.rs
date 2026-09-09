@@ -1,19 +1,19 @@
 use crate::utils::{
     NamesProvider,
-    names::{MACRO_EXPRESSION_PART, MACRO_EXPRESSIONS_PART},
+    names::{MACRO_EXPRESSION_PART, MACRO_EXPRESSION_PARTS},
 };
 use proc_macro2::TokenStream;
 use quote::quote;
 
-pub fn macro_expressions_part(names_provider: &NamesProvider) -> TokenStream {
+pub fn macro_expression_parts(names_provider: &NamesProvider) -> TokenStream {
     if cfg!(feature = "from_files") {
-        let expressions_part_ident = NamesProvider::get_name(MACRO_EXPRESSIONS_PART);
-        let expressions_part_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSIONS_PART);
+        let expression_parts_ident = NamesProvider::get_name(MACRO_EXPRESSION_PARTS);
+        let expression_parts_hashed_ident = names_provider.get_hashed_name(MACRO_EXPRESSION_PARTS);
         let expression_part_path = names_provider.get_component_path(MACRO_EXPRESSION_PART);
 
         quote! {
             #[macro_export]
-            macro_rules! #expressions_part_hashed_ident {
+            macro_rules! #expression_parts_hashed_ident {
                 (
                     $(
                         $name: ident $(: $r#type: ty)? => $value: expr
@@ -25,7 +25,7 @@ pub fn macro_expressions_part(names_provider: &NamesProvider) -> TokenStream {
                 }
             }
 
-            pub use #expressions_part_hashed_ident as #expressions_part_ident;
+            pub use #expression_parts_hashed_ident as #expression_parts_ident;
         }
     } else {
         TokenStream::new()

@@ -1,3 +1,7 @@
+## 2.8.0
+
+* Renamed `expressions_part!` -> `expression_parts!` (`es_p!` -> `e_ps!` with `short_names` feature)
+
 ## 2.7.1
 
 * Added error reporting for missing comma between arguments

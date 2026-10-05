@@ -1,3 +1,7 @@
+## 2.8.1
+
+* Fix crate resolution
+
 ## 2.8.0
 
 * Renamed `expressions_part!` -> `expression_parts!` (`es_p!` -> `e_ps!` with `short_names` feature)

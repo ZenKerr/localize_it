@@ -1,7 +1,10 @@
 use crate::utils::aliases::{LocalizeItError, LocalizeItResult};
 use proc_macro_crate::{FoundCrate, crate_name};
 use proc_macro2::{Ident, LineColumn, Span};
-use std::hash::{DefaultHasher, Hash, Hasher};
+use std::{
+    env,
+    hash::{DefaultHasher, Hash, Hasher},
+};
 use syn::{Path, PathSegment};
 
 pub struct NamesProvider {
@@ -52,7 +55,17 @@ impl NamesProvider {
     pub fn get_crate_name(name: &str) -> LocalizeItResult<Ident> {
         let found_crate = crate_name(name).map_err(LocalizeItError::on_crate_not_found(name))?;
         let crate_name = match found_crate {
-            FoundCrate::Itself => "crate".to_string(),
+            FoundCrate::Itself => {
+                let normalized_name = name.replace('-', "_");
+
+                if env::var("CARGO_CRATE_NAME")
+                    .is_ok_and(|cargo_crate_name| cargo_crate_name == normalized_name)
+                {
+                    "crate".to_string()
+                } else {
+                    normalized_name
+                }
+            }
             FoundCrate::Name(name) => name,
         };
 
